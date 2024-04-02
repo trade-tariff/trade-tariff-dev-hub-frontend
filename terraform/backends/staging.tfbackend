@@ -1,0 +1,5 @@
+bucket         = "terraform-state-staging-451934005581"
+key            = "trade-tariff-dev-hub-backend.tfstate"
+region         = "eu-west-2"
+encrypt        = true
+dynamodb_table = "fpo-developer-hub-frontend-lock-451934005581"
