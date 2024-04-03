@@ -7,6 +7,7 @@ import expressNunjucks from 'express-nunjucks'
 
 import indexRouter from './routes/index'
 import initEnvironment from './config/env'
+import favicon from 'serve-favicon'
 
 initEnvironment()
 
@@ -27,9 +28,10 @@ const templateConfig = {
 
 expressNunjucks(app, templateConfig as any)
 
+app.use(favicon(path.join('public', 'favicon.ico')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use(express.static(path.join(__dirname, '../public')))
+app.use(express.static(path.join('public')))
 
 app.use('/', indexRouter)
 
