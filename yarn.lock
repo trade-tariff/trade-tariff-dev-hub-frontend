@@ -1428,6 +1428,11 @@ gopd@^1.0.1:
   dependencies:
     get-intrinsic "^1.1.3"
 
+govuk-frontend@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-5.3.0.tgz#f9a2b405925beada90d074e17939f9d8ddcd256e"
+  integrity sha512-w6yaaDU3nqhVmWJFnOuJKRIUEB/2RrTFGzoA3z5n4cTG9h292EseT/q+JJA/LYTf5IYzeTIVAUbE5fFjUxefiQ==
+
 graphemer@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/graphemer/-/graphemer-1.4.0.tgz#fb2f1d55e0e3a1849aeffc90c4fa0dd53a0e66c6"
