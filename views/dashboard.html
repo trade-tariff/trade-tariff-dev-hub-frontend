@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block content %}
+    <h1 class="govuk-heading-xl">Manage Access</h1>
+    <p class="govuk-body">Welcome to the commodity code API developer Hub.</p>
+    <h4 class="govuk-heading-m">API Keys for FPO: {{ fpoId }}</h4>
+    <p class="govuk-body">The below table contains a list of APi Credentials that have been generated and assigned to your profile. from this page you will be able to view, create and delete API Credentials.</p>
+
+    {{ govukTable({
+        caption: "",
+        captionClasses: "govuk-table__caption--l",
+        firstCellIsHeader: true,
+        head: [
+            { text: "API Client ID" },
+            { text: "Description" },
+            { text: "Last active" },
+            { text: "Status" },
+            { text: "Revoke" }
+        ],
+        rows: formattedData.rows
+    }) }}
+
+    {{ govukButton({
+    text: "Create New Key"
+    }) }}
+
+    <p class="govuk-body">If you have any further questions relating to your API Credentials, please contact us at: <a href="mailto:hmrc-fpo-tool-support@digital.hmrc.gov.uk">hmrc-fpo-tool-support@digital.hmrc.gov.uk</a></p>
+
+{% endblock %}
+
+
+
+
+
+
+

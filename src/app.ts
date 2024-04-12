@@ -3,14 +3,14 @@ import { type Express, type Request, type Response, type NextFunction } from 'ex
 import createError from 'http-errors'
 import express from 'express'
 import path from 'path'
-import expressNunjucks from 'express-nunjucks'
-
+import nunjucks from 'nunjucks'
 import indexRouter from './routes/index'
 import initEnvironment from './config/env'
 import favicon from 'serve-favicon'
 
 initEnvironment()
 
+const dashboardRoutes = require('./routes/dashboardRoutes');
 const app: Express = express()
 
 const isDev = app.get('env') === 'development'
@@ -23,17 +23,30 @@ if (isDev) {
 const templateConfig = {
   autoescape: true,
   watch: isDev,
+  express: app,
   noCache: isDev
 }
 
-expressNunjucks(app, templateConfig as any)
+nunjucks.configure([
+  "node_modules/govuk-frontend/dist",
+  "views"
+],templateConfig as any);
+
+app.set('view engine', 'njk');
 
 app.use(favicon(path.join('public', 'favicon.ico')))
 app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
-app.use(express.static(path.join('public')))
+app.use(express.urlencoded({ extended: true }))
+
+app.use('/govuk', express.static('node_modules/govuk-frontend/dist/govuk'));
+app.use('/assets', express.static('node_modules/govuk-frontend/dist/govuk/assets'));
+app.use(express.static('public'));
+
+app.engine('html', nunjucks.render);
+app.set('view engine', 'html');
 
 app.use('/', indexRouter)
+app.use(dashboardRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (_req: Request, _res: Response, next: NextFunction) {
