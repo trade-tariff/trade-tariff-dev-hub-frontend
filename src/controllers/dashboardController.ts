@@ -12,10 +12,10 @@ export const showDashboard = async (req: Request, res: Response): Promise<void> 
     // const apiKeys = await ApiService.listKeys(fpoId);
     const apiKeys = CustomerApiKeyFixtures.getDummyKeys()
 
-    const formattedData = DashboardPresenter.present(apiKeys, fpoId)
-    res.render('dashboard', { formattedData, fpoId })
+    const formattedData = DashboardPresenter.present(apiKeys, fpoId);
+    res.render('dashboard', { formattedData, fpoId });
   } catch (error) {
-    console.error('Error fetching API keys:', error)
-    res.status(500).send('Error fetching API keys')
+    console.error('Error fetching API keys:', error);
+    res.status(500).send("Error fetching API keys");
   }
-}
+};
