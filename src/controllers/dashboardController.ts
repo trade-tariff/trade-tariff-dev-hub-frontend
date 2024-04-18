@@ -40,3 +40,4 @@ export const revokeAPIKey = async (req: Request, res: Response): Promise<void> =
     res.status(500).send('Error revoking API key')
   }
 }
+
