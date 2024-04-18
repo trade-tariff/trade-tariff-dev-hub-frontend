@@ -19,15 +19,3 @@ export const showDashboard = async (req: Request, res: Response): Promise<void> 
         res.status(500).send("Error fetching API keys");
     }
 };
-
-export const updateApiKey = async (req: Request, res: Response): Promise<void> => {
-    const { fpoId, id } = req.params;
-    const enabled = req.body.enabled === 'true';
-
-    try {
-        await ApiService.updateKey(fpoId, id, enabled);
-        res.redirect(`/dashboard/${fpoId}`);
-    } catch (error) {
-        res.status(500).send("Error updating API key");
-    }
-};

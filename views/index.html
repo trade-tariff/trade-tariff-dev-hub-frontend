@@ -1,5 +1,15 @@
+{% extends "layout.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
 {% block title %}Home Page{% endblock %}
 
 {% block content %}
-
+    {{
+        govukButton({
+        text: "Go to Dashboard",
+        attributes: {
+            onclick: "location.href='../dashboard/345897354'"
+        }
+        })
+    }}
 {% endblock %}

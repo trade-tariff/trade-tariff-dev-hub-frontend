@@ -10,7 +10,7 @@ import favicon from 'serve-favicon'
 
 initEnvironment()
 
-const dashboardRoutes = require('./routes/dashboardRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes')
 const app: Express = express()
 
 const isDev = app.get('env') === 'development'
