@@ -40,6 +40,10 @@ module "service" {
       value = "8080"
     },
     {
+      name  = "AUTH_URL"
+      value = "https://auth.${var.base_domain}"
+    },
+    {
       name  = "GOVUK_APP_DOMAIN"
       value = "hub.${var.base_domain}"
     },

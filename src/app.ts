@@ -14,6 +14,7 @@ initEnvironment()
 const app: Express = express()
 
 const isDev = app.get('env') === 'development'
+const port = process.env.PORT ?? 8080
 
 if (isDev) {
   const morgan = require('morgan')
@@ -53,4 +54,6 @@ app.use(function (err: any, req: Request, res: Response, _next: NextFunction) {
   })
 })
 
-app.listen(process.env.PORT)
+app.listen(port, () => {
+  console.log(`Server running on ${port}`)
+})

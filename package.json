@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "build": "rm -rf dist && tsc",
+    "dev": "nodemon src/app.ts",
+    "fix": "eslint --fix --ext .ts src/",
+    "lint": "eslint --ext .ts src/",
     "start": "node ./dist/src/app.js",
     "test": "ts-node node_modules/jasmine/bin/jasmine"
   },
@@ -31,6 +34,7 @@
     "jasmine": "^5.1.0",
     "jasmine-spec-reporter": "^7.0.0",
     "morgan": "^1.10.0",
+    "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.3"
   }
