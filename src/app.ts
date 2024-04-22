@@ -4,8 +4,10 @@ import createError from 'http-errors'
 import express from 'express'
 import path from 'path'
 import expressNunjucks from 'express-nunjucks'
+import morgan from 'morgan'
 
 import indexRouter from './routes/index'
+import { httpRequestLoggingMiddleware, logger } from './config/logging'
 import initEnvironment from './config/env'
 import favicon from 'serve-favicon'
 
@@ -17,7 +19,6 @@ const isDev = app.get('env') === 'development'
 const port = process.env.PORT ?? 8080
 
 if (isDev) {
-  const morgan = require('morgan')
   app.use(morgan('dev'))
 } else {
   const authUrl = process.env.COGNITO_AUTH_URL ?? undefined
@@ -27,6 +28,8 @@ if (isDev) {
   if (authUrl === undefined) throw new Error('COGNITO_AUTH_URL undefined.')
   if (clientId === undefined) throw new Error('COGNITO_CLIENT_ID undefined.')
   if (clientSecret === undefined) throw new Error('COGNITO_CLIENT_SECRET undefined.')
+
+  app.use(httpRequestLoggingMiddleware())
 }
 
 const templateConfig = {
@@ -63,5 +66,5 @@ app.use(function (err: any, req: Request, res: Response, _next: NextFunction) {
 })
 
 app.listen(port, () => {
-  console.log(`Server running on ${port}`)
+  logger.info(`Server running on ${port}`)
 })

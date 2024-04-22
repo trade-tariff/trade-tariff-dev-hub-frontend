@@ -3,17 +3,11 @@ import path from 'path'
 import fs from 'fs'
 
 export default function initEnvironment (): void {
-  let envFilePath: string
+  const environment = process.env.NODE_ENV
+  const envFilePath = path.join(process.cwd(), `.env.${environment}`)
 
-  switch (process.env.NODE_ENV) {
-    case 'production':
-      envFilePath = path.join(process.cwd(), '.env')
-      break
-    case 'test':
-      envFilePath = path.join(process.cwd(), '.env.test')
-      break
-    default:
-      envFilePath = path.join(process.cwd(), '.env.development')
+  if (environment === 'production') {
+    return
   }
 
   if (fs.existsSync(envFilePath)) {
