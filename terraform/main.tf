@@ -40,8 +40,8 @@ module "service" {
       value = "8080"
     },
     {
-      name  = "AUTH_URL"
-      value = "https://auth.${var.base_domain}"
+      name  = "COGNITO_AUTH_URL"
+      value = "https://auth.${var.base_domain}/oauth2/token"
     },
     {
       name  = "GOVUK_APP_DOMAIN"
@@ -54,5 +54,13 @@ module "service" {
   ]
 
   service_secrets_config = [
+    {
+      name      = "COGNITO_CLIENT_ID"
+      valueFrom = data.aws_secretsmanager_secret.cognito_client_id.arn
+    },
+    {
+      name      = "COGNITO_CLIENT_SECRET"
+      valueFrom = data.aws_secretsmanager_secret.cognito_client_secret.arn
+    }
   ]
 }

@@ -24,7 +24,7 @@ export class AuthTokenController {
   public async fetchToken (): Promise<string> {
     return await new Promise((resolve, reject) => {
       const now = Math.floor(Date.now() / 1000)
-      const tokenExpired = now >= this.#tokenExpiresTimestamp
+      const tokenExpired: boolean = now >= this.#tokenExpiresTimestamp
 
       if (this.#tokenExpiresTimestamp === 0 || tokenExpired) {
         const request = new Request(

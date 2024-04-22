@@ -1,14 +1,6 @@
 import express, { type Request, type Response, type NextFunction } from 'express'
 import { HealthchecksController } from '../controllers/healthchecksController'
 
-const authUrl = process.env.AUTH_URL ?? undefined
-const clientId = process.env.CLIENT_ID ?? undefined
-const clientSecret = process.env.CLIENT_SECRET ?? undefined
-
-if (authUrl === undefined) throw new Error('AUTH_URL undefined.')
-if (clientId === undefined) throw new Error('CLIENT_ID undefined.')
-if (clientSecret === undefined) throw new Error('CLIENT_SECRET undefined.')
-
 const healthchecksController = new HealthchecksController()
 const router = express.Router()
 

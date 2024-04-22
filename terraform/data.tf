@@ -28,3 +28,11 @@ data "aws_kms_key" "secretsmanager_key" {
 data "aws_ssm_parameter" "ecr_url" {
   name = "/${var.environment}/FPO_DEVELOPER_HUB_FRONTEND_ECR_URL"
 }
+
+data "aws_secretsmanager_secret" "cognito_client_id" {
+  name = "cognito-fpo-client-id"
+}
+
+data "aws_secretsmanager_secret" "cognito_client_secret" {
+  name = "cognito-fpo-client-secret"
+}
