@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 const API_BASE_URL = process.env.API_BASE_URL ?? ''
 
 export interface ApiKey {
@@ -17,8 +15,9 @@ export interface ApiKey {
 export namespace ApiService {
   export async function listKeys (fpoId: string): Promise<ApiKey[]> {
     try {
-      const response = await axios.get(`${API_BASE_URL}/keys/${fpoId}`)
-      return response.data
+      const response = await fetch(`${API_BASE_URL}/keys/${fpoId}`)
+      const data = await response.json()
+      return data
     } catch (error) {
       console.error('Error fetching API keys:', error)
       throw error
@@ -27,8 +26,15 @@ export namespace ApiService {
 
   export async function updateKey (fpoId: string, id: string, enabled: boolean): Promise<ApiKey> {
     try {
-      const response = await axios.patch(`${API_BASE_URL}/keys/${fpoId}/${id}`, { enabled })
-      return response.data
+      const response = await fetch(`${API_BASE_URL}/keys/${fpoId}/${customerKeyId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ enabled })
+      })
+      const data = await response.json()
+      return data
     } catch (error) {
       console.error('Error updating API key:', error)
       throw error
