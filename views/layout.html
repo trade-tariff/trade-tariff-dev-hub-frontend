@@ -1,0 +1,107 @@
+{% extends "govuk/template.njk" %}
+
+<!DOCTYPE html>
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/cookie-banner/macro.njk" import govukCookieBanner %}
+{% from "govuk/components/skip-link/macro.njk" import govukSkipLink %}
+{% from "govuk/components/header/macro.njk" import govukHeader %}
+{% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
+{% from "govuk/components/footer/macro.njk" import govukFooter %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+<html lang="en" class="govuk-template">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/govuk/govuk-frontend.min.css">
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block head %}
+      <link rel="stylesheet" href="/govuk/govuk-frontend.min.css">
+    {% endblock %}
+
+    <title>API Key Dashboard</title>
+</head>
+
+<nav>
+  {% block skipLink %}
+    {{ govukSkipLink({
+      href: "#main-content",
+      text: "Skip to main content"
+    }) }}
+  {% endblock %}
+
+  {% block header %}
+    {{ govukHeader({
+      homepageUrl: "#",
+      containerClasses: "app-width-container",
+      serviceName: "FPO dashboard",
+      serviceUrl: "#",
+      navigation: [
+      ]
+    }) }}
+  {% endblock %}
+</nav>
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    tag: {
+      text: "Beta"
+    },
+    html: 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+  }) }}
+  {{ govukBackLink({
+    href: "/",
+    text: "Back"
+  }) }}
+{% endblock %}
+
+
+<body class="govuk-template_body govuk-frontend-supported">
+    <main id="main-content" class="govuk-template__body uk-service js-enabled" role="main">
+      <div class="govuk-width-container">
+
+      </div>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+
+{% block footer %}
+  {{ govukFooter({
+    meta: {
+      items: [
+        {
+          href: "#",
+          text: "Help"
+        },
+        {
+          href: "#",
+          text: "Cookies"
+        },
+        {
+          href: "#",
+          text: "Contact"
+        },
+        {
+          href: "#",
+          text: "Terms and conditions"
+        }
+      ]
+    }
+  }) }}
+{% endblock %}
+
+{% block bodyEnd %}
+  <script type="module" src="/govuk/govuk-frontend.min.js"></script>
+  <script type="module">
+    import { initAll } from '/govuk/govuk-frontend.min.js'
+    initAll()
+  </script>
+{% endblock %}
+</html>
