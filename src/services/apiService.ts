@@ -40,4 +40,20 @@ export namespace ApiService {
       throw error
     }
   }
+
+  export async function createAPIKey (fpoId: string): Promise<any> {
+      try {
+          const response = await fetch(`${API_BASE_URL}/keys/${fpoId}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          const data = await response.json();
+          return data;
+      } catch (error) {
+          console.error('Error updating API key:', error);
+          throw error;
+      }
+  }
 }

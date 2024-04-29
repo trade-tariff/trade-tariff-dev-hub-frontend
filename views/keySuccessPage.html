@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block content %}
+    {% set html %}
+      <p class="govuk-notification-banner__heading">
+        You will not be able to view this API Key again.
+      </p>
+      <p class="govuk-body">Please make note of your API key as you will not be able to view it once you navigate away from this page.</p>
+    {% endset %}
+
+    {{ govukNotificationBanner({
+      html: html
+    }) }}
+
+    <div class="govuk-grid-row">
+        {{ govukPanel({
+            titleText: "API Key Created Successfully",
+            html: "Your API Key is <br><strong>{{ apiKey }}</strong>"
+        }) }}
+    </div>
+
+    {{ govukButton({
+      text: "Dashboard",
+      href: "/dashboard/" + fpoId,
+      classes: "govuk-button--secondary"
+    }) }}
+
+    <p class="govuk-body">If you have any further questions relating to your API Credentials, please contact us at: <a href="mailto:hmrc-fpo-tool-support@digital.hmrc.gov.uk">hmrc-fpo-tool-support@digital.hmrc.gov.uk</a></p>
+{% endblock %}
