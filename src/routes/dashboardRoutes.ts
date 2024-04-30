@@ -1,9 +1,8 @@
-import express, { Router } from 'express';
+import express, { type Router } from 'express'
+import { showDashboard } from '../controllers/dashboardController'
 
+const router: Router = express.Router()
 
-const router: Router = express.Router();
-const dashboardController = require('../controllers/dashboardController');
+router.get('/dashboard/:fpoId', showDashboard)
 
-router.get('/dashboard/:fpoId', dashboardController.showDashboard);
-
-module.exports = router;
+export default router
