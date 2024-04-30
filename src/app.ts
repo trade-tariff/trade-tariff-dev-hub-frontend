@@ -4,6 +4,7 @@ import createError from 'http-errors'
 import express from 'express'
 import path from 'path'
 import nunjucks from 'nunjucks'
+import morgan from 'morgan'
 
 import indexRouter from './routes/index'
 import dashboardRoutes from './routes/dashboardRoutes'
