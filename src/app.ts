@@ -11,11 +11,11 @@ import dashboardRoutes from './routes/dashboardRoutes'
 import { httpRequestLoggingMiddleware, logger } from './config/logging'
 import initEnvironment from './config/env'
 import favicon from 'serve-favicon'
+import { ConfigureOptions } from 'nunjucks';
 
 initEnvironment()
 
 const app: Express = express()
-
 const isDev = app.get('env') === 'development'
 const port = process.env.PORT ?? 8080
 
@@ -33,12 +33,12 @@ if (isDev) {
   app.use(httpRequestLoggingMiddleware())
 }
 
-const templateConfig = {
+const templateConfig: ConfigureOptions = {
   autoescape: true,
   watch: isDev,
   express: app,
   noCache: isDev
-}
+};
 
 nunjucks.configure([
   'node_modules/govuk-frontend/dist',
@@ -71,9 +71,7 @@ app.use(function (err: any, req: Request, res: Response, _next: NextFunction) {
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}
 
-  const statusCode: number = err.statusCode ?? 500
-
-  res.status(statusCode)
+  res.status(typeof err.status === 'number' ? err.status : 500);
 
   res.json({
     message: err.message,

@@ -8,26 +8,22 @@
 <h2 class="govuk-heading-l">Commodity Code API Developer Hub</h2>
 <p class="govuk-body">You can use the service to:</p>
 <ul class="govuk-list govuk-list--bullet">
-    <li>create a key for yourself</li>
-    <li>create a key for someone else</li>
-    <li>delete a key</li>
-    <li>view keys</li>
+    <li>Create a key for yourself</li>
+    <li>Create a key for someone else</li>
+    <li>Delete a key</li>
+    <li>View keys</li>
 </ul>
 <h2 class="govuk-heading-l">Sign in to the developer hub</h2>
     <p class="govuk-body">You'll need a GOV.UK One Login to use the service. If you do not have a GOV.UK One login, you can create one.</p>
 
     <p class="govuk-body">If it is your first time registering, you'll also need:</p>
     <ul class="govuk-list govuk-list--bullet">
-        <li>the name of your organisation</li>
+        <li>The name of your organisation</li>
         <li>The EORI number of your organisation</li>
-        <li>the UK Authorised Carrier Scheme reference number of your organisation</li>
+        <li>The UK Authorised Carrier Scheme reference number of your organisation</li>
     </ul>
-    {{
-        govukButton({
-            text: "Start Now",
-            attributes: {
-                onclick: "location.href='../dashboard/345897354'"
-            }
-        })
-    }}
+    <a href="../dashboard/local-development" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+        Start Now
+    </a>
+
 {% endblock %}

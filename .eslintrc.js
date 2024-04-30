@@ -16,6 +16,9 @@ module.exports = {
   plugins: [
     '@typescript-eslint'
   ],
+  extends: [
+    'plugin:@typescript-eslint/recommended',
+  ],
   rules: {
     '@typescript-eslint/unbound-method': 'off',
     '@typescript-eslint/no-namespace': 'off'
