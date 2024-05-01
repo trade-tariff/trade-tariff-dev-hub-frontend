@@ -1,6 +1,5 @@
 import { type Request, type Response } from 'express'
-import { CustomerApiKeyFixtures } from '../../src/fixtures/customerApiKeyfixtures'
-import { type ApiKey } from '../../src/services/apiService'
+import { ApiService, type ApiKey } from '../../src/services/apiService'
 
 import { showDashboard } from '../../src/controllers/dashboardController'
 import { DashboardPresenter } from '../../src/presenters/dashboardPresenter'
@@ -27,7 +26,7 @@ describe('DashboardController', () => {
       }
     ]
     spyOn(DashboardPresenter, 'present').and.returnValue({ formattedData: 'data' })
-    spyOn(CustomerApiKeyFixtures, 'getDummyKeys').and.returnValue(apiKeys)
+    spyOn(ApiService, 'listKeys').and.returnValue(Promise.resolve(apiKeys))
 
     statusSpy = jasmine.createSpy().and.callFake(() => ({ send: sendSpy }))
     sendSpy = jasmine.createSpy()
@@ -44,7 +43,7 @@ describe('DashboardController', () => {
   it('should render the dashboard with formatted data from the presenter', async () => {
     await showDashboard(mockRequest as Request, mockResponse as Response)
 
-    expect(CustomerApiKeyFixtures.getDummyKeys).toHaveBeenCalled()
+    expect(ApiService.listKeys).toHaveBeenCalled()
     expect(DashboardPresenter.present).toHaveBeenCalledWith(jasmine.any(Array), '123')
     expect(renderSpy).toHaveBeenCalledWith('dashboard', { formattedData: { formattedData: 'data' }, fpoId: '123' })
   })
