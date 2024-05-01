@@ -3,7 +3,7 @@ import { type Express, type Request, type Response, type NextFunction } from 'ex
 import createError from 'http-errors'
 import express from 'express'
 import path from 'path'
-import nunjucks, { type ConfigureOptions } from 'nunjucks'
+import nunjucks from 'nunjucks'
 import morgan from 'morgan'
 
 import indexRouter from './routes/index'
@@ -15,6 +15,7 @@ import favicon from 'serve-favicon'
 initEnvironment()
 
 const app: Express = express()
+
 const isDev = app.get('env') === 'development'
 const port = process.env.PORT ?? 8080
 
@@ -32,7 +33,7 @@ if (isDev) {
   app.use(httpRequestLoggingMiddleware())
 }
 
-const templateConfig: ConfigureOptions = {
+const templateConfig = {
   autoescape: true,
   watch: isDev,
   express: app,
@@ -42,7 +43,7 @@ const templateConfig: ConfigureOptions = {
 nunjucks.configure([
   'node_modules/govuk-frontend/dist',
   'views'
-], templateConfig)
+], templateConfig as nunjucks.ConfigureOptions)
 
 app.set('view engine', 'njk')
 
