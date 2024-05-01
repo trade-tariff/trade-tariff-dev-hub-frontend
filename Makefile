@@ -6,7 +6,7 @@ run: clean build
 	source .env.development && yarn run start
 
 test:
-	yarn run test
+	yarn run test && yarn run lint
 
 clean:
 	yarn run clean
