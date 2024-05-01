@@ -50,7 +50,7 @@ jobs:
       - run:
           name: "Lint changed files"
           command: |
-            yarn run eslint $(git diff --name-only --diff-filter=ACM $(git merge-base main HEAD)..HEAD | egrep '\.js' | grep -v json)
+            yarn run lint
 
   tests:
     docker:
