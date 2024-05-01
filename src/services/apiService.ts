@@ -1,9 +1,21 @@
 import axios from 'axios'
 
-const API_BASE_URL = 'http://localhost:5001'
+const API_BASE_URL = process.env.API_BASE_URL ?? ''
 
-export class ApiService {
-  static async listKeys (fpoId: string): Promise<any> {
+export interface ApiKey {
+  CustomerApiKeyId: string
+  ApiGatewayId: string
+  UsagePlanId: string
+  Secret: string
+  Enabled: boolean
+  Description: string
+  FpoId: string
+  CreatedAt: string
+  UpdatedAt: string
+}
+
+export namespace ApiService {
+  export async function listKeys (fpoId: string): Promise<ApiKey[]> {
     try {
       const response = await axios.get(`${API_BASE_URL}/keys/${fpoId}`)
       return response.data
@@ -13,7 +25,7 @@ export class ApiService {
     }
   }
 
-  static async updateKey (fpoId: string, id: string, enabled: boolean): Promise<any> {
+  export async function updateKey (fpoId: string, id: string, enabled: boolean): Promise<ApiKey> {
     try {
       const response = await axios.patch(`${API_BASE_URL}/keys/${fpoId}/${id}`, { enabled })
       return response.data

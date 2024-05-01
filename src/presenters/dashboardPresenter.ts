@@ -1,11 +1,13 @@
 // Limitations with the nunjucks library and how the rows are created plus the ternary conditionals is why HTML is being built here.
 
-export class DashboardPresenter {
-  private static statusButton (text: string): string {
+import { type ApiKey } from '../../src/services/apiService'
+
+export namespace DashboardPresenter {
+  export function statusButton (text: string): string {
     return `<button class="govuk-button govuk-button--secondary" type="button">${text}</button>`
   }
 
-  private static createDeleteForm (fpoId: string, CustomerKeyId: string): string {
+  export function createDeleteForm (fpoId: string, CustomerKeyId: string): string {
     return `
             <form action="/keys/${fpoId}/${CustomerKeyId}/delete" method="post">
                 <button type="submit" class="govuk-button govuk-button--warning">Revoke</button>
@@ -13,7 +15,7 @@ export class DashboardPresenter {
         `
   }
 
-  private static maskString (input: string): string {
+  export function maskString (input: string): string {
     const visibleLength = 4
 
     if (input.length <= visibleLength) {
@@ -26,7 +28,7 @@ export class DashboardPresenter {
     return maskedPart + lastFour
   }
 
-  private static formatDate (dateInput: Date | string): string {
+  export function formatDate (dateInput: Date | string): string {
     const date = new Date(dateInput)
     if (isNaN(date.getTime())) {
       throw new Error('Invalid date')
@@ -38,7 +40,7 @@ export class DashboardPresenter {
     })
   }
 
-  public static present (apiKeys: any[], fpoId: string): any {
+  export function present (apiKeys: ApiKey[], fpoId: string): any {
     const rows = apiKeys.map(key => {
       const status = key.Enabled ? 'Active' : 'Inactive'
       const deleteButton = DashboardPresenter.createDeleteForm(fpoId, key.CustomerApiKeyId)

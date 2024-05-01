@@ -1,9 +1,9 @@
 import { type Request, type Response } from 'express'
-import { ApiService } from '../services/apiService'
+// import { ApiService } from '../services/apiService'
 import { DashboardPresenter } from '../presenters/dashboardPresenter'
 import { CustomerApiKeyFixtures } from '../fixtures/customerApiKeyfixtures'
 
-const apiServiceInstance = new ApiService()
+// const apiServiceInstance = new ApiService()
 
 export const showDashboard = async (req: Request, res: Response): Promise<void> => {
   const fpoId = req.params.fpoId

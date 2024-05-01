@@ -3,7 +3,7 @@ import path from 'path'
 import fs from 'fs'
 
 export default function initEnvironment (): void {
-  const environment = process.env.NODE_ENV
+  const environment = process.env.NODE_ENV ?? 'development'
   const envFilePath = path.join(process.cwd(), `.env.${environment}`)
 
   if (environment === 'production') {

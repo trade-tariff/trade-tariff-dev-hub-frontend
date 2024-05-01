@@ -1,4 +1,5 @@
 import 'jasmine'
+import sinon from 'sinon'
 
 import { AuthTokenFetcher, type ClientCredentials } from '../src/utils/authTokenFetcher'
 
@@ -8,11 +9,18 @@ const clientSecret = '9example87654321'
 
 let authTokenFetcher: AuthTokenFetcher
 
-beforeEach(() => {
-  authTokenFetcher = new AuthTokenFetcher(authUrl, clientId, clientSecret)
-})
-
 describe('authTokenFetcher', () => {
+  let clock: sinon.SinonFakeTimers
+
+  beforeEach(() => {
+    authTokenFetcher = new AuthTokenFetcher(authUrl, clientId, clientSecret)
+    clock = sinon.useFakeTimers()
+  })
+
+  afterEach(() => {
+    clock.restore()
+  })
+
   it('returns an access token', async () => {
     const mockData: ClientCredentials = {
       access_token: 'eyJra1example',
@@ -35,15 +43,15 @@ describe('authTokenFetcher', () => {
       access_token: 'eyJra1example',
       id_token: 'eyJra2example',
       token_type: 'Bearer',
-      expires_in: 1 // mock a short expiry time for test
+      expires_in: 1
     }
 
     const mockResponse = new Response(JSON.stringify(mockData))
     spyOn(global, 'fetch').and.returnValues(Promise.resolve(mockResponse.clone()), Promise.resolve(mockResponse.clone()))
 
-    let token = await authTokenFetcher.fetchToken()
-    await new Promise(r => setTimeout(r, 2000));
-    token = await authTokenFetcher.fetchToken()
+    await authTokenFetcher.fetchToken()
+    clock.tick(2000) // advance time by 2 seconds
+    await authTokenFetcher.fetchToken()
 
     expect(fetch).toHaveBeenCalledTimes(2)
   })
@@ -57,12 +65,11 @@ describe('authTokenFetcher', () => {
     }
 
     const mockResponse = new Response(JSON.stringify(mockData))
-    spyOn(global, 'fetch').and.returnValues(Promise.resolve(mockResponse.clone()), Promise.resolve(mockResponse.clone()))
+    spyOn(global, 'fetch').and.returnValue(Promise.resolve(mockResponse))
 
-    let token = await authTokenFetcher.fetchToken()
-    await new Promise(r => setTimeout(r, 2000));
-    token = await authTokenFetcher.fetchToken()
+    await authTokenFetcher.fetchToken() // Fetches and caches the token
+    await authTokenFetcher.fetchToken() // Should use the cached token
 
-    expect(fetch).toHaveBeenCalledTimes(1)
+    expect(fetch).toHaveBeenCalledTimes(1) // fetch should only have been called once
   })
 })

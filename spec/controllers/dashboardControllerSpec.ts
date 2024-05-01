@@ -1,48 +1,51 @@
-import { Request, Response } from 'express';
-import * as fixtures from '../../src/fixtures/customerApiKeyfixtures';
-import { showDashboard } from '../../src/controllers/dashboardController';
-import { ApiService } from '../../src/services/apiService';
-import { DashboardPresenter } from '../../src/presenters/dashboardPresenter';
+import { type Request, type Response } from 'express'
+import { CustomerApiKeyFixtures } from '../../src/fixtures/customerApiKeyfixtures'
+import { type ApiKey } from '../../src/services/apiService'
+
+import { showDashboard } from '../../src/controllers/dashboardController'
+import { DashboardPresenter } from '../../src/presenters/dashboardPresenter'
 
 describe('DashboardController', () => {
-  let mockRequest: Partial<Request>;
-  let mockResponse: Partial<Response>;
-  let statusSpy: jasmine.Spy;
-  let sendSpy: jasmine.Spy;
-  let renderSpy: jasmine.Spy;
+  let mockRequest: Partial<Request>
+  let mockResponse: Partial<Response>
+  let statusSpy: jasmine.Spy
+  let sendSpy: jasmine.Spy
+  let renderSpy: jasmine.Spy
 
   beforeEach(() => {
-    // Replace the method directly for the duration of the test
-    spyOn(ApiService, 'listKeys').and.returnValue(Promise.resolve([{ key: 'key1', permissions: 'read' }]));
-    spyOn(DashboardPresenter, 'present').and.returnValue({ formattedData: 'data' });
-    spyOn(fixtures.CustomerApiKeyFixtures, 'getDummyKeys').and.returnValue([{ key: 'key1', permissions: 'read' }]);
+    const apiKeys: ApiKey[] = [
+      {
+        CustomerApiKeyId: 'foo',
+        ApiGatewayId: 'bar',
+        UsagePlanId: 'baz',
+        Secret: 'qux',
+        Enabled: true,
+        Description: 'quux',
+        FpoId: '123',
+        CreatedAt: '2024-04-10T16:11:45.714Z',
+        UpdatedAt: '2024-04-10T16:11:45.715Z'
+      }
+    ]
+    spyOn(DashboardPresenter, 'present').and.returnValue({ formattedData: 'data' })
+    spyOn(CustomerApiKeyFixtures, 'getDummyKeys').and.returnValue(apiKeys)
 
-    statusSpy = jasmine.createSpy().and.returnValue({ send: jasmine.createSpy() });
-    sendSpy = jasmine.createSpy();
-    renderSpy = jasmine.createSpy();
+    statusSpy = jasmine.createSpy().and.callFake(() => ({ send: sendSpy }))
+    sendSpy = jasmine.createSpy()
+    renderSpy = jasmine.createSpy()
 
-    mockRequest = { params: { fpoId: '123' } };
+    mockRequest = { params: { fpoId: '123' } }
     mockResponse = {
       render: renderSpy,
       status: statusSpy,
       send: sendSpy
-    };
-  });
+    }
+  })
 
-  it('should render the dashboard with formatted data', async () => {
-    await showDashboard(mockRequest as Request, mockResponse as Response);
+  it('should render the dashboard with formatted data from the presenter', async () => {
+    await showDashboard(mockRequest as Request, mockResponse as Response)
 
-    expect(fixtures.CustomerApiKeyFixtures.getDummyKeys).toHaveBeenCalled();
-    expect(DashboardPresenter.present).toHaveBeenCalledWith(jasmine.any(Array), '123');
-    expect(renderSpy).toHaveBeenCalledWith('dashboard', { formattedData: { formattedData: 'data' }, fpoId: '123' });
-  });
-
-  // it('should handle errors when API keys cannot be fetched', async () => {
-  //   (ApiService.listKeys as jasmine.Spy).and.returnValue(Promise.reject(new Error('Failed to fetch keys')));
-
-  //   await showDashboard(mockRequest as Request, mockResponse as Response);
-
-  //   expect(statusSpy).toHaveBeenCalledWith(500);
-  //   expect(sendSpy).toHaveBeenCalled();
-  // });
-});
+    expect(CustomerApiKeyFixtures.getDummyKeys).toHaveBeenCalled()
+    expect(DashboardPresenter.present).toHaveBeenCalledWith(jasmine.any(Array), '123')
+    expect(renderSpy).toHaveBeenCalledWith('dashboard', { formattedData: { formattedData: 'data' }, fpoId: '123' })
+  })
+})
