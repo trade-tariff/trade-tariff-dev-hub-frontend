@@ -1,7 +1,6 @@
 import { type Request, type Response } from 'express'
 import { DashboardPresenter } from '../presenters/dashboardPresenter'
-
-const apiServiceInstance = new ApiService();
+import { ApiService } from '../services/apiService'
 
 export const showDashboard = async (req: Request, res: Response): Promise<void> => {
   const fpoId = req.params.fpoId

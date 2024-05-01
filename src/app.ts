@@ -3,7 +3,7 @@ import { type Express, type Request, type Response, type NextFunction } from 'ex
 import createError from 'http-errors'
 import express from 'express'
 import path from 'path'
-import nunjucks from 'nunjucks'
+import nunjucks, { type ConfigureOptions } from 'nunjucks'
 import morgan from 'morgan'
 
 import indexRouter from './routes/index'
@@ -11,7 +11,6 @@ import dashboardRoutes from './routes/dashboardRoutes'
 import { httpRequestLoggingMiddleware, logger } from './config/logging'
 import initEnvironment from './config/env'
 import favicon from 'serve-favicon'
-import { ConfigureOptions } from 'nunjucks';
 
 initEnvironment()
 
@@ -38,12 +37,12 @@ const templateConfig: ConfigureOptions = {
   watch: isDev,
   express: app,
   noCache: isDev
-};
+}
 
 nunjucks.configure([
   'node_modules/govuk-frontend/dist',
   'views'
-], templateConfig as nunjucks.ConfigureOptions)
+], templateConfig)
 
 app.set('view engine', 'njk')
 
@@ -71,7 +70,9 @@ app.use(function (err: any, req: Request, res: Response, _next: NextFunction) {
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}
 
-  res.status(typeof err.status === 'number' ? err.status : 500);
+  const statusCode: number = err.statusCode ?? 500
+
+  res.status(statusCode)
 
   res.json({
     message: err.message,

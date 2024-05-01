@@ -1,50 +1,18 @@
 // Limitations with the nunjucks library and how the rows are created plus the ternary conditionals is why HTML is being built here.
 
-export class DashboardPresenter {
-  private static createDeleteForm (fpoId: string, customerKeyId: string): string {
-    return `
-        <form action="/keys/${fpoId}/${customerKeyId}/revoke" method="get">
-        <button type="submit" class="govuk-button govuk-button--warning">Revoke</button>
-        </form>
-        `
-  }
+import { type ApiKey } from '../../src/services/apiService'
 
-  private static maskString (input: string): string {
-    const visibleLength = 4
-
-    if (input.length <= visibleLength) {
-      return input
-    }
-
-    const lastFour = input.slice(-visibleLength)
-    const maskedPart = 'x'.repeat(4)
-
-    return maskedPart + lastFour
-  }
-
-  private static formatDate (dateInput: Date | string): string {
-    const date = new Date(dateInput)
-    if (isNaN(date.getTime())) {
-      throw new Error('Invalid date')
-    }
-    return date.toLocaleDateString('en-GB', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    })
-  }
-
-  public static present (apiKeys: any[], fpoId: string): any {
-    console.log(apiKeys)
+export namespace DashboardPresenter {
+  export function present (apiKeys: ApiKey[], fpoId: string): any {
     const rows = apiKeys.map(key => {
-      const status = key.Enabled ? 'Active' : `Revoked on ${DashboardPresenter.formatDate(key.UpdatedAt)}`
-      const deleteButton = DashboardPresenter.createDeleteForm(fpoId, key.CustomerApiKeyId)
+      const status = key.Enabled ? 'Active' : `Revoked on ${formatDate(key.UpdatedAt)}`
+      const deleteButton = createDeleteForm(fpoId, key.CustomerApiKeyId)
 
       return {
         data: [
-          { text: DashboardPresenter.maskString(key.ApiGatewayId) },
+          { text: maskString(key.Secret) },
           { text: key.Description },
-          { text: DashboardPresenter.formatDate(key.CreatedAt) },
+          { text: formatDate(key.CreatedAt) },
           { html: status },
           { html: deleteButton }
         ],
@@ -62,5 +30,38 @@ export class DashboardPresenter {
     return {
       rows
     }
+  }
+
+  function createDeleteForm (fpoId: string, customerKeyId: string): string {
+    return `
+        <form action="/dashboard/keys/${fpoId}/${customerKeyId}/revoke" method="get">
+        <button type="submit" class="govuk-button govuk-button--warning">Revoke</button>
+        </form>
+        `
+  }
+
+  function maskString (input: string): string {
+    const visibleLength = 4
+
+    if (input.length <= visibleLength) {
+      return input
+    }
+
+    const lastFour = input.slice(-visibleLength)
+    const maskedPart = 'x'.repeat(4)
+
+    return maskedPart + lastFour
+  }
+
+  function formatDate (dateInput: Date | string): string {
+    const date = new Date(dateInput)
+    if (isNaN(date.getTime())) {
+      throw new Error('Invalid date')
+    }
+    return date.toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    })
   }
 }
