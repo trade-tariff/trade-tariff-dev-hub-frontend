@@ -8,7 +8,8 @@
     "lint": "eslint . --ext .ts",
     "fix": "eslint . --ext .ts --fix",
     "start": "node ./dist/src/app.js",
-    "test": "ts-node node_modules/jasmine/bin/jasmine"
+    "test": "ts-node node_modules/jasmine/bin/jasmine",
+    "clean": "rm -rf dist"
   },
   "dependencies": {
     "axios": "^1.6.8",
