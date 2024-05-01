@@ -11,8 +11,6 @@
     "test": "ts-node node_modules/jasmine/bin/jasmine"
   },
   "dependencies": {
-    "@types/nunjucks": "^3.2.6",
-    "@types/supertest": "^6.0.2",
     "axios": "^1.6.8",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
@@ -31,7 +29,10 @@
     "@types/jasmine": "^5.1.4",
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.11.30",
+    "@types/nunjucks": "^3.2.6",
     "@types/serve-favicon": "^2.5.7",
+    "@types/sinon": "^17.0.3",
+    "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^7.5.0",
     "debug": "~4.3.4",
     "eslint": "^8.0.1",
@@ -42,6 +43,7 @@
     "jasmine": "^5.1.0",
     "jasmine-spec-reporter": "^7.0.0",
     "nodemon": "^3.1.0",
+    "sinon": "^17.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.3"
   }

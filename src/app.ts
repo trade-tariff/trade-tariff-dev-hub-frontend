@@ -43,7 +43,7 @@ const templateConfig = {
 nunjucks.configure([
   'node_modules/govuk-frontend/dist',
   'views'
-], templateConfig as any)
+], templateConfig as nunjucks.ConfigureOptions)
 
 app.set('view engine', 'njk')
 
@@ -59,7 +59,7 @@ app.engine('html', nunjucks.render)
 app.set('view engine', 'html')
 
 app.use('/', indexRouter)
-app.use(dashboardRoutes)
+app.use('/dashboard', dashboardRoutes)
 
 // catch 404 and forward to error handler
 app.use(function (_req: Request, _res: Response, next: NextFunction) {
@@ -71,7 +71,9 @@ app.use(function (err: any, req: Request, res: Response, _next: NextFunction) {
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}
 
-  res.status(err.status || 500)
+  const statusCode: number = err.statusCode ?? 500
+
+  res.status(statusCode)
 
   res.json({
     message: err.message,
