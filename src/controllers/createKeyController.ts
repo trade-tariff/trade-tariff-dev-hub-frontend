@@ -1,0 +1,30 @@
+import { Request, Response } from 'express';
+import { ApiService } from '../services/apiService'
+
+const apiServiceInstance = new ApiService();
+
+export const showCreatePage = async (req: Request, res: Response): Promise<void> => {
+    const fpoId = req.params.fpoId;
+
+    try {
+        res.render('newKey', { fpoId });
+    } catch (error) {
+        console.error('Error showing create page', error);
+        res.status(500).send("Error showing new key page");
+    }
+};
+
+export const showSuccessPage = async (req: Request, res: Response): Promise<void> => {
+    const fpoId = req.params.fpoId;
+
+    try {
+        const apiKey = await ApiService.createAPIKey(fpoId);
+
+        console.log(apiKey)
+
+        res.render('keySuccessPage', { apiKey: apiKey });
+    } catch (error) {
+        console.error('Error showing create page', error);
+        res.status(500).send("Error showing new key page");
+    }
+};

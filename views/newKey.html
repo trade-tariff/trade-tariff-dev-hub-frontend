@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-  <form action="/keys/success" method="post">
+  <form action="/keys/{{ fpoId }}/success" method="post">
     {{ govukInput({
       label: {
         text: "Enter the description for your API key.",
