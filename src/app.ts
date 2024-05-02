@@ -11,7 +11,6 @@ import dashboardRoutes from './routes/dashboardRoutes'
 import { httpRequestLoggingMiddleware, logger } from './config/logging'
 import initEnvironment from './config/env'
 import favicon from 'serve-favicon'
-import dashboardRoutes from './routes/dashboardRoutes';
 
 initEnvironment()
 
