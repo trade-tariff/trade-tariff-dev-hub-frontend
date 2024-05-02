@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block content %}
+    <h1 class="govuk-heading-l">Revoke an API Key</h1>
+
+
+    {% set html %}
+      <p class="govuk-notification-banner__heading">
+        Your API Key cannot be reactivated once revoked.
+      </p>
+      <p class="govuk-body">Click "Revoke" to confirm or "Go Back" to return to the main menu.</p>
+    {% endset %}
+
+    {{ govukNotificationBanner({
+      html: html
+    }) }}
+
+    <div class="govuk-button-group">
+        <form action="/dashboard/keys/{{ fpoId }}/{{ customerKeyId }}/revoke" method="POST">
+            {{ govukButton({
+                text: "Revoke",
+                classes: "govuk-button--warning",
+                type: "submit",
+                preventDoubleClick: true
+            }) }}
+        </form>
+        <a href="/dashboard/{{ fpoId }}" role="button" draggable="false">
+            {{ govukButton({
+                text: "Go Back",
+                classes: "govuk-button--secondary"
+            }) }}
+        </a>
+    </div>
+
+
+    <p class="govuk-body">If you have any further questions relating to your API Credentials, please contact us at: <a href="mailto:hmrc-fpo-tool-support@digital.hmrc.gov.uk">hmrc-fpo-tool-support@digital.hmrc.gov.uk</a></p>
+
+{% endblock %}
