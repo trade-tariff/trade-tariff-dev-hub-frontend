@@ -5,7 +5,7 @@ import { showRevokePage, revokeAPIKey } from '../controllers/revokeController'
 
 const router: Router = express.Router()
 
-router.get('/dashboard/:fpoId', showDashboard)
+router.get('/:fpoId', showDashboard)
 router.get('/keys/:fpoId/:customerKeyId/revoke', showRevokePage)
 router.get('/keys/:fpoId/create', showCreatePage)
 router.post('/keys/:fpoId/success', showSuccessPage)

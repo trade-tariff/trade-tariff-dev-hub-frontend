@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-  <form action="/keys/{{ fpoId }}/success" method="post">
+  <form action="/dashboard/keys/{{ fpoId }}/success" method="post">
     {{ govukInput({
       label: {
         text: "Enter the description for your API key.",
@@ -18,7 +18,7 @@
         text: "Text explaining good example of API key description."
       },
       id: "description",
-      name: "apiKeyDescription"
+      name: "apiKeyDescription"  // Ensure the 'name' attribute is set correctly
     }) }}
 
     {{ govukButton({

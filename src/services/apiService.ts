@@ -41,15 +41,20 @@ export namespace ApiService {
     }
   }
 
-  export async function createAPIKey (fpoId: string): Promise<any> {
+  export async function createAPIKey (fpoId: string, description: string): Promise<any> {
     try {
-      const response = await fetch(`${API_BASE_URL}/keys/${fpoId}`, {
+      console.log(description)
+      const response = await fetch(`${API_BASE_URL}/api/keys/${fpoId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({ description })
       })
       const data = await response.json()
+      console.log('>>>>>>>>>>>HERE>>>>>>>>>')
+      console.log(data)
+      console.log('>>>>>>>>>>>>>>>>>>>>')
       return data
     } catch (error) {
       console.error('Error updating API key:', error)

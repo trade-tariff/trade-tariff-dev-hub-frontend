@@ -14,9 +14,10 @@ export const showCreatePage = async (req: Request, res: Response): Promise<void>
 
 export const showSuccessPage = async (req: Request, res: Response): Promise<void> => {
   const fpoId = req.params.fpoId
+  const apiKeyDescription = req.body;
 
   try {
-    const apiKey = await ApiService.createAPIKey(fpoId)
+    const apiKey = await ApiService.createAPIKey(fpoId, apiKeyDescription)
 
     console.log(apiKey)
 

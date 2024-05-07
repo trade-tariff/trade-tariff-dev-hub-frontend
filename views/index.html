@@ -26,12 +26,7 @@
         Start Now
     </a>
 
-    {{
-        govukButton({
-        text: "Go to Dashboard",
-        attributes: {
-            onclick: "location.href='../dashboard/local-development'"
-        }
-        })
-    }}
+    <a href="../dashboard/local-development" class="govuk-button" role="button" draggable="false">
+      Go to Dashboard
+    </a>
 {% endblock %}
