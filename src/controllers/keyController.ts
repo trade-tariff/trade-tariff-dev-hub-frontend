@@ -1,7 +1,8 @@
 import { type Request, type Response } from 'express'
-import { ApiService } from '../services/apiService'
+import { type ApiKey, ApiService } from '../services/apiService'
+import { ApiKeyPresenter } from '../presenters/apiKeyPresenter'
 
-export const showCreatePage = async (req: Request, res: Response): Promise<void> => {
+export const newKey = async (req: Request, res: Response): Promise<void> => {
   const fpoId = req.params.fpoId
 
   try {
@@ -12,16 +13,16 @@ export const showCreatePage = async (req: Request, res: Response): Promise<void>
   }
 }
 
-export const showSuccessPage = async (req: Request, res: Response): Promise<void> => {
+export const create = async (req: Request, res: Response): Promise<void> => {
   const fpoId = req.params.fpoId
-  const apiKeyDescription = req.body;
+  const apiKeyDescription = req.body as string
 
   try {
     const apiKey = await ApiService.createAPIKey(fpoId, apiKeyDescription)
 
-    console.log(apiKey)
+    const formattedData = ApiKeyPresenter.secretHtml(apiKey as ApiKey)
 
-    res.render('keySuccessPage', { apiKey })
+    res.render('keySuccessPage', { formattedData, fpoId })
   } catch (error) {
     console.error('Error showing create page', error)
     res.status(500).send('Error showing new key page')

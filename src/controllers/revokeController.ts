@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express'
 import { ApiService } from '../services/apiService'
 
-export const showRevokePage = async (req: Request, res: Response): Promise<void> => {
+export const showRevoke = async (req: Request, res: Response): Promise<void> => {
   const customerKeyId = req.params.customerKeyId
   const fpoId = req.params.fpoId
 
@@ -13,7 +13,7 @@ export const showRevokePage = async (req: Request, res: Response): Promise<void>
   }
 }
 
-export const revokeAPIKey = async (req: Request, res: Response): Promise<void> => {
+export const revoke = async (req: Request, res: Response): Promise<void> => {
   const customerKeyId = req.params.customerKeyId
   const fpoId = req.params.fpoId
   const enabled = req.params.enabled

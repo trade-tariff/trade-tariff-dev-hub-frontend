@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+
 import express, { type Router } from 'express'
 import { showDashboard } from '../controllers/dashboardController'
-import { showCreatePage, showSuccessPage } from '../controllers/createKeyController'
-import { showRevokePage, revokeAPIKey } from '../controllers/revokeController'
+import { newKey, create } from '../controllers/keyController'
+import { showRevoke, revoke } from '../controllers/revokeController'
 
 const router: Router = express.Router()
 
 router.get('/:fpoId', showDashboard)
-router.get('/keys/:fpoId/:customerKeyId/revoke', showRevokePage)
-router.get('/keys/:fpoId/create', showCreatePage)
-router.post('/keys/:fpoId/success', showSuccessPage)
-router.post('/keys/:fpoId/:customerKeyId/revoke', revokeAPIKey)
+router.get('/keys/:fpoId/:customerKeyId/revoke', showRevoke)
+router.get('/keys/:fpoId/new', newKey)
+router.post('/keys/:fpoId/create', create)
+router.post('/keys/:fpoId/:customerKeyId/revoke', revoke)
 
 export default router

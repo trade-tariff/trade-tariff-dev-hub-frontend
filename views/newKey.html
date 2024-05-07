@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-  <form action="/dashboard/keys/{{ fpoId }}/success" method="post">
+  <form action="/dashboard/keys/{{ fpoId }}/create" method="post">
     {{ govukInput({
       label: {
         text: "Enter the description for your API key.",
@@ -18,7 +18,7 @@
         text: "Text explaining good example of API key description."
       },
       id: "description",
-      name: "apiKeyDescription"  // Ensure the 'name' attribute is set correctly
+      name: "apiKeyDescription"
     }) }}
 
     {{ govukButton({
@@ -27,5 +27,10 @@
     }) }}
   </form>
 
-  <p class="govuk-body">If you have any further questions relating to your API Credentials, please contact us at: <a href="mailto:hmrc-fpo-tool-support@digital.hmrc.gov.uk">hmrc-fpo-tool-support@digital.hmrc.gov.uk</a></p>
+  <p class="govuk-body">
+    If you have any further questions relating to your API Credentials, please contact us at:
+    <a href="mailto:hmrc-fpo-tool-support@digital.hmrc.gov.uk">
+      hmrc-fpo-tool-support@digital.hmrc.gov.uk
+    </a>
+  </p>
 {% endblock %}
