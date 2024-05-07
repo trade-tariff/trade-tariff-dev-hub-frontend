@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block content %}
+  <form action="/dashboard/keys/{{ fpoId }}/create" method="post">
+    {{ govukInput({
+      label: {
+        text: "Enter the description for your API key.",
+        classes: "govuk-label--l",
+        isPageHeading: true
+      },
+      hint: {
+        text: "Text explaining good example of API key description."
+      },
+      id: "description",
+      name: "apiKeyDescription"
+    }) }}
+
+    {{ govukButton({
+      text: "Continue",
+      type: "submit"
+    }) }}
+  </form>
+
+  <p class="govuk-body">
+    If you have any further questions relating to your API Credentials, please contact us at:
+    <a href="mailto:hmrc-fpo-tool-support@digital.hmrc.gov.uk">
+      hmrc-fpo-tool-support@digital.hmrc.gov.uk
+    </a>
+  </p>
+{% endblock %}
