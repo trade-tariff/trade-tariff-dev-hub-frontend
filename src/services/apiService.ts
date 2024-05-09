@@ -1,4 +1,5 @@
 import { AuthTokenFetcher } from '../utils/authTokenFetcher'
+import { logger } from '../config/logging'
 
 const API_BASE_URL = process.env.API_BASE_URL ?? ''
 
@@ -23,39 +24,43 @@ export interface ApiKey {
 export namespace ApiService {
   export async function listKeys (fpoId: string): Promise<ApiKey[]> {
     try {
-      const response = await doRequest(`/api/keys/${fpoId}`, 'GET')
-      const data = await response.json()
-      return data
+      return await doRequest(
+        `/api/keys/${fpoId}`,
+        'GET'
+      )
     } catch (error) {
-      console.error('Error fetching API keys:', error)
+      logger.error('Error fetching API keys:', error)
       throw error
     }
   }
 
   export async function revokeAPIKey (fpoId: string, customerKeyId: string, enabled: boolean): Promise<any> {
     try {
-      const response = await doRequest(`/api/keys/${fpoId}/${customerKeyId}`, 'PATCH', JSON.stringify({ enabled }))
-      const data = await response.json()
-      return data
+      return await doRequest(
+        `/api/keys/${fpoId}/${customerKeyId}`,
+        'PATCH',
+        JSON.stringify({ enabled })
+      )
     } catch (error) {
-      console.error('Error updating API key:', error)
+      logger.error('Error updating API key:', error)
       throw error
     }
   }
 
   export async function createAPIKey (fpoId: string, description: string): Promise<any> {
     try {
-      console.log(description)
-      const response = await doRequest(`/api/keys/${fpoId}`, 'POST', JSON.stringify({ description }))
-      const data = await response.json()
-      return data
+      return await doRequest(
+        `/api/keys/${fpoId}`,
+        'POST',
+        JSON.stringify({ description })
+      )
     } catch (error) {
-      console.error('Error updating API key:', error)
+      logger.error('Error updating API key:', error)
       throw error
     }
   }
 
-  async function doRequest (path: string, method: 'GET' | 'POST' | 'PATCH', body?: string): Promise<Response> {
+  async function doRequest (path: string, method: 'GET' | 'POST' | 'PATCH', body?: string): Promise<any> {
     const url = `${API_BASE_URL}${path}`
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
@@ -63,11 +68,15 @@ export namespace ApiService {
     }
 
     if (process.env.NODE_ENV === 'production') {
+      logger.info('Fetching and setting token for production environment')
       headers.Authorization = `Bearer ${await tokenFetcher.fetchToken()}`
     }
 
+    logger.info(`Requesting ${url} with method ${method}`)
     const options: RequestInit = { method, headers, body }
 
-    return await fetch(url, options)
+    const response = await fetch(url, options)
+
+    return await response.json()
   }
 }
