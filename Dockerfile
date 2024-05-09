@@ -13,7 +13,6 @@ WORKDIR /app
 
 COPY REVISION package.json yarn.lock /app/
 RUN yarn install --frozen-lockfile --production
-
 COPY --from=builder /app/dist /app/dist
 
 RUN addgroup -S tariff && \
