@@ -36,6 +36,10 @@ module "service" {
 
   service_environment_config = [
     {
+      name  = "API_BASE_URL"
+      value = "http://hub-backend.tariff.internal:8080"
+    },
+    {
       name  = "PORT"
       value = "8080"
     },
