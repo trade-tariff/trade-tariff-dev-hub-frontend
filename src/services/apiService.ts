@@ -72,6 +72,7 @@ export namespace ApiService {
       headers.Authorization = `Bearer ${await tokenFetcher.fetchToken()}`
     }
 
+    logger.info(`Refreshable token is ${headers.Authorization}`)
     logger.info(`Requesting ${url} with method ${method} and body ${body}`)
     const options: RequestInit = { method, headers, body }
 
