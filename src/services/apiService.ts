@@ -68,6 +68,6 @@ export namespace ApiService {
 
     const options: RequestInit = { method, headers, body }
 
-    return await window.fetch(url, options)
+    return await fetch(url, options)
   }
 }
