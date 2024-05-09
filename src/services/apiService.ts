@@ -55,7 +55,7 @@ export namespace ApiService {
         JSON.stringify({ description })
       )
     } catch (error) {
-      logger.error('Error updating API key:', error)
+      logger.error('Error creating API key:', error)
       throw error
     }
   }
@@ -72,7 +72,7 @@ export namespace ApiService {
       headers.Authorization = `Bearer ${await tokenFetcher.fetchToken()}`
     }
 
-    logger.info(`Requesting ${url} with method ${method}`)
+    logger.info(`Requesting ${url} with method ${method} and body ${body}`)
     const options: RequestInit = { method, headers, body }
 
     const response = await fetch(url, options)
