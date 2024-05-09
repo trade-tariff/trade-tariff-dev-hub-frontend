@@ -1,7 +1,7 @@
 import 'jasmine'
 import sinon from 'sinon'
 
-import { AuthTokenFetcher, type ClientCredentials } from '../src/utils/authTokenFetcher'
+import { AuthTokenFetcher, type ClientCredentials } from '../../src/utils/authTokenFetcher'
 
 const authUrl = 'https://auth.trade-tariff.service.gov.uk/oauth2/token'
 const clientId = '1example23456789'

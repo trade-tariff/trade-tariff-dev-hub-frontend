@@ -2,7 +2,7 @@ import { type Request, type Response } from 'express'
 import morgan from 'morgan'
 import winston from 'winston'
 
-const skippedUserAgents = ['ELB-HealthChecker/2.0']
+const skippedUserAgents = ['ELB-HealthChecker/2.0', 'Status-Checks']
 
 function jsonFormat (tokens: morgan.TokenIndexer, req: Request, res: Response): string {
   return JSON.stringify({
@@ -32,7 +32,7 @@ export function httpRequestLoggingMiddleware (): any {
 export const logger = winston.createLogger({
   level: 'info',
   format: winston.format.simple(),
-  defaultMeta: { service: 'hub-backend' },
+  defaultMeta: { service: 'hub-frontend' },
   transports: [
     new winston.transports.Console()
   ]

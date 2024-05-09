@@ -12,9 +12,11 @@ FROM node:21-alpine3.18
 WORKDIR /app
 
 COPY REVISION package.json yarn.lock /app/
-RUN yarn install --frozen-lockfile --production
+COPY public /app/public/
+COPY views /app/views/
 
-COPY --from=builder /app/dist /app/dist
+RUN yarn install --frozen-lockfile --production
+COPY --from=builder /app/dist/src /app/dist/src
 
 RUN addgroup -S tariff && \
   adduser -S tariff -G tariff && \
