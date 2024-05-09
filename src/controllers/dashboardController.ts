@@ -8,8 +8,8 @@ export const showDashboard = async (req: Request, res: Response): Promise<void> 
   try {
     const apiKeys = await ApiService.listKeys(fpoId)
 
-    logger.info(`API keys fetched successfully for FPO ID: ${fpoId} with count: ${apiKeys.length}`)
-    logger.info(`API keys: ${JSON.stringify(apiKeys)}`)
+    logger.debug(`API keys fetched successfully for FPO ID: ${fpoId} with count: ${apiKeys.length}`)
+    logger.debug(`API keys: ${JSON.stringify(apiKeys)}`)
 
     const formattedData = DashboardPresenter.present(apiKeys, fpoId)
     res.render('dashboard', { formattedData, fpoId })
