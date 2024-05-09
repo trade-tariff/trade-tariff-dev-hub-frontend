@@ -68,12 +68,9 @@ export namespace ApiService {
     }
 
     if (process.env.NODE_ENV === 'production') {
-      logger.info('Fetching and setting token for production environment')
       headers.Authorization = `Bearer ${await tokenFetcher.fetchToken()}`
     }
 
-    logger.info(`Refreshable token is ${headers.Authorization}`)
-    logger.info(`Requesting ${url} with method ${method} and body ${body}`)
     const options: RequestInit = { method, headers, body }
 
     const response = await fetch(url, options)

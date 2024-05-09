@@ -1,6 +1,7 @@
 import { type Request, type Response } from 'express'
 import { type ApiKey, ApiService } from '../services/apiService'
 import { ApiKeyPresenter } from '../presenters/apiKeyPresenter'
+import { logger } from '../config/logging'
 
 export const newKey = async (req: Request, res: Response): Promise<void> => {
   const fpoId = req.params.fpoId
@@ -8,7 +9,7 @@ export const newKey = async (req: Request, res: Response): Promise<void> => {
   try {
     res.render('newKey', { fpoId })
   } catch (error) {
-    console.error('Error showing create page', error)
+    logger.error('Error showing create page', error)
     res.status(500).send('Error showing new key page')
   }
 }
@@ -24,7 +25,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
 
     res.render('keySuccessPage', { formattedData, fpoId })
   } catch (error) {
-    console.error('Error showing create page', error)
+    logger.error('Error showing create page', error)
     res.status(500).send('Error showing new key page')
   }
 }
