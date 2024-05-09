@@ -57,11 +57,13 @@ export namespace ApiService {
 
   async function doRequest (path: string, method: 'GET' | 'POST' | 'PATCH', body?: string): Promise<Response> {
     const url = `${API_BASE_URL}${path}`
-    const token = await tokenFetcher.fetchToken()
-    const headers = {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
       'User-Agent': 'hub-frontend'
+    }
+
+    if (process.env.NODE_ENV === 'production') {
+      headers.Authorization = `Bearer ${await tokenFetcher.fetchToken()}`
     }
 
     const options: RequestInit = { method, headers, body }
