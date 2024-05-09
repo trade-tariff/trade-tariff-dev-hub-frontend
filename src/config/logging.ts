@@ -2,7 +2,7 @@ import { type Request, type Response } from 'express'
 import morgan from 'morgan'
 import winston from 'winston'
 
-const skippedUserAgents = ['ELB-HealthChecker/2.0']
+const skippedUserAgents = ['ELB-HealthChecker/2.0', 'Status-Checks']
 
 function jsonFormat (tokens: morgan.TokenIndexer, req: Request, res: Response): string {
   return JSON.stringify({
