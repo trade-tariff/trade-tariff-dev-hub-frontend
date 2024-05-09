@@ -11,7 +11,7 @@ RUN yarn run build
 FROM node:21-alpine3.18
 WORKDIR /app
 
-COPY REVISION package.json yarn.lock /app/
+COPY public/ REVISION package.json yarn.lock /app/
 RUN yarn install --frozen-lockfile --production
 COPY --from=builder /app/dist /app/dist
 
