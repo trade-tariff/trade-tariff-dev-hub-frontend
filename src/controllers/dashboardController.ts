@@ -4,7 +4,9 @@ import { DashboardPresenter } from '../presenters/dashboardPresenter'
 import { logger } from '../config/logging'
 
 export const showDashboard = async (req: Request, res: Response): Promise<void> => {
-  const organisationId = req.params.organisationId
+  const fpoId = req.params.fpoId
+  const organisationName = "fetch org name here"
+
   try {
     const apiKeys = await ApiService.listKeys(organisationId)
 
@@ -12,7 +14,7 @@ export const showDashboard = async (req: Request, res: Response): Promise<void> 
     logger.debug(`API keys: ${JSON.stringify(apiKeys)}`)
 
     const formattedData = DashboardPresenter.present(apiKeys, organisationId)
-    res.render('dashboard', { formattedData, organisationId })
+    res.render('dashboard', { formattedData, organisationId, organisationName })
   } catch (error) {
     logger.error('Error fetching API keys:', error)
     res.status(500).send('Error fetching API keys')
