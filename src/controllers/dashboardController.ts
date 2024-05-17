@@ -5,7 +5,7 @@ import { logger } from '../config/logging'
 
 export const showDashboard = async (req: Request, res: Response): Promise<void> => {
   const fpoId = req.params.fpoId
-  const organisationName = "fetch org name here"
+  const organisationName = 'fetch org name here'
 
   try {
     const apiKeys = await ApiService.listKeys(organisationId)
