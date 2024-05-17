@@ -1,8 +1,6 @@
 import { AuthTokenFetcher } from '../utils/authTokenFetcher'
 import { logger } from '../config/logging'
 
-const API_BASE_URL = process.env.API_BASE_URL ?? ''
-
 const tokenFetcher = new AuthTokenFetcher(
   process.env.COGNITO_AUTH_URL ?? '',
   process.env.COGNITO_CLIENT_ID ?? '',
@@ -61,6 +59,7 @@ export namespace ApiService {
   }
 
   async function doRequest (path: string, method: 'GET' | 'POST' | 'PATCH', body?: string): Promise<any> {
+    const API_BASE_URL = process.env.API_BASE_URL ?? ''
     const url = `${API_BASE_URL}${path}`
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
@@ -72,7 +71,6 @@ export namespace ApiService {
     }
 
     const options: RequestInit = { method, headers, body }
-
     const response = await fetch(url, options)
 
     return await response.json()

@@ -11,6 +11,7 @@ import dashboardRoutes from './routes/dashboardRoutes'
 import { httpRequestLoggingMiddleware, logger } from './config/logging'
 import initEnvironment from './config/env'
 import favicon from 'serve-favicon'
+import { auth } from 'express-openid-connect'
 
 initEnvironment()
 
@@ -50,6 +51,28 @@ app.set('view engine', 'njk')
 app.use(favicon(path.join('public', 'favicon.ico')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+app.use(
+  auth({
+    idpLogout: true,
+    routes: {
+      callback: '/auth/redirect'
+    },
+    authorizationParams: {
+      response_type: 'code',
+      scope: 'openid email',
+      audience: process.env.BASE_URL
+    },
+    authRequired: false,
+    afterCallback: async (req, res, session, decodedState) => {
+      const userProfile = await fetch(process.env.ISSUER_BASE_URL + '/userinfo')
+      return {
+        ...session,
+        userProfile // access using `req.appSession.userProfile`
+      }
+    }
+  })
+)
 
 app.use('/govuk', express.static('node_modules/govuk-frontend/dist/govuk'))
 app.use('/assets', express.static('node_modules/govuk-frontend/dist/govuk/assets'))
