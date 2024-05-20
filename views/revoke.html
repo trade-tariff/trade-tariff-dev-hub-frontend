@@ -22,7 +22,7 @@
     }) }}
 
     <div class="govuk-button-group">
-        <form action="/dashboard/keys/{{ fpoId }}/{{ customerKeyId }}/revoke" method="POST">
+        <form action="/dashboard/keys/{{ organisationId }}/{{ customerKeyId }}/revoke" method="POST">
             {{ govukButton({
                 text: "Revoke",
                 classes: "govuk-button--warning",
@@ -30,7 +30,7 @@
                 preventDoubleClick: true
             }) }}
         </form>
-        <a href="/dashboard/{{ fpoId }}" role="button" draggable="false">
+        <a href="/dashboard/{{ organisationId }}" role="button" draggable="false">
             {{ govukButton({
                 text: "Go Back",
                 classes: "govuk-button--secondary"

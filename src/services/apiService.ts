@@ -14,16 +14,16 @@ export interface ApiKey {
   Secret: string
   Enabled: boolean
   Description: string
-  FpoId: string
+  OrganisationId: string
   CreatedAt: string
   UpdatedAt: string
 }
 
 export namespace ApiService {
-  export async function listKeys (fpoId: string): Promise<ApiKey[]> {
+  export async function listKeys (organisationId: string): Promise<ApiKey[]> {
     try {
       return await doRequest(
-        `/api/keys/${fpoId}`,
+        `/api/keys/${organisationId}`,
         'GET'
       )
     } catch (error) {
@@ -32,10 +32,10 @@ export namespace ApiService {
     }
   }
 
-  export async function revokeAPIKey (fpoId: string, customerKeyId: string, enabled: boolean): Promise<any> {
+  export async function revokeAPIKey (organisationId: string, customerKeyId: string, enabled: boolean): Promise<any> {
     try {
       return await doRequest(
-        `/api/keys/${fpoId}/${customerKeyId}`,
+        `/api/keys/${organisationId}/${customerKeyId}`,
         'PATCH',
         JSON.stringify({ enabled })
       )
@@ -45,10 +45,10 @@ export namespace ApiService {
     }
   }
 
-  export async function createAPIKey (fpoId: string, description: string): Promise<any> {
+  export async function createAPIKey (organisationId: string, description: string): Promise<any> {
     try {
       return await doRequest(
-        `/api/keys/${fpoId}`,
+        `/api/keys/${organisationId}`,
         'POST',
         JSON.stringify({ description })
       )

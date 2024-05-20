@@ -20,7 +20,7 @@ describe('DashboardController', () => {
         Secret: 'qux',
         Enabled: true,
         Description: 'quux',
-        FpoId: '123',
+        OrganisationId: '123',
         CreatedAt: '2024-04-10T16:11:45.714Z',
         UpdatedAt: '2024-04-10T16:11:45.715Z'
       }
@@ -32,7 +32,7 @@ describe('DashboardController', () => {
     sendSpy = jasmine.createSpy()
     renderSpy = jasmine.createSpy()
 
-    mockRequest = { params: { fpoId: '123' } }
+    mockRequest = { params: { organisationId: '123' } }
     mockResponse = {
       render: renderSpy,
       status: statusSpy,
@@ -45,6 +45,6 @@ describe('DashboardController', () => {
 
     expect(ApiService.listKeys).toHaveBeenCalled()
     expect(DashboardPresenter.present).toHaveBeenCalledWith(jasmine.any(Array), '123')
-    expect(renderSpy).toHaveBeenCalledWith('dashboard', { formattedData: { formattedData: 'data' }, fpoId: '123' })
+    expect(renderSpy).toHaveBeenCalledWith('dashboard', { formattedData: { formattedData: 'data' }, organisationId: '123' })
   })
 })

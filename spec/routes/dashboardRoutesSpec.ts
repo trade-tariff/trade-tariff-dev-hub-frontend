@@ -13,7 +13,7 @@
 //         app.use('/', router);
 //     });
 
-// describe('GET /dashboard/:fpoId', () => {
+// describe('GET /dashboard/:organisationId', () => {
 //     it('should handle the route and call the appropriate controller method', async () => {
 //         spyOn(dashboardController, 'showDashboard').and.callThrough(); // Spy on the dashboardController.showDashboard method
 //         await request(app).get('/dashboard/123')
@@ -24,7 +24,7 @@
 //     });
 // });
 
-// describe('POST /keys/:fpoId/:id/update', () => {
+// describe('POST /keys/:organisationId/:id/update', () => {
 //     it('should handle the route and call the appropriate controller method', async () => {
 //         spyOn(dashboardController, 'updateApiKey').and.callThrough();
 //         await request(app).post('/keys/123/456/update')
