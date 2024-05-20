@@ -39,7 +39,7 @@ const templateConfig = {
 nunjucks.configure([
   'node_modules/govuk-frontend/dist',
   'views'
-], templateConfig as nunjucks.ConfigureOptions)
+], templateConfig as nunjucks.ConfigureOptions).addGlobal('ISSUER_BASE_URL', process.env.ISSUER_BASE_URL) // the issue base url is used in the sign out link
 
 app.set('view engine', 'njk')
 
@@ -55,7 +55,7 @@ app.engine('html', nunjucks.render)
 app.set('view engine', 'html')
 
 app.use('/', indexRouter)
-app.use('/dashboard', dashboardRoutes)
+app.use('/dashboard', dashboardRoutes(isDev))
 
 // catch 404 and forward to error handler
 app.use(function (_req: Request, _res: Response, next: NextFunction) {

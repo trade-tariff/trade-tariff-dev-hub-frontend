@@ -16,7 +16,7 @@ export const newKey = async (req: Request, res: Response): Promise<void> => {
 
 export const create = async (req: Request, res: Response): Promise<void> => {
   const organisationId = req.params.organisationId
-  const apiKeyDescription = req.body as string
+  const apiKeyDescription = req.body.apiKeyDescription as string
 
   try {
     const apiKey = await ApiService.createAPIKey(organisationId, apiKeyDescription)
