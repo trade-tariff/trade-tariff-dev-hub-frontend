@@ -3,10 +3,10 @@
 import { type ApiKey } from '../../src/services/apiService'
 
 export namespace DashboardPresenter {
-  export function present (apiKeys: ApiKey[], fpoId: string): any {
+  export function present (apiKeys: ApiKey[], organisationId: string): any {
     const rows = apiKeys.map(key => {
       const status = key.Enabled ? 'Active' : `Revoked on ${formatDate(key.UpdatedAt)}`
-      const deleteButton = createDeleteForm(fpoId, key.CustomerApiKeyId)
+      const deleteButton = createDeleteForm(organisationId, key.CustomerApiKeyId)
 
       return {
         data: [
@@ -32,9 +32,9 @@ export namespace DashboardPresenter {
     }
   }
 
-  function createDeleteForm (fpoId: string, customerKeyId: string): string {
+  function createDeleteForm (organisationId: string, customerKeyId: string): string {
     return `
-        <form action="/dashboard/keys/${fpoId}/${customerKeyId}/revoke" method="get">
+        <form action="/dashboard/keys/${organisationId}/${customerKeyId}/revoke" method="get">
         <button type="submit" class="govuk-button govuk-button--warning">Revoke</button>
         </form>
         `

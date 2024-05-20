@@ -4,10 +4,10 @@ import { logger } from '../config/logging'
 
 export const showRevoke = async (req: Request, res: Response): Promise<void> => {
   const customerKeyId = req.params.customerKeyId
-  const fpoId = req.params.fpoId
+  const organisationId = req.params.organisationId
 
   try {
-    res.render('revoke', { customerKeyId, fpoId })
+    res.render('revoke', { customerKeyId, organisationId })
   } catch (error) {
     logger.error('Error fetching API key details:', error)
     res.status(500).send('Error fetching API key details')
@@ -16,12 +16,12 @@ export const showRevoke = async (req: Request, res: Response): Promise<void> => 
 
 export const revoke = async (req: Request, res: Response): Promise<void> => {
   const customerKeyId = req.params.customerKeyId
-  const fpoId = req.params.fpoId
+  const organisationId = req.params.organisationId
   const enabled = req.params.enabled
 
   try {
-    await ApiService.revokeAPIKey(fpoId, customerKeyId, enabled === 'true')
-    res.redirect('/dashboard/' + fpoId)
+    await ApiService.revokeAPIKey(organisationId, customerKeyId, enabled === 'true')
+    res.redirect('/dashboard/' + organisationId)
   } catch (error) {
     logger.error('Error revoking API key:', error)
     res.status(500).send('Error revoking API key')
