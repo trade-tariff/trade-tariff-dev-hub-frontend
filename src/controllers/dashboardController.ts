@@ -4,7 +4,7 @@ import { DashboardPresenter } from '../presenters/dashboardPresenter'
 import { logger } from '../config/logging'
 
 export const showDashboard = async (req: Request, res: Response): Promise<void> => {
-  const fpoId = req.params.fpoId
+  const organisationId = req.params.fpoId
   const organisationName = 'fetch org name here'
 
   try {

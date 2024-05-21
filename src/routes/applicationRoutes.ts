@@ -2,11 +2,12 @@
 
 import express, { type Router } from 'express'
 
-import { newVerificationPage, checkVerificationDetails } from '../controllers/verificationController'
+import { newVerificationPage, checkVerificationDetails, applicationComplete } from '../controllers/verificationController'
 
 const router: Router = express.Router()
 
 router.get('/:id/verification', newVerificationPage)
-router.get('/:id/check-verification', checkVerificationDetails)
+router.post('/:id/check-verification', checkVerificationDetails)
+router.post('/:id/completion', applicationComplete)
 
 export default router

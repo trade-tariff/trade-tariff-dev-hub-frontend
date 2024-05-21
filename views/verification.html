@@ -1,59 +1,62 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="govuk-width-container">
-  <main class="govuk-main-wrapper govuk-main-wrapper--l" id="main-content" role="main">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-xl">Commodity Code API Developer Hub</h1>
+{% include "back-button.njk" %}
+  <h1 class="govuk-heading-l">Verification</h1>
 
-        <h2 class="govuk-heading-l">Verification</h2>
-        <p class="govuk-body">Welcome to the Commodity Code API Developer Hub. We need to verify some details before you can manage your API keys in the developer hub.</p>
-        <p class="govuk-body">We aim to process all verification requests within X working days.</p>
-        <p class="govuk-body">To submit your verification request, please fill out the below form.</p>
+  <p class="govuk-body">
+    Welcome to the Commodity Code Identification Tool Developer Hub. We need to verify some details before you can gain access and use the tool.
+  </p>
 
-        <form action="/submit-verification" method="post" novalidate>
-          <div class="govuk-form-group">
-            <label class="govuk-label" for="organisation-name">
-              Organisation Name
-            </label>
-            <span class="govuk-hint">What is the name of the organisation you are accessing the API on behalf of?</span>
-            <input class="govuk-input" id="organisation-name" name="organisation-name" type="text">
-          </div>
+  <p class="govuk-body">
+    To start your verification request, fill out the form below and click continue.
+  </p>
 
-          <div class="govuk-form-group">
-            <label class="govuk-label" for="eori-number">
-              EORI Number
-            </label>
-            <span class="govuk-hint">Your organisation should have an Economic Operators Registration and Identification number</span>
-            <input class="govuk-input" id="eori-number" name="eori-number" type="text">
-          </div>
-
-          <div class="govuk-form-group">
-            <label class="govuk-label" for="carrier-scheme-number">
-              UK Authorised Carrier Scheme Reference Number
-            </label>
-            <span class="govuk-hint">Your organisation should have been assigned this when registering for the UK Authorised Carrier Scheme</span>
-            <input class="govuk-input" id="carrier-scheme-number" name="carrier-scheme-number" type="text">
-          </div>
-
-          <div class="govuk-form-group">
-            <label class="govuk-label" for="email">
-              Email address
-            </label>
-            <span class="govuk-hint">Please provide an email address so that we can keep you updated on the status of your verification request</span>
-            <input class="govuk-input" id="email" name="email" type="email">
-          </div>
-
-          <button class="govuk-button" data-module="govuk-button" type="submit">
-            Submit
-          </button>
-          <a href="#" class="govuk-link">Cancel</a>
-        </form>
-
-        <p class="govuk-body">If you have any further queries relating to the developer hub, please contact us at: <a class="govuk-link" href="mailto:hmrc-fgp-tool-support@digital.hmrc.gov.uk">hmrc-fgp-tool-support@digital.hmrc.gov.uk</a></p>
-      </div>
+  <form method="POST" action="/{{ fpoId }}/check-verification">
+    <div class="govuk-form-group">
+      <label class="govuk-label" for="organisation-name">Organisation Name</label>
+      <span id="organisation-name-hint" class="govuk-hint">
+        The name of the organisation you are accessing the Commodity Code Identification Tool on behalf of.
+      </span>
+      <input class="govuk-input" id="organisation-name" name="organisationName" type="text">
     </div>
-  </main>
-</div>
+
+    <div class="govuk-form-group">
+      <label class="govuk-label" for="eori-number">EORI Number</label>
+      <span id="eori-number-hint" class="govuk-hint">
+        EORI stands for Economic Operators Registration and Identification.
+      </span>
+      <input class="govuk-input" id="eori-number" name="eoriNumber" type="text">
+    </div>
+
+    <div class="govuk-form-group">
+      <label class="govuk-label" for="ukacs-reference">UK Authorised Carrier Scheme Reference Number</label>
+      <span id="ukacs-reference-hint" class="govuk-hint">
+        Organisations receive a unique reference number when registered for the UK Authorised Carrier Scheme.
+      </span>
+      <input class="govuk-input" id="ukacs-reference" name="ukacsReference" type="text">
+    </div>
+
+    <div class="govuk-form-group">
+      <label class="govuk-label" for="email-address">Email address</label>
+      <span id="email-address-hint" class="govuk-hint">
+        We will use your email address to send essential updates regarding the Commodity Code Identification Tool and your verification request.
+      </span>
+      <input class="govuk-input" id="email-address" name="emailAddress" type="email">
+    </div>
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <button href="/{{ id }}/check-verification" class="govuk-button" data-module="govuk-button">Continue</button>
+        </div>
+        <div class="govuk-grid-column-one-third govuk-!-text-align-right">
+          <a href="/" class="govuk-link">Cancel</a>
+        </div>
+      </div>
+
+  </form>
+
+  <p class="govuk-body">
+    If you have any further queries relating to the developer hub contact: <a href="mailto:hmrc-fpo-tool-support@digital.hmrc.gov.uk" class="govuk-link">hmrc-fpo-tool-support@digital.hmrc.gov.uk</a>
+  </p>
 {% endblock %}

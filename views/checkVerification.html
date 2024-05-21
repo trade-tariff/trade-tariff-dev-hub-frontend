@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  {% include "back-button.njk" %}
+  <h1 class="govuk-heading-l">Check your answers before sending your application</h1>
+
+  <h2 class="govuk-heading-m">Application Details</h2>
+  <table class="govuk-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header" scope="col">Field</th>
+        <th class="govuk-table__header" scope="col">Value</th>
+        <th class="govuk-table__header" scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header" scope="row">Organisation Name</th>
+        <td class="govuk-table__cell">{{ body.organisationName }}</td>
+        <td class="govuk-table__cell"><a href="#" class="govuk-link">Change</a></td>
+      </tr>
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header" scope="row">Organisation EORI</th>
+        <td class="govuk-table__cell">{{ body.eoriNumber }}</td>
+        <td class="govuk-table__cell"><a href="#" class="govuk-link">Change</a></td>
+      </tr>
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header" scope="row">UKACS Reference</th>
+        <td class="govuk-table__cell">{{ body.ukacsReference }}</td>
+        <td class="govuk-table__cell"><a href="#" class="govuk-link">Change</a></td>
+      </tr>
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header" scope="row">Email Address</th>
+        <td class="govuk-table__cell">{{ body.emailAddress }}</td>
+        <td class="govuk-table__cell"><a href="#" class="govuk-link">Change</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="govuk-heading-m">Terms and Conditions</h2>
+  <p class="govuk-body">
+    Read the information below carefully. By ticking the boxes, you acknowledge that you have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool.
+  </p>
+
+  <form method="POST" action="/{{ id }}/completion">
+    <div class="govuk-checkboxes">
+      <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="term1" name="terms" type="checkbox" value="term1">
+        <label class="govuk-label govuk-checkboxes__label" for="term1">
+          The Commodity Code Identification Tool is designated for backend operations only and must not be directly integrated into any customer-facing interfaces, applications, or websites.
+        </label>
+      </div>
+      <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="term2" name="terms" type="checkbox" value="term2">
+        <label class="govuk-label govuk-checkboxes__label" for="term2">
+          The Commodity Code Identification Tool is solely for internal use and must not be shared with external parties. Access credentials must remain confidential and not be disclosed to anyone outside the organisation.
+        </label>
+      </div>
+      <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="term3" name="terms" type="checkbox" value="term3">
+        <label class="govuk-label govuk-checkboxes__label" for="term3">
+          The Commodity Code Identification Tool is solely intended for generating commodity codes for parcels being transported from Great Britain to Northern Ireland that are classified as "Not at Risk."
+        </label>
+      </div>
+      <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="term4" name="terms" type="checkbox" value="term4">
+        <label class="govuk-label govuk-checkboxes__label" for="term4">
+          I have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool.
+        </label>
+      </div>
+    </div>
+
+    <p class="govuk-body">Full terms and conditions are available <a href="#" class="govuk-link">here</a>.</p>
+
+    <button class="govuk-button" data-module="govuk-button">Accept and send</button>
+    <a href="/" class="govuk-link">Cancel</a>
+  </form>
+{% endblock %}

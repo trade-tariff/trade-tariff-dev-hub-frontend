@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block content %}
+{% include "back-button.njk" %}
+<main class="govuk-main-wrapper govuk-width-container" id="main-content" role="main">
+    <div class="govuk-panel govuk-panel--confirmation">
+      <h1 class="govuk-panel__title">
+        Application complete
+      </h1>
+      <div class="govuk-panel__body">
+        Your reference number<br><strong>HDJ2123F</strong>
+      </div>
+    </div>
+
+    <p class="govuk-body">
+      We have sent you a confirmation email.
+    </p>
+
+    <h2 class="govuk-heading-m">What happens next</h2>
+    <p class="govuk-body">
+      We aim to process your application within X working days.
+    </p>
+    <p class="govuk-body">
+      We will notify you of the decision by email using the details you have provided in your application.
+    </p>
+    <p class="govuk-body">
+      In the meantime, you can find out more about the Community Code Identification tool by reading the <a href="documentation-link" class="govuk-link" target="_blank">provided documentation</a>.
+    </p>
+    <p class="govuk-body">
+      <a href="/feedback" class="govuk-link" target="_blank">What did you think of this service?</a> (takes 30 seconds)
+    </p>
+  </main>
+{% endblock %}

@@ -8,29 +8,34 @@
 {% endblock %}
 
 {% block content %}
-    {% set html %}
-      <p class="govuk-notification-banner__heading">
-        You will not be able to view this API Key again.
-      </p>
-      <p class="govuk-body">Please make note of your API key as you will not be able to view it once you navigate away from this page.</p>
-    {% endset %}
+<div class="govuk-panel govuk-panel--confirmation">
+  <h1 class="govuk-panel__title">API Key Created Successfully</h1>
+  <div class="govuk-panel__body">
+    <p class="govuk-body">Copy your key to somewhere safe as you will not be able to view it again once you leave this page.</p>
+  </div>
+</div>
 
-    {{ govukNotificationBanner({
-      html: html
-    }) }}
+<h2 class="govuk-heading-l">What happens next</h2>
+<p class="govuk-body">You can use this API key to access the FPO Commodity Code Identification Tool by including it in the <code>X-Api-Key</code> header of any calls.</p>
 
-    <div class="govuk-grid-row">
-        {{ govukPanel({
-            titleText: "API Key Created Successfully",
-            html: formattedData
-        }) }}
-    </div>
+<div class="govuk-inset-text">
+  <strong>API Key</strong><br>
+  <code class="govuk-code">{{ formattedData }}</code>
+</div>
 
-    {{ govukButton({
-      text: "Dashboard",
-      href: "/dashboard/" + organisationId,
-      classes: "govuk-button--secondary"
-    }) }}
+<button class="govuk-button" data-module="govuk-button" onclick="copyToClipboard()">Copy to clipboard</button>
 
-    <p class="govuk-body">If you have any further questions relating to your API Credentials, please contact us at: <a href="mailto:hmrc-fpo-tool-support@digital.hmrc.gov.uk">hmrc-fpo-tool-support@digital.hmrc.gov.uk</a></p>
+<p class="govuk-body"><a class="govuk-link" href="/dashboard/{{ fpoId }}">Back to dashboard</a></p>
+
+<script>
+  function copyToClipboard() {
+    const apiKey = document.querySelector('.govuk-code').innerText;
+    navigator.clipboard.writeText(apiKey).then(function() {
+      alert('API Key copied to clipboard');
+    }, function(err) {
+      alert('Failed to copy API Key: ', err);
+    });
+  }
+</script>
 {% endblock %}
+
