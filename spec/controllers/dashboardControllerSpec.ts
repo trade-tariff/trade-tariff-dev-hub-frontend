@@ -45,6 +45,6 @@ describe('DashboardController', () => {
 
     expect(ApiService.listKeys).toHaveBeenCalled()
     expect(DashboardPresenter.present).toHaveBeenCalledWith(jasmine.any(Array), '123')
-    expect(renderSpy).toHaveBeenCalledWith('dashboard', { formattedData: { formattedData: 'data' }, organisationId: '123' })
+    expect(renderSpy).toHaveBeenCalledWith('dashboard', { formattedData: { formattedData: 'data' }, organisationId: '123', organisationName: 'fetch org name here' })
   })
 })
