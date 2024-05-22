@@ -48,6 +48,18 @@ module "service" {
       value = "https://auth.${var.base_domain}/oauth2/token"
     },
     {
+      name  = "SCP_OPEN_ID_BASE_URL"
+      value = "https://${var.base_domain}"
+    },
+    {
+      name  = "SCP_OPEN_ID_CALLBACK_PATH"
+      value = "/auth/callback"
+    },
+    {
+      name  = "SCP_OPEN_ID_ISSUER_BASE_URL"
+      value = "https://api.ete.access.service.gov.uk"
+    },
+    {
       name  = "GOVUK_APP_DOMAIN"
       value = "hub.${var.base_domain}"
     },
@@ -65,6 +77,14 @@ module "service" {
     {
       name      = "COGNITO_CLIENT_SECRET"
       valueFrom = data.aws_secretsmanager_secret.cognito_client_secret.arn
+    },
+    {
+      name      = "SCP_OPEN_ID_CLIENT_ID"
+      valueFrom = data.aws_secretsmanager_secret.scp_open_id_client_id.arn
+    },
+    {
+      name      = "SCP_OPEN_ID_SECRET"
+      valueFrom = data.aws_secretsmanager_secret.scp_open_id_secret.arn
     }
   ]
 }

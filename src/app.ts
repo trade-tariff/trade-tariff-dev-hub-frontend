@@ -9,9 +9,10 @@ import morgan from 'morgan'
 import indexRouter from './routes/index'
 import dashboardRoutes from './routes/dashboardRoutes'
 import { httpRequestLoggingMiddleware, logger } from './config/logging'
+import validateCognitoConfig from './config/cognitoAuth'
 import initEnvironment from './config/env'
+import { configuredAuth } from './config/scpAuth'
 import favicon from 'serve-favicon'
-import { auth } from 'express-openid-connect'
 
 initEnvironment()
 
@@ -23,15 +24,9 @@ const port = process.env.PORT ?? 8080
 if (isDev) {
   app.use(morgan('dev'))
 } else {
-  const authUrl = process.env.COGNITO_AUTH_URL ?? undefined
-  const clientId = process.env.COGNITO_CLIENT_ID ?? undefined
-  const clientSecret = process.env.COGNITO_CLIENT_SECRET ?? undefined
-
-  if (authUrl === undefined) throw new Error('COGNITO_AUTH_URL undefined.')
-  if (clientId === undefined) throw new Error('COGNITO_CLIENT_ID undefined.')
-  if (clientSecret === undefined) throw new Error('COGNITO_CLIENT_SECRET undefined.')
-
+  validateCognitoConfig()
   app.use(httpRequestLoggingMiddleware())
+  app.use(configuredAuth)
 }
 
 const templateConfig = {
@@ -51,28 +46,6 @@ app.set('view engine', 'njk')
 app.use(favicon(path.join('public', 'favicon.ico')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
-app.use(
-  auth({
-    idpLogout: true,
-    routes: {
-      callback: '/auth/redirect'
-    },
-    authorizationParams: {
-      response_type: 'code',
-      scope: 'openid email',
-      audience: process.env.BASE_URL
-    },
-    authRequired: false,
-    afterCallback: async (req, res, session, decodedState) => {
-      const userProfile = await fetch(process.env.ISSUER_BASE_URL + '/userinfo')
-      return {
-        ...session,
-        userProfile // access using `req.appSession.userProfile`
-      }
-    }
-  })
-)
 
 app.use('/govuk', express.static('node_modules/govuk-frontend/dist/govuk'))
 app.use('/assets', express.static('node_modules/govuk-frontend/dist/govuk/assets'))
