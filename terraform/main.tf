@@ -83,7 +83,7 @@ module "service" {
       valueFrom = data.aws_secretsmanager_secret.scp_open_id_client_id.arn
     },
     {
-      name      = "SCP_OPEN_ID_CLIENT_SECRET"
+      name      = "SCP_OPEN_ID_SECRET"
       valueFrom = data.aws_secretsmanager_secret.scp_open_id_secret.arn
     }
   ]
