@@ -84,7 +84,7 @@ jobs:
       - run:
           name: Install terraform-docs
           command: |
-            TERRAFORM_DOCS_VERSION="0.16.0"
+            TERRAFORM_DOCS_VERSION="0.17.0"
             wget https://github.com/terraform-docs/terraform-docs/releases/download/v${TERRAFORM_DOCS_VERSION}/terraform-docs-v${TERRAFORM_DOCS_VERSION}-linux-amd64.tar.gz
             tar -xzf terraform-docs-v${TERRAFORM_DOCS_VERSION}-linux-amd64.tar.gz
             sudo mv terraform-docs /usr/local/bin/
@@ -92,7 +92,7 @@ jobs:
       - run:
           name: Install tflint
           command: |
-            TFLINT_VERSION="0.34.1"
+            TFLINT_VERSION="0.50.3"
             wget https://github.com/terraform-linters/tflint/releases/download/v${TFLINT_VERSION}/tflint_linux_amd64.zip
             unzip tflint_linux_amd64.zip
             sudo mv tflint /usr/local/bin/
