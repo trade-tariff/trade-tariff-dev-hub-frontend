@@ -38,6 +38,9 @@ executors:
     environment:
       TF_INPUT: 0
       TF_IN_AUTOMATION: 1
+  python-executor:
+    docker:
+      - image: circleci/python:latest
 
 jobs:
   linters:
@@ -51,6 +54,19 @@ jobs:
           name: "Lint changed files"
           command: |
             yarn run lint
+
+  pre-commit:
+    executor: python-executor
+    steps:
+      - checkout
+      - run:
+          name: Install pre-commit
+          command: pip install pre-commit
+      - run:
+          name: Run pre-commit
+          command: |
+            export SKIP=terraform_fmt,terraform_validate,terraform_tflint,terraform_docs
+            pre-commit run --all-files
 
   tests:
     docker:
@@ -189,6 +205,9 @@ workflows:
       - linters:
           <<: *filter-not-main
 
+      - pre-commit:
+          <<: *filter-not-main
+
       - tests:
           <<: *filter-not-main
 
@@ -201,6 +220,7 @@ workflows:
             - build-and-push-dev
             - tests
             - linters
+            - pre-commit
           <<: *filter-not-main
 
   deploy-to-staging-and-production:
