@@ -59,14 +59,13 @@ jobs:
     executor: python-executor
     steps:
       - checkout
-      - setup_remote_docker
       - run:
           name: Install pre-commit
           command: pip install pre-commit
       - run:
           name: Run pre-commit
           command: |
-            export SKIP=terraform_fmt,terraform_validate,terraform_tflint,terraform_docs
+            export SKIP=markdownlint-docker,terraform_fmt,terraform_validate,terraform_tflint,terraform_docs
             pre-commit run --all-files
 
   tests:
