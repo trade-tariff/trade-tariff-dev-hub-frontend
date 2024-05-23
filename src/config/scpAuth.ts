@@ -14,15 +14,6 @@ if (secret === undefined) throw new Error('SCP_OPEN_ID_SECRET undefined.')
 if (callback === undefined) throw new Error('SCP_OPEN_ID_CALLBACK_PATH undefined.')
 if (audience === undefined) throw new Error('SCP_OPEN_ID_BASE_URL undefined.')
 
-interface ScpConfiguration {
-  issuerBaseURL: string
-  clientID: string
-  clientSecret?: string
-  secret?: string
-  callback: string
-  audience: string
-}
-
 export const configuredAuth = auth({
   baseURL: audience,
   issuerBaseURL,
@@ -44,9 +35,4 @@ export const configuredAuth = auth({
   }
 })
 
-export const scpConfiguration: ScpConfiguration = {
-  issuerBaseURL,
-  clientID,
-  callback,
-  audience
-}
+export const baseURL = audience

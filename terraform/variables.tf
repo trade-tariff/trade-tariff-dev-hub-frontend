@@ -42,3 +42,8 @@ variable "memory" {
   description = "Memory to allocate in MB. Powers of 2 only."
   type        = number
 }
+
+variable "scp_open_id_issuer_base_url" {
+  description = "SCP Open ID Issuer Base URL."
+  type        = string
+}

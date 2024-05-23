@@ -53,6 +53,7 @@ Terraform to deploy the service into AWS.
 | <a name="input_memory"></a> [memory](#input\_memory) | Memory to allocate in MB. Powers of 2 only. | `number` | n/a | yes |
 | <a name="input_min_capacity"></a> [min\_capacity](#input\_min\_capacity) | Smallest number of tasks the service can scale-in to. | `number` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | AWS region to use. | `string` | n/a | yes |
+| <a name="input_scp_open_id_issuer_base_url"></a> [scp\_open\_id\_issuer\_base\_url](#input\_scp\_open\_id\_issuer\_base\_url) | SCP Open ID Issuer Base URL. | `string` | n/a | yes |
 | <a name="input_service_count"></a> [service\_count](#input\_service\_count) | Number of services to use. | `number` | n/a | yes |
 
 ## Outputs

@@ -57,7 +57,7 @@ module "service" {
     },
     {
       name  = "SCP_OPEN_ID_ISSUER_BASE_URL"
-      value = "https://api.ete.access.service.gov.uk"
+      value = var.scp_open_id_issuer_base_url
     },
     {
       name  = "GOVUK_APP_DOMAIN"
