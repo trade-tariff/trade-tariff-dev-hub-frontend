@@ -8,6 +8,7 @@ import morgan from 'morgan'
 
 import indexRouter from './routes/index'
 import dashboardRoutes from './routes/dashboardRoutes'
+import applicationRoutes from './routes/applicationRoutes'
 import { httpRequestLoggingMiddleware, logger } from './config/logging'
 import validateCognitoConfig from './config/cognitoAuth'
 import initEnvironment from './config/env'
@@ -58,6 +59,7 @@ app.engine('html', nunjucks.render)
 app.set('view engine', 'html')
 
 app.use('/', indexRouter)
+app.use('/', applicationRoutes)
 app.use('/dashboard', dashboardRoutes(isDev))
 
 // catch 404 and forward to error handler

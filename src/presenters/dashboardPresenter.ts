@@ -6,7 +6,7 @@ export namespace DashboardPresenter {
   export function present (apiKeys: ApiKey[], organisationId: string): any {
     const rows = apiKeys.map(key => {
       const status = key.Enabled ? 'Active' : `Revoked on ${formatDate(key.UpdatedAt)}`
-      const deleteButton = createDeleteForm(organisationId, key.CustomerApiKeyId)
+      const deleteButton = key.Enabled ? createDeleteLink(organisationId, key.CustomerApiKeyId) : ''
 
       return {
         data: [
@@ -32,11 +32,11 @@ export namespace DashboardPresenter {
     }
   }
 
-  function createDeleteForm (organisationId: string, customerKeyId: string): string {
+  function createDeleteLink (organisationId: string, customerKeyId: string): string {
     return `
-        <form action="/dashboard/keys/${organisationId}/${customerKeyId}/revoke" method="get">
-        <button type="submit" class="govuk-button govuk-button--warning">Revoke</button>
-        </form>
+        <p class="govuk-body">
+          <a class="govuk-link govuk-link--no-visited-state" href="/dashboard/keys/${organisationId}/${customerKeyId}/revoke">Revoke</a>
+        </p>
         `
   }
 

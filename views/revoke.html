@@ -9,36 +9,40 @@
 {% block content %}
     <h1 class="govuk-heading-l">Revoke an API Key</h1>
 
-
-    {% set html %}
-      <p class="govuk-notification-banner__heading">
-        Your API Key cannot be reactivated once revoked.
-      </p>
-      <p class="govuk-body">Click "Revoke" to confirm or "Go Back" to return to the main menu.</p>
-    {% endset %}
-
-    {{ govukNotificationBanner({
-      html: html
-    }) }}
-
-    <div class="govuk-button-group">
-        <form action="/dashboard/keys/{{ organisationId }}/{{ customerKeyId }}/revoke" method="POST">
-            {{ govukButton({
-                text: "Revoke",
-                classes: "govuk-button--warning",
-                type: "submit",
-                preventDoubleClick: true
-            }) }}
-        </form>
-        <a href="/dashboard/{{ organisationId }}" role="button" draggable="false">
-            {{ govukButton({
-                text: "Go Back",
-                classes: "govuk-button--secondary"
-            }) }}
-        </a>
+    <div class="govuk-inset-text">
+      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+      <strong class="govuk-warning-text__text">
+        <span class="govuk-warning-text__assistive">Warning</span>
+        Your API Key will be revoked with immediate effect and cannot be reactivated once revoked.
+      </strong>
     </div>
 
+    <p class="govuk-body">
+      Please check the below details regarding the API Key you have selected to revoke and confirm your choice.
+    </p>
 
-    <p class="govuk-body">If you have any further questions relating to your API Credentials, please contact us at: <a href="mailto:hmrc-fpo-tool-support@digital.hmrc.gov.uk">hmrc-fpo-tool-support@digital.hmrc.gov.uk</a></p>
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header" scope="col">Key</th>
+          <th class="govuk-table__header" scope="col">Value</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header" scope="row">API Key</th>
+          <td class="govuk-table__cell">****3845</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header" scope="row">Description</th>
+          <td class="govuk-table__cell">wilson</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <form method="POST" action="/dashboard/keys/{{ fpoId }}/{{ customerKeyId }}/revoke">
+      <button class="govuk-button" data-module="govuk-button">Revoke</button>
+      <a href="/dashboard/{{ fpoId }}" class="govuk-link">Cancel</a>
+    </form>
 
 {% endblock %}
