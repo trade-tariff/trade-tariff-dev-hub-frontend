@@ -38,20 +38,9 @@ export const configuredAuth = auth({
   },
   authRequired: false,
   afterCallback: async (_req, _res, session, _decodedState) => {
-    const userProfileResponse = await fetch(`${issuerBaseURL}/userinfo`, {
-      headers: {
-        Authorization: `Bearer ${session.access_token}`
-      }
-    })
-    if (!userProfileResponse.ok) {
-      throw new Error('Failed to fetch user profile')
-    }
-    const userProfile = await userProfileResponse.json()
+    const userProfile = await fetch(`${issuerBaseURL}/userinfo`)
 
-    return {
-      ...session,
-      userProfile
-    }
+    return { ...session, userProfile }
   }
 })
 

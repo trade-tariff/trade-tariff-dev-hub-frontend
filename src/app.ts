@@ -60,7 +60,7 @@ app.set('view engine', 'html')
 
 app.use('/', indexRouter)
 app.use('/', applicationRoutes)
-app.use('/dashboard', dashboardRoutes(isDev))
+app.use('/dashboard', dashboardRoutes)
 
 // catch 404 and forward to error handler
 app.use(function (_req: Request, _res: Response, next: NextFunction) {
