@@ -49,15 +49,15 @@ module "service" {
     },
     {
       name  = "SCP_OPEN_ID_BASE_URL"
-      value = "https://${var.base_domain}"
+      value = "https://hub.${var.base_domain}"
     },
     {
       name  = "SCP_OPEN_ID_CALLBACK_PATH"
-      value = "/auth/callback"
+      value = "/auth/redirect"
     },
     {
       name  = "SCP_OPEN_ID_ISSUER_BASE_URL"
-      value = "https://api.ete.access.service.gov.uk"
+      value = var.scp_open_id_issuer_base_url
     },
     {
       name  = "GOVUK_APP_DOMAIN"
@@ -85,6 +85,10 @@ module "service" {
     {
       name      = "SCP_OPEN_ID_SECRET"
       valueFrom = data.aws_secretsmanager_secret.scp_open_id_secret.arn
+    },
+    {
+      name      = "SCP_OPEN_ID_CLIENT_SECRET"
+      valueFrom = data.aws_secretsmanager_secret.scp_open_id_client_secret.arn
     }
   ]
 }

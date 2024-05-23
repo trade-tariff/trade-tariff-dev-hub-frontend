@@ -34,6 +34,7 @@ Terraform to deploy the service into AWS.
 | [aws_secretsmanager_secret.cognito_client_id](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret) | data source |
 | [aws_secretsmanager_secret.cognito_client_secret](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret) | data source |
 | [aws_secretsmanager_secret.scp_open_id_client_id](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret) | data source |
+| [aws_secretsmanager_secret.scp_open_id_client_secret](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret) | data source |
 | [aws_secretsmanager_secret.scp_open_id_secret](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/secretsmanager_secret) | data source |
 | [aws_security_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/security_group) | data source |
 | [aws_ssm_parameter.ecr_url](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
@@ -52,6 +53,7 @@ Terraform to deploy the service into AWS.
 | <a name="input_memory"></a> [memory](#input\_memory) | Memory to allocate in MB. Powers of 2 only. | `number` | n/a | yes |
 | <a name="input_min_capacity"></a> [min\_capacity](#input\_min\_capacity) | Smallest number of tasks the service can scale-in to. | `number` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | AWS region to use. | `string` | n/a | yes |
+| <a name="input_scp_open_id_issuer_base_url"></a> [scp\_open\_id\_issuer\_base\_url](#input\_scp\_open\_id\_issuer\_base\_url) | SCP Open ID Issuer Base URL. | `string` | n/a | yes |
 | <a name="input_service_count"></a> [service\_count](#input\_service\_count) | Number of services to use. | `number` | n/a | yes |
 
 ## Outputs
