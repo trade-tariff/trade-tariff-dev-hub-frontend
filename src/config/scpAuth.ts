@@ -2,21 +2,24 @@ import { auth } from 'express-openid-connect'
 
 const issuerBaseURL = process.env.SCP_OPEN_ID_ISSUER_BASE_URL ?? undefined
 const clientID = process.env.SCP_OPEN_ID_CLIENT_ID ?? undefined
-const clientSecret = process.env.SCP_OPEN_ID_SECRET ?? undefined
-const callbackUrl = process.env.SCP_OPEN_ID_CALLBACK_PATH ?? undefined
+const clientSecret = process.env.SCP_OPEN_ID_CLIENT_SECRET ?? undefined
+const secret = process.env.SCP_OPEN_ID_SECRET ?? undefined
+const callback = process.env.SCP_OPEN_ID_CALLBACK_PATH ?? undefined
 const audience = process.env.SCP_OPEN_ID_BASE_URL ?? undefined
 
 if (issuerBaseURL === undefined) throw new Error('SCP_OPEN_ID_ISSUER_BASE_URL undefined.')
 if (clientID === undefined) throw new Error('SCP_OPEN_ID_CLIENT_ID undefined.')
-if (clientSecret === undefined) throw new Error('SCP_OPEN_ID_SECRET undefined.')
-if (callbackUrl === undefined) throw new Error('SCP_OPEN_ID_CALLBACK_PATH undefined.')
+if (clientSecret === undefined) throw new Error('SCP_OPEN_ID_CLIENT_SECRET undefined.')
+if (secret === undefined) throw new Error('SCP_OPEN_ID_SECRET undefined.')
+if (callback === undefined) throw new Error('SCP_OPEN_ID_CALLBACK_PATH undefined.')
 if (audience === undefined) throw new Error('SCP_OPEN_ID_BASE_URL undefined.')
 
 interface ScpConfiguration {
-  issuerBaseUrl: string
+  issuerBaseURL: string
   clientID: string
-  secret: string
-  callbackUrl: string
+  clientSecret?: string
+  secret?: string
+  callback: string
   audience: string
 }
 
@@ -25,9 +28,9 @@ export const configuredAuth = auth({
   issuerBaseURL,
   clientID,
   clientSecret,
-  secret: 'dummy',
+  secret,
   idpLogout: true,
-  routes: { callback: callbackUrl },
+  routes: { callback },
   authorizationParams: {
     response_type: 'code',
     scope: 'openid email',
@@ -53,9 +56,8 @@ export const configuredAuth = auth({
 })
 
 export const scpConfiguration: ScpConfiguration = {
-  issuerBaseUrl: issuerBaseURL,
+  issuerBaseURL,
   clientID,
-  secret: clientSecret,
-  callbackUrl,
+  callback,
   audience
 }

@@ -27,6 +27,7 @@ data "aws_iam_policy_document" "exec" {
       data.aws_secretsmanager_secret.cognito_client_id.arn,
       data.aws_secretsmanager_secret.cognito_client_secret.arn,
       data.aws_secretsmanager_secret.scp_open_id_client_id.arn,
+      data.aws_secretsmanager_secret.scp_open_id_client_secret.arn,
       data.aws_secretsmanager_secret.scp_open_id_secret.arn
     ]
   }

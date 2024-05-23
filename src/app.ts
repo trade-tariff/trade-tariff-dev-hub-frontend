@@ -42,7 +42,7 @@ nunjucks.configure([
   'views'
 ], templateConfig as nunjucks.ConfigureOptions).addGlobal(
   'ISSUER_BASE_URL',
-  scpConfiguration.issuerBaseUrl
+  scpConfiguration.issuerBaseURL
 )
 
 app.set('view engine', 'njk')

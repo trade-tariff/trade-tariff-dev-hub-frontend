@@ -41,6 +41,10 @@ data "aws_secretsmanager_secret" "scp_open_id_client_id" {
   name = "dev-hub-frontend-scp-open-id-client-id"
 }
 
+data "aws_secretsmanager_secret" "scp_open_id_client_secret" {
+  name = "dev-hub-frontend-scp-open-id-client-secret"
+}
+
 data "aws_secretsmanager_secret" "scp_open_id_secret" {
   name = "dev-hub-frontend-scp-open-id-secret"
 }
