@@ -11,7 +11,7 @@ import dashboardRoutes from './routes/dashboardRoutes'
 import { httpRequestLoggingMiddleware, logger } from './config/logging'
 import validateCognitoConfig from './config/cognitoAuth'
 import initEnvironment from './config/env'
-import { configuredAuth } from './config/scpAuth'
+import { configuredAuth, scpConfiguration } from './config/scpAuth'
 import favicon from 'serve-favicon'
 
 initEnvironment()
@@ -39,7 +39,10 @@ const templateConfig = {
 nunjucks.configure([
   'node_modules/govuk-frontend/dist',
   'views'
-], templateConfig as nunjucks.ConfigureOptions)
+], templateConfig as nunjucks.ConfigureOptions).addGlobal(
+  'ISSUER_BASE_URL',
+  scpConfiguration.issuerBaseUrl
+)
 
 app.set('view engine', 'njk')
 
@@ -55,7 +58,7 @@ app.engine('html', nunjucks.render)
 app.set('view engine', 'html')
 
 app.use('/', indexRouter)
-app.use('/dashboard', dashboardRoutes)
+app.use('/dashboard', dashboardRoutes(isDev))
 
 // catch 404 and forward to error handler
 app.use(function (_req: Request, _res: Response, next: NextFunction) {

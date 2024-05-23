@@ -1,14 +1,14 @@
 import { auth } from 'express-openid-connect'
 
-const issuerBaseUrl = process.env.SCP_OPEN_ID_ISSUER_BASE_URL ?? undefined
+const issuerBaseURL = process.env.SCP_OPEN_ID_ISSUER_BASE_URL ?? undefined
 const clientID = process.env.SCP_OPEN_ID_CLIENT_ID ?? undefined
-const secret = process.env.SCP_OPEN_ID_SECRET ?? undefined
+const clientSecret = process.env.SCP_OPEN_ID_SECRET ?? undefined
 const callbackUrl = process.env.SCP_OPEN_ID_CALLBACK_PATH ?? undefined
 const audience = process.env.SCP_OPEN_ID_BASE_URL ?? undefined
 
-if (issuerBaseUrl === undefined) throw new Error('SCP_OPEN_ID_ISSUER_BASE_URL undefined.')
+if (issuerBaseURL === undefined) throw new Error('SCP_OPEN_ID_ISSUER_BASE_URL undefined.')
 if (clientID === undefined) throw new Error('SCP_OPEN_ID_CLIENT_ID undefined.')
-if (secret === undefined) throw new Error('SCP_OPEN_ID_SECRET undefined.')
+if (clientSecret === undefined) throw new Error('SCP_OPEN_ID_SECRET undefined.')
 if (callbackUrl === undefined) throw new Error('SCP_OPEN_ID_CALLBACK_PATH undefined.')
 if (audience === undefined) throw new Error('SCP_OPEN_ID_BASE_URL undefined.')
 
@@ -21,6 +21,11 @@ interface ScpConfiguration {
 }
 
 export const configuredAuth = auth({
+  baseURL: audience,
+  issuerBaseURL,
+  clientID,
+  clientSecret,
+  secret: 'dummy',
   idpLogout: true,
   routes: { callback: callbackUrl },
   authorizationParams: {
@@ -28,11 +33,9 @@ export const configuredAuth = auth({
     scope: 'openid email',
     audience
   },
-  clientID,
-  secret,
   authRequired: false,
   afterCallback: async (_req, _res, session, _decodedState) => {
-    const userProfileResponse = await fetch(`${issuerBaseUrl}/userinfo`, {
+    const userProfileResponse = await fetch(`${issuerBaseURL}/userinfo`, {
       headers: {
         Authorization: `Bearer ${session.access_token}`
       }
@@ -50,9 +53,9 @@ export const configuredAuth = auth({
 })
 
 export const scpConfiguration: ScpConfiguration = {
-  issuerBaseUrl,
+  issuerBaseUrl: issuerBaseURL,
   clientID,
-  secret,
+  secret: clientSecret,
   callbackUrl,
   audience
 }
