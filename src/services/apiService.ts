@@ -45,7 +45,7 @@ export namespace ApiService {
     }
   }
 
-  export async function createAPIKey (organisationId: string, description: string): Promise<any> {
+  export async function createAPIKey (organisationId: string, description: string): Promise<ApiKey> {
     try {
       return await doRequest(
         `/api/keys/${organisationId}`,

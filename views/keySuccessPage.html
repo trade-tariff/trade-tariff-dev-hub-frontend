@@ -1,5 +1,8 @@
 {% extends "layout.html" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
 {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
 
@@ -8,24 +11,20 @@
 {% endblock %}
 
 {% block content %}
-<div class="govuk-panel govuk-panel--confirmation">
-  <h1 class="govuk-panel__title">API Key Created Successfully</h1>
-  <div class="govuk-panel__body">
-    <p class="govuk-body">Copy your key to somewhere safe as you will not be able to view it again once you leave this page.</p>
-  </div>
-</div>
+
+{{ govukPanel({
+  titleText: "API Key Created Successfully",
+  html: "Copy your key to somewhere safe as you will not be able to view it again once you leave this page."
+}) }}
 
 <h2 class="govuk-heading-l">What happens next</h2>
 <p class="govuk-body">You can use this API key to access the FPO Commodity Code Identification Tool by including it in the <code>X-Api-Key</code> header of any calls.</p>
 
-<div class="govuk-inset-text">
-  <strong>API Key</strong><br>
-  <code class="govuk-code">{{ formattedData }}</code>
-</div>
+{{ govukInsetText({ text: secretHtml|safe }) }}
 
 <button class="govuk-button" data-module="govuk-button" onclick="copyToClipboard()">Copy to clipboard</button>
 
-<p class="govuk-body"><a class="govuk-link" href="/dashboard/{{ fpoId }}">Back to dashboard</a></p>
+<p class="govuk-body"><a class="govuk-link" href="/dashboard/{{ organisationId }}">Back to dashboard</a></p>
 
 <script>
   function copyToClipboard() {

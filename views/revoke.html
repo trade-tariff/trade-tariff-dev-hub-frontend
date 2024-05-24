@@ -40,9 +40,9 @@
       </tbody>
     </table>
 
-    <form method="POST" action="/dashboard/keys/{{ fpoId }}/{{ customerKeyId }}/revoke">
+    <form method="POST" action="/dashboard/keys/{{ organisationId }}/{{ customerKeyId }}/revoke">
       <button class="govuk-button" data-module="govuk-button">Revoke</button>
-      <a href="/dashboard/{{ fpoId }}" class="govuk-link">Cancel</a>
+      <a href="/dashboard/{{ organisationId }}" class="govuk-link">Cancel</a>
     </form>
 
 {% endblock %}

@@ -1,7 +1,5 @@
-import { type ApiKey } from '../../src/services/apiService'
-
 export namespace ApiKeyPresenter {
-  export function secretHtml (apiKey: ApiKey): any {
-    return `Your API Key is <br><strong style="font-size: 1rem;"> ${apiKey.Secret} </strong>`
+  export function secretHtml (secret: string): any {
+    return `Your API Key is <br><strong><code class="govuk-code">${secret}</code></strong>`
   }
 }
