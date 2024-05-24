@@ -1,5 +1,5 @@
 import { type Request, type Response } from 'express'
-import { type ApiKey, ApiService } from '../services/apiService'
+import { ApiService } from '../services/apiService'
 import { ApiKeyPresenter } from '../presenters/apiKeyPresenter'
 import { logger } from '../config/logging'
 
@@ -20,10 +20,9 @@ export const create = async (req: Request, res: Response): Promise<void> => {
 
   try {
     const apiKey = await ApiService.createAPIKey(organisationId, apiKeyDescription)
+    const secretHtml = ApiKeyPresenter.secretHtml(apiKey.Secret)
 
-    const formattedData = ApiKeyPresenter.secretHtml(apiKey as ApiKey)
-
-    res.render('keySuccessPage', { formattedData, organisationId })
+    res.render('keySuccessPage', { secretHtml, organisationId })
   } catch (error) {
     logger.error('Error showing create page', error)
     res.status(500).send('Error showing new key page')
