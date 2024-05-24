@@ -18,13 +18,20 @@
         text: "Text explaining good example of API key description."
       },
       id: "description",
-      name: "apiKeyDescription"
+      name: "apiKeyDescription",
+      errorMessage: {
+        text: "Enter the description for your API key"
+      }
     }) }}
+    <div class="govuk-button-group">
+      {{ govukButton({
+        text: "Continue",
+        type: "submit"
 
-    {{ govukButton({
-      text: "Continue",
-      type: "submit"
-    }) }}
+      }) }}
+      <a class="govuk-link" href="/dashboard/{{ organisationId }}">Cancel</a>
+    </div>
+
   </form>
 
   <p class="govuk-body">

@@ -8,3 +8,4 @@ min_capacity                = 1
 max_capacity                = 3
 scp_open_id_issuer_base_url = "https://api.ete.access.service.gov.uk"
 deletion_enabled            = true
+feedback_url                = "https://dev.trade-tariff.service.gov.uk/feedback"

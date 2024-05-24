@@ -50,6 +50,7 @@ Terraform to deploy the service into AWS.
 | <a name="input_deletion_enabled"></a> [deletion\_enabled](#input\_deletion\_enabled) | Sets DELETION\_ENABLED and determines whether to enable deletion of keys in the hub UI. | `bool` | n/a | yes |
 | <a name="input_docker_tag"></a> [docker\_tag](#input\_docker\_tag) | Image tag to use. | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | Deployment environment. | `string` | n/a | yes |
+| <a name="input_feedback_url"></a> [feedback\_url](#input\_feedback\_url) | Feedback URL. | `string` | n/a | yes |
 | <a name="input_max_capacity"></a> [max\_capacity](#input\_max\_capacity) | Largest number of tasks the service can scale-out to. | `number` | n/a | yes |
 | <a name="input_memory"></a> [memory](#input\_memory) | Memory to allocate in MB. Powers of 2 only. | `number` | n/a | yes |
 | <a name="input_min_capacity"></a> [min\_capacity](#input\_min\_capacity) | Smallest number of tasks the service can scale-in to. | `number` | n/a | yes |

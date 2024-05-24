@@ -52,3 +52,8 @@ variable "deletion_enabled" {
   description = "Sets DELETION_ENABLED and determines whether to enable deletion of keys in the hub UI."
   type        = bool
 }
+
+variable "feedback_url" {
+  description = "Feedback URL."
+  type        = string
+}
