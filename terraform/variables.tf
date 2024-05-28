@@ -47,3 +47,8 @@ variable "scp_open_id_issuer_base_url" {
   description = "SCP Open ID Issuer Base URL."
   type        = string
 }
+
+variable "deletion_enabled" {
+  description = "Sets DELETION_ENABLED and determines whether to enable deletion of keys in the hub UI."
+  type        = bool
+}

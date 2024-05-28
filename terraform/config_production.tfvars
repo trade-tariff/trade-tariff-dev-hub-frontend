@@ -7,3 +7,4 @@ service_count               = 3
 min_capacity                = 2
 max_capacity                = 5
 scp_open_id_issuer_base_url = "https://api.access.service.gov.uk"
+deletion_enabled            = false

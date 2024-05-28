@@ -20,6 +20,18 @@ export interface ApiKey {
 }
 
 export namespace ApiService {
+  export async function getKey (organisationId: string, customerKeyId: string): Promise<ApiKey[]> {
+    try {
+      return await doRequest(
+        `/api/keys/${organisationId}/${customerKeyId}`,
+        'GET'
+      )
+    } catch (error) {
+      logger.error('Error fetching API key:', error)
+      throw error
+    }
+  }
+
   export async function listKeys (organisationId: string): Promise<ApiKey[]> {
     try {
       return await doRequest(
@@ -45,6 +57,15 @@ export namespace ApiService {
     }
   }
 
+  export async function deleteAPIKey (organisationId: string, customerKeyId: string): Promise<any> {
+    try {
+      return await doRequest(`/api/keys/${organisationId}/${customerKeyId}`, 'DELETE')
+    } catch (error) {
+      logger.error('Error deleting API key:', error)
+      throw error
+    }
+  }
+
   export async function createAPIKey (organisationId: string, description: string): Promise<ApiKey> {
     try {
       return await doRequest(
@@ -58,7 +79,7 @@ export namespace ApiService {
     }
   }
 
-  async function doRequest (path: string, method: 'GET' | 'POST' | 'PATCH', body?: string): Promise<any> {
+  async function doRequest (path: string, method: 'GET' | 'POST' | 'PATCH' | 'DELETE', body?: string): Promise<any> {
     const API_BASE_URL = process.env.API_BASE_URL ?? ''
     const url = `${API_BASE_URL}${path}`
     const headers: Record<string, string> = {

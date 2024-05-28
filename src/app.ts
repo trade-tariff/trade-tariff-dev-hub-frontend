@@ -12,7 +12,7 @@ import applicationRoutes from './routes/applicationRoutes'
 import { httpRequestLoggingMiddleware, logger } from './config/logging'
 import validateCognitoConfig from './config/cognitoAuth'
 import initEnvironment from './config/env'
-import { configuredAuth, baseURL } from './config/scpAuth'
+import { configureAuth } from './config/scpAuth'
 import favicon from 'serve-favicon'
 
 initEnvironment()
@@ -21,14 +21,6 @@ const app: Express = express()
 
 const isDev = app.get('env') === 'development'
 const port = process.env.PORT ?? 8080
-
-if (isDev) {
-  app.use(morgan('dev'))
-} else {
-  validateCognitoConfig()
-  app.use(httpRequestLoggingMiddleware())
-  app.use(configuredAuth)
-}
 
 const templateConfig: nunjucks.ConfigureOptions = {
   autoescape: true,
@@ -45,8 +37,17 @@ const nunjucksConfiguration = nunjucks.configure(
   templateConfig
 )
 
-// TODO: This is how Auth0 does custom redirects after a signout. We'll want to review SCP documentation for this
-nunjucksConfiguration.addGlobal('baseURL', baseURL)
+if (isDev) {
+  app.use(morgan('dev'))
+  nunjucksConfiguration.addGlobal('baseURL', `http://localhost:${port}`)
+} else {
+  const scpConfiguration = configureAuth()
+  validateCognitoConfig()
+  app.use(httpRequestLoggingMiddleware())
+  app.use(scpConfiguration.middleware)
+
+  nunjucksConfiguration.addGlobal('baseURL', scpConfiguration.baseURL)
+}
 
 app.set('view engine', 'njk')
 
