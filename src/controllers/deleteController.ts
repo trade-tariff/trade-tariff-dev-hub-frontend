@@ -5,7 +5,7 @@ import { logger } from '../config/logging'
 export const showDeleteKey = async (req: Request, res: Response): Promise<void> => {
   const customerKeyId = req.params.customerKeyId
   const organisationId = req.params.organisationId
-  const apiKey = ApiService.getKey(organisationId, customerKeyId)
+  const apiKey = await ApiService.getKey(organisationId, customerKeyId)
 
   try {
     res.render('delete', { apiKey })
@@ -18,6 +18,7 @@ export const showDeleteKey = async (req: Request, res: Response): Promise<void> 
 export const deleteKey = async (req: Request, res: Response): Promise<void> => {
   const customerKeyId = req.params.customerKeyId
   const organisationId = req.params.organisationId
+  console.log('deleteKey', organisationId, customerKeyId)
 
   try {
     await ApiService.deleteAPIKey(organisationId, customerKeyId)

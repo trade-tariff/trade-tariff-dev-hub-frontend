@@ -23,7 +23,7 @@ router.post('/keys/:organisationId/create', create)
 
 if (deletionEnabled) {
   router.get('/keys/:organisationId/:customerKeyId/delete', showDeleteKey)
-  router.delete('/keys/:organisationId/:customerKeyId/delete', deleteKey)
+  router.post('/keys/:organisationId/:customerKeyId/delete', deleteKey)
 }
 
 export default router

@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
 {% block title %}
 Dashboard
@@ -7,13 +8,10 @@ Dashboard
 {% block content %}
 <h1 class="govuk-heading-l">Delete an API Key</h1>
 
-<div class="govuk-inset-text">
-  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-  <strong class="govuk-warning-text__text">
-    <span class="govuk-warning-text__assistive">Warning</span>
-    Your API Key will be deleted with immediate effect and cannot be reactivated once deleted.
-  </strong>
-</div>
+{{ govukWarningText({
+  text: "Your API Key will be revoked with immediate effect and cannot be reactivated once revoked.",
+  iconFallbackText: "Warning"
+}) }}
 
 <p class="govuk-body">
   Please check the below details regarding the API Key you have selected to delete and confirm your choice.
@@ -38,10 +36,10 @@ Dashboard
   </tbody>
 </table>
 
-<form method="DELETE" action="/dashboard/keys/{{ organisationId }}/{{ customerKeyId }}/delete">
+<form method="POST" action="/dashboard/keys/{{ apiKey.OrganisationId }}/{{ apiKey.CustomerApiKeyId }}/delete">
   <div class="govuk-button-group">
     <button class="govuk-button govuk-button--warning" data-module="govuk-button">Delete</button>
-    <a href="/dashboard/{{ organisationId }}" class="govuk-link">Cancel</a>
+    <a href="/dashboard/{{ apiKey.OrganisationId }}" class="govuk-link">Cancel</a>
   </div>
 </form>
 

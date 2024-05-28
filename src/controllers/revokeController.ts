@@ -5,9 +5,10 @@ import { logger } from '../config/logging'
 export const showRevoke = async (req: Request, res: Response): Promise<void> => {
   const customerKeyId = req.params.customerKeyId
   const organisationId = req.params.organisationId
+  const apiKey = await ApiService.getKey(organisationId, customerKeyId)
 
   try {
-    res.render('revoke', { customerKeyId, organisationId })
+    res.render('revoke', { apiKey })
   } catch (error) {
     logger.error('Error fetching API key details:', error)
     res.status(500).send('Error fetching API key details')
