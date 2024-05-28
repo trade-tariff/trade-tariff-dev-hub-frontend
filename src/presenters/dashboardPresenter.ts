@@ -4,8 +4,13 @@ import { type ApiKey } from '../../src/services/apiService'
 
 const deletionEnabled = (process.env.DELETION_ENABLED ?? 'false') === 'true'
 
+interface DashboardTable {
+  headers: Array<{ text: string }>
+  rows: Array<Array<{ text?: string, html?: string }>>
+}
+
 export namespace DashboardPresenter {
-  export function present (apiKeys: ApiKey[], organisationId: string): any {
+  export function present (apiKeys: ApiKey[], organisationId: string): DashboardTable {
     const headers = [
       { text: 'API Client ID' },
       { text: 'Description' },
@@ -14,9 +19,10 @@ export namespace DashboardPresenter {
       { text: 'Revoke' }
     ]
     const rows = apiKeys.map(key => {
+      const shouldDelete = !key.Enabled && deletionEnabled
       const status = key.Enabled ? 'Active' : `Revoked on ${formatDate(key.UpdatedAt)}`
       const revokeButton = key.Enabled ? createRevokeLink(organisationId, key.CustomerApiKeyId) : ''
-      const deleteButton = deletionEnabled ? createDeleteLink(organisationId, key.CustomerApiKeyId) : ''
+      const deleteButton = shouldDelete ? createDeleteLink(organisationId, key.CustomerApiKeyId) : ''
 
       return [
         { text: maskString(key.Secret) },

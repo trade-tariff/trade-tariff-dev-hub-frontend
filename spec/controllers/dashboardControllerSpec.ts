@@ -25,7 +25,7 @@ describe('DashboardController', () => {
         UpdatedAt: '2024-04-10T16:11:45.715Z'
       }
     ]
-    spyOn(DashboardPresenter, 'present').and.returnValue({ formattedData: 'data' })
+    spyOn(DashboardPresenter, 'present').and.returnValue({ headers: [], rows: [] })
     spyOn(ApiService, 'listKeys').and.returnValue(Promise.resolve(apiKeys))
 
     statusSpy = jasmine.createSpy().and.callFake(() => ({ send: sendSpy }))
@@ -45,6 +45,15 @@ describe('DashboardController', () => {
 
     expect(ApiService.listKeys).toHaveBeenCalled()
     expect(DashboardPresenter.present).toHaveBeenCalledWith(jasmine.any(Array), '123')
-    expect(renderSpy).toHaveBeenCalledWith('dashboard', { formattedData: { formattedData: 'data' }, organisationId: '123', organisationName: 'fetch org name here' })
+    expect(renderSpy).toHaveBeenCalledWith(
+      'dashboard',
+      {
+        formattedData: {
+          headers: [],
+          rows: []
+        },
+        organisationId: '123'
+      }
+    )
   })
 })
