@@ -2,7 +2,7 @@ import { type RequestHandler } from 'express'
 import { auth } from 'express-openid-connect'
 
 interface ScpConfiguration {
-  middleware: () => RequestHandler
+  middleware: RequestHandler
   baseURL: string
 }
 
@@ -42,7 +42,7 @@ export const configureAuth = (): ScpConfiguration => {
   })
 
   return {
-    middleware: () => configuredAuth,
+    middleware: configuredAuth,
     baseURL: audience
   }
 }
