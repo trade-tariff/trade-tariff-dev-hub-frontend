@@ -47,6 +47,7 @@ Terraform to deploy the service into AWS.
 |------|-------------|------|---------|:--------:|
 | <a name="input_base_domain"></a> [base\_domain](#input\_base\_domain) | URL of the service. | `string` | n/a | yes |
 | <a name="input_cpu"></a> [cpu](#input\_cpu) | CPU units to use. | `number` | n/a | yes |
+| <a name="input_deletion_enabled"></a> [deletion\_enabled](#input\_deletion\_enabled) | Sets DELETION\_ENABLED and determines whether to enable deletion of keys in the hub UI. | `bool` | n/a | yes |
 | <a name="input_docker_tag"></a> [docker\_tag](#input\_docker\_tag) | Image tag to use. | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | Deployment environment. | `string` | n/a | yes |
 | <a name="input_max_capacity"></a> [max\_capacity](#input\_max\_capacity) | Largest number of tasks the service can scale-out to. | `number` | n/a | yes |

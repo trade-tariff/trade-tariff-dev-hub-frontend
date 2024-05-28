@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+<h1 class="govuk-heading-l">Delete an API Key</h1>
+
+<div class="govuk-inset-text">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-warning-text__assistive">Warning</span>
+    Your API Key will be deleted with immediate effect and cannot be reactivated once deleted.
+  </strong>
+</div>
+
+<p class="govuk-body">
+  Please check the below details regarding the API Key you have selected to delete and confirm your choice.
+</p>
+
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header" scope="col">Description</th>
+      <th class="govuk-table__header" scope="col">Client ID</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header" scope="row">API Key</th>
+      <td class="govuk-table__cell">{{ apiKey.CustomerApiKeyId}}</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header" scope="row">Description</th>
+      <td class="govuk-table__cell">{{ apiKey.Description }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<form method="DELETE" action="/dashboard/keys/{{ organisationId }}/{{ customerKeyId }}/delete">
+  <div class="govuk-button-group">
+    <button class="govuk-button govuk-button--warning" data-module="govuk-button">Delete</button>
+    <a href="/dashboard/{{ organisationId }}" class="govuk-link">Cancel</a>
+  </div>
+</form>
+
+{% endblock %}

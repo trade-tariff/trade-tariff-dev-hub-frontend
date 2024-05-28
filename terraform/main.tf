@@ -67,6 +67,10 @@ module "service" {
       name  = "SENTRY_ENVIRONMENT"
       value = var.environment
     },
+    {
+      name  = "DELETION_ENABLED"
+      value = var.deletion_enabled
+    }
   ]
 
   service_secrets_config = [

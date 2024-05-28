@@ -2,40 +2,46 @@
 
 import { type ApiKey } from '../../src/services/apiService'
 
+const deletionEnabled = (process.env.DELETION_ENABLED ?? 'false') === 'true'
+
 export namespace DashboardPresenter {
   export function present (apiKeys: ApiKey[], organisationId: string): any {
+    const headers = [
+      { text: 'API Client ID' },
+      { text: 'Description' },
+      { text: 'Created on' },
+      { text: 'Status' },
+      { text: 'Revoke' }
+    ]
     const rows = apiKeys.map(key => {
       const status = key.Enabled ? 'Active' : `Revoked on ${formatDate(key.UpdatedAt)}`
-      const deleteButton = key.Enabled ? createDeleteLink(organisationId, key.CustomerApiKeyId) : ''
+      const revokeButton = key.Enabled ? createRevokeLink(organisationId, key.CustomerApiKeyId) : ''
+      const deleteButton = deletionEnabled ? createDeleteLink(organisationId, key.CustomerApiKeyId) : ''
 
-      return {
-        data: [
-          { text: maskString(key.Secret) },
-          { text: key.Description },
-          { text: formatDate(key.CreatedAt) },
-          { html: status },
-          { html: deleteButton }
-        ],
-        createdAt: new Date(key.CreatedAt),
-        lastUpdatedAt: new Date(key.UpdatedAt),
-        status: key.Enabled
-      }
-    }).sort((a, b) => {
-      if (a.createdAt.getTime() === b.createdAt.getTime()) {
-        return a.lastUpdatedAt.getTime() - b.lastUpdatedAt.getTime()
-      }
-      return a.createdAt.getTime() - b.createdAt.getTime()
-    }).map(item => item.data)
+      return [
+        { text: maskString(key.Secret) },
+        { text: key.Description },
+        { text: formatDate(key.CreatedAt) },
+        { html: status },
+        { html: revokeButton + deleteButton }
+      ]
+    })
 
-    return {
-      rows
-    }
+    return { headers, rows }
+  }
+
+  function createRevokeLink (organisationId: string, customerKeyId: string): string {
+    return `
+        <p class="govuk-body">
+          <a class="govuk-link govuk-link--no-visited-state" href="/dashboard/keys/${organisationId}/${customerKeyId}/revoke">Revoke</a>
+        </p>
+        `
   }
 
   function createDeleteLink (organisationId: string, customerKeyId: string): string {
     return `
         <p class="govuk-body">
-          <a class="govuk-link govuk-link--no-visited-state" href="/dashboard/keys/${organisationId}/${customerKeyId}/revoke">Revoke</a>
+          <a class="govuk-link govuk-link--no-visited-state" href="/dashboard/keys/${organisationId}/${customerKeyId}/delete">Delete</a>
         </p>
         `
   }
