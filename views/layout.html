@@ -76,6 +76,21 @@
 
 {% block footer %}
   {{ govukFooter({
+      navigation: [
+      {
+        title: "Related links",
+        items: [
+          {
+            href: "https://api.trade-tariff.service.gov.uk/fpo.html",
+            text: "API Documentation"
+          },
+          {
+            href: "https://www.trade-tariff.service.gov.uk/feedback",
+            text: "Feedback"
+          }
+        ]
+      }
+    ],
     meta: {
       items: [
         {
