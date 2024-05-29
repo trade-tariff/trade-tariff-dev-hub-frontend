@@ -21,6 +21,7 @@ const app: Express = express()
 
 const isDev = app.get('env') === 'development'
 const port = process.env.PORT ?? 8080
+const feedbackURL = process.env.FEEDBACK_URL ?? ''
 
 const templateConfig: nunjucks.ConfigureOptions = {
   autoescape: true,
@@ -48,6 +49,8 @@ if (isDev) {
 
   nunjucksConfiguration.addGlobal('baseURL', scpConfiguration.baseURL)
 }
+
+nunjucksConfiguration.addGlobal('feedbackURL', feedbackURL)
 
 app.set('view engine', 'njk')
 

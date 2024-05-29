@@ -70,7 +70,11 @@ module "service" {
     {
       name  = "DELETION_ENABLED"
       value = var.deletion_enabled
-    }
+    },
+    {
+      name  = "FEEDBACK_URL"
+      value = var.feedback_url
+    },
   ]
 
   service_secrets_config = [
