@@ -6,22 +6,16 @@
 {% endblock %}
 
 {% block content %}
-    <span class="govuk-caption-l">Commodity Code API Developer Hub</span>
+    <span class="govuk-caption-l">Commodity Code Identification Tool Hub</span>
     <h1 class="govuk-heading-l">Manage Access for your organisation</h1>
-    <p class="govuk-body">Welcome to the commodity code API developer Hub.</p>
-    <p class="govuk-body">The table below displays a list of API keys that have been generated for authorized individuals within your organization. From this page, you can view details, create new API keys, and revoke existing ones.</p>
+    <p class="govuk-body">Welcome to the Commodity Code Identification Tool Developer Hub</p>
+    <p class="govuk-body">This table contains a list of API keys that have been generated and assigned to authorised individuals from your organisation. From this page you will be able to view, create and revoke API Keys. </p>
 
     {{ govukTable({
         caption: "",
         captionClasses: "govuk-table__caption--l",
         firstCellIsHeader: true,
-        head: [
-            { text: "API Client ID" },
-            { text: "Description" },
-            { text: "Created on" },
-            { text: "Status" },
-            { text: "Revoke" }
-        ],
+        head: formattedData.headers,
         rows: formattedData.rows
     }) }}
 
@@ -29,6 +23,6 @@
         <a class="govuk-link govuk-link--no-visited-state" href="/dashboard/keys/{{ organisationId }}/new">Create New Key</a>
     </p>
 
-    <p class="govuk-body">If you have any further questions relating to your API Credentials, please contact us at: <a href="mailto:hmrc-fpo-tool-support@digital.hmrc.gov.uk">hmrc-fpo-tool-support@digital.hmrc.gov.uk</a></p>
+    <p class="govuk-body">If you have any further queries relating to the developer hub contact: <a href="mailto:hmrc-fpo-tool-support@digital.hmrc.gov.uk">hmrc-fpo-tool-support@digital.hmrc.gov.uk</a></p>
 
 {% endblock %}
