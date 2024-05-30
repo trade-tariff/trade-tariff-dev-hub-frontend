@@ -5,6 +5,7 @@
   Dashboard
 {% endblock %}
 
+{% set createKeyPath = ["/dashboard/", organisationId] | join %}
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -23,7 +24,7 @@
     {{ govukButton({
       text: "Create new key",
       classes: "govuk-button--secondary",
-      href: "/dashboard/keys/{{ organisationId }}/new"
+      href: createKeyPath
     }) }}
 
 <h1 class="govuk-heading-l">If you need help</h2>
