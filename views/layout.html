@@ -68,8 +68,12 @@
 <body class="govuk-template_body govuk-frontend-supported">
     <main id="main-content" class="govuk-template__body uk-service js-enabled" role="main">
       <div class="govuk-width-container">
-        {% block content %}
-        {% endblock %}
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
+            {% block content %}
+            {% endblock %}
+          </div>
+       </div>
       </div>
     </main>
 </body>
