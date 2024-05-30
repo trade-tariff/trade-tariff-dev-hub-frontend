@@ -41,6 +41,9 @@ executors:
   python-executor:
     docker:
       - image: circleci/python:latest
+  node-browsers:
+    docker:
+      - image: cimg/node:21.2.0-browsers
 
 jobs:
   linters:
@@ -71,6 +74,22 @@ jobs:
           pkg-manager: yarn
       - run:
           command: make test
+
+  e2etest:
+    executor: node-browsers
+    parameters:
+      environment:
+        type: string
+    steps:
+      - run:
+          name: run
+          command: |
+            git clone --depth=1 https://github.com/trade-tariff/trade-tariff-fpo-dev-hub-e2e
+            cd trade-tariff-fpo-dev-hub-e2e
+
+            yarn install
+            yarn playwright install --with-deps chromium
+            yarn run test-<<parameters.environment>>
 
   write-docker-tag:
     parameters:
@@ -215,6 +234,14 @@ workflows:
             - pre-commit
           <<: *filter-not-main
 
+      - e2etest:
+          name: e2etest-development
+          context: trade-tariff-fpo-integration-development
+          environment: development
+          requires:
+            - apply-terraform-dev
+          <<: *filter-not-main
+
   deploy-to-staging-and-production:
     jobs:
       - write-docker-tag:
@@ -251,6 +278,14 @@ workflows:
             - build-and-push-live
           <<: *filter-main
 
+      - e2etest:
+          name: e2etest-staging
+          context: trade-tariff-fpo-integration-staging
+          environment: staging
+          requires:
+            - apply-terraform-staging
+          <<: *filter-not-main
+
       - plan-terraform:
           name: plan-terraform-prod
           context: trade-tariff-terraform-aws-production
@@ -277,6 +312,7 @@ workflows:
           context: trade-tariff-terraform-aws-production
           environment: production
           requires:
+            - e2etest-staging
             - write-docker-tag-prod-release
           <<: *filter-release
 
