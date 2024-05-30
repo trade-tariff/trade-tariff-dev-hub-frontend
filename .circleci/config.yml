@@ -278,14 +278,6 @@ workflows:
             - build-and-push-live
           <<: *filter-main
 
-      - e2etest:
-          name: e2etest-staging
-          context: trade-tariff-fpo-integration-staging
-          environment: staging
-          requires:
-            - apply-terraform-staging
-          <<: *filter-not-main
-
       - plan-terraform:
           name: plan-terraform-prod
           context: trade-tariff-terraform-aws-production
@@ -294,11 +286,20 @@ workflows:
             - write-docker-tag-prod
           <<: *filter-not-main
 
+      - e2etest:
+          name: e2etest-staging
+          context: trade-tariff-fpo-integration-staging
+          environment: staging
+          requires:
+            - apply-terraform-staging
+          <<: *filter-main
+
       - tariff/create-production-release:
           name: create-production-release
           context: trade-tariff-releases
           image-name: tariff-fpo-developer-hub-frontend-production
           requires:
+            - e2etest-staging
             - apply-terraform-staging
           <<: *filter-main
 
@@ -312,7 +313,6 @@ workflows:
           context: trade-tariff-terraform-aws-production
           environment: production
           requires:
-            - e2etest-staging
             - write-docker-tag-prod-release
           <<: *filter-release
 
