@@ -20,14 +20,14 @@ export namespace DashboardPresenter {
     ]
     const rows = apiKeys.map(key => {
       const shouldDelete = !key.Enabled && deletionEnabled
-      const status = key.Enabled ? 'Active' : `Revoked on ${formatDate(key.UpdatedAt)}`
+      const status = key.Enabled ? 'Active' : `Revoked on ${formatDate(key.UpdatedAt, false)}`
       const revokeButton = key.Enabled ? createRevokeLink(organisationId, key.CustomerApiKeyId) : ''
       const deleteButton = shouldDelete ? createDeleteLink(organisationId, key.CustomerApiKeyId) : ''
 
       return [
         { text: maskString(key.Secret) },
         { text: key.Description },
-        { text: formatDate(key.CreatedAt) },
+        { text: formatDate(key.CreatedAt, true) },
         { html: status },
         { html: revokeButton + deleteButton }
       ]
@@ -65,10 +65,10 @@ export namespace DashboardPresenter {
     return maskedPart + lastFour
   }
 
-  function formatDate (dateInput: Date | string): string {
+  function formatDate (dateInput: Date | string, useToday: boolean = false): string {
     const date = new Date(dateInput)
 
-    if (isToday(date)) return 'Today'
+    if (useToday && isToday(date)) return 'Today'
 
     if (isNaN(date.getTime())) {
       throw new Error('Invalid date')
