@@ -60,7 +60,7 @@ export namespace DashboardPresenter {
     }
 
     const lastFour = input.slice(-visibleLength)
-    const maskedPart = 'x'.repeat(4)
+    const maskedPart = '*'.repeat(4)
 
     return maskedPart + lastFour
   }
