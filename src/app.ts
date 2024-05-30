@@ -14,6 +14,7 @@ import validateCognitoConfig from './config/cognitoAuth'
 import initEnvironment from './config/env'
 import { configureAuth } from './config/scpAuth'
 import favicon from 'serve-favicon'
+import mainNavigationOptions from './middleware/main-navigation-options'
 
 initEnvironment()
 
@@ -49,6 +50,8 @@ if (isDev) {
 
   nunjucksConfiguration.addGlobal('baseURL', scpConfiguration.baseURL)
 }
+
+app.use(mainNavigationOptions)
 
 nunjucksConfiguration.addGlobal('feedbackURL', feedbackURL)
 
