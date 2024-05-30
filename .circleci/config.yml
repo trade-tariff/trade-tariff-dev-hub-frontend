@@ -312,6 +312,7 @@ workflows:
           context: trade-tariff-terraform-aws-production
           environment: production
           requires:
+            - e2etest-staging
             - write-docker-tag-prod-release
           <<: *filter-release
 
