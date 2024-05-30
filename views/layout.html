@@ -22,8 +22,6 @@
     {% block head %}
       <link rel="stylesheet" href="/govuk/govuk-frontend.min.css">
     {% endblock %}
-
-    <title>API Key Dashboard</title>
 </head>
 
 <nav>
@@ -70,11 +68,10 @@
 <body class="govuk-template_body govuk-frontend-supported">
     <main id="main-content" class="govuk-template__body uk-service js-enabled" role="main">
       <div class="govuk-width-container">
-      </div>
         {% block content %}
         {% endblock %}
+      </div>
     </main>
-
 </body>
 
 {% block footer %}

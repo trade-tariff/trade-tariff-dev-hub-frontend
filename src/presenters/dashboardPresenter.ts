@@ -12,22 +12,22 @@ interface DashboardTable {
 export namespace DashboardPresenter {
   export function present (apiKeys: ApiKey[], organisationId: string): DashboardTable {
     const headers = [
-      { text: 'API Client ID' },
+      { text: 'API Key' },
       { text: 'Description' },
       { text: 'Created on' },
       { text: 'Status' },
-      { text: 'Revoke' }
+      { text: '' }
     ]
     const rows = apiKeys.map(key => {
       const shouldDelete = !key.Enabled && deletionEnabled
-      const status = key.Enabled ? 'Active' : `Revoked on ${formatDate(key.UpdatedAt)}`
+      const status = key.Enabled ? 'Active' : `Revoked on ${formatDate(key.UpdatedAt, false)}`
       const revokeButton = key.Enabled ? createRevokeLink(organisationId, key.CustomerApiKeyId) : ''
       const deleteButton = shouldDelete ? createDeleteLink(organisationId, key.CustomerApiKeyId) : ''
 
       return [
         { text: maskString(key.Secret) },
         { text: key.Description },
-        { text: formatDate(key.CreatedAt) },
+        { text: formatDate(key.CreatedAt, true) },
         { html: status },
         { html: revokeButton + deleteButton }
       ]
@@ -65,8 +65,11 @@ export namespace DashboardPresenter {
     return maskedPart + lastFour
   }
 
-  function formatDate (dateInput: Date | string): string {
+  function formatDate (dateInput: Date | string, useToday: boolean = false): string {
     const date = new Date(dateInput)
+
+    if (useToday && isToday(date)) return 'Today'
+
     if (isNaN(date.getTime())) {
       throw new Error('Invalid date')
     }
@@ -75,5 +78,12 @@ export namespace DashboardPresenter {
       month: 'long',
       year: 'numeric'
     })
+  }
+
+  function isToday (date: Date): boolean {
+    const today = new Date()
+    return date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
   }
 }
