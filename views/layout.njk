@@ -18,42 +18,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% block head %}<link rel="stylesheet" href="/govuk/govuk-frontend.min.css">{% endblock %}
     </head>
-    <nav>
-        <header class="govuk-header" role="banner" data-module="govuk-header">
-            <div class="govuk-header__container govuk-width-container">
-                <div class="govuk-header__logo">
-                    {% block header %}
-                        {{ govukHeader({
-                            "homepageUrl": "#",
-                            "containerClasses": "app-width-container",
-                            "serviceName": "Commodity Code Identification Tool Developer Hub",
-                            "serviceUrl": "#",
-                            "navigation": []
-                        }) }}
-                    {% endblock %}
-                </div>
-            </div>
-        </header>
-    </nav>
+    {% block header %}
+        {{ govukHeader({
+                homepageUrl: "#",
+                serviceName: "Commodity Code Identification Tool Developer Hub",
+                serviceUrl: "#",
+                navigation: locals.mainNavigation
+                }) }}
+    {% endblock %}
     {% block beforeContent %}
-        <div class="govuk-phase-banner">
-            <div class="govuk-phase-banner__content"
-                 style="display: flex;
-                        justify-content: space-between;
-                        align-items: center">
-                <p>
-                    <strong class="govuk-tag govuk-phase-banner__content__tag">BETA</strong>
-                    <span class="govuk-phase-banner__text">
-                        This is a new service – your <a class="govuk-link" href="{{ feedbackURL }}">feedback</a> will help us to improve it.
-                    </span>
-                </p>
-                <p>
-                    <span class="govuk-phase-banner__text">
-                        <a class="govuk-link" href="/logout?returnUrl={{ baseURL }}">Sign Out</a>
-                    </span>
-                </p>
-            </div>
-        </div>
+        {% set phaseBannerHtml = ['This is a new service – your <a class="govuk-link" href="#', feedbackURL, '">feedback</a> will help us to improve it.'] | join %}
+        {{ govukPhaseBanner({
+                tag: {
+                text: "Beta"
+                },
+                html: phaseBannerHtml
+                }) }}
     {% endblock %}
     <body class="govuk-template_body govuk-frontend-supported">
         <main id="main-content"
