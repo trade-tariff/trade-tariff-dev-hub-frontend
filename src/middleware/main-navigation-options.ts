@@ -1,15 +1,16 @@
-import { NextFunction, Request, Response } from "express";
+import { type NextFunction, type Request, type Response } from 'express'
 
-export default async function (req: Request, res: Response, next: NextFunction) {
-    const mainNavigation: any = [];
+export default function (req: Request, res: Response, next: NextFunction): void {
+  const mainNavigation: any = []
 
-    if (req.oidc?.isAuthenticated()) {
-        mainNavigation.push({
-            href: "/logout",
-            text: "Sign Out"
-        })
-    }
-    res.locals.mainNavigation = mainNavigation
+  if (req.oidc?.isAuthenticated()) {
+    mainNavigation.push({
+      href: '/logout',
+      text: 'Sign Out'
+    })
+  }
 
-    next();
+  res.locals.mainNavigation = mainNavigation
+
+  next()
 };
