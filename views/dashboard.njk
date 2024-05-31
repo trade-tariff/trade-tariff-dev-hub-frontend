@@ -1,7 +1,7 @@
 {% extends "layout.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% block title %}Dashboard{% endblock %}
-{% set createKeyPath = ["/dashboard/keys/", organisationId, "/new"] | join %}
+{% set createKeyPath = ["/keys/new"] | join %}
 {% block content %}
     <span class="govuk-caption-l">Commodity Code Identification Tool Hub</span>
     <h1 class="govuk-heading-l">Your account</h1>

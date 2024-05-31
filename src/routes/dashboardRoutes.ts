@@ -15,15 +15,17 @@ const deletionEnabled = (process.env.DELETION_ENABLED ?? 'false') === 'true'
 
 if (isProduction) { router.use(requiresAuth()) }
 
-router.get('/:organisationId', showDashboard)
-router.get('/keys/:organisationId/:customerKeyId/revoke', showRevoke)
-router.get('/keys/:organisationId/new', newKey)
-router.post('/keys/:organisationId/:customerKeyId/revoke', revoke)
-router.post('/keys/:organisationId/create', create)
+router.get('/', showDashboard)
+
+router.get('/new', newKey)
+router.post('/create', create)
+
+router.get('/:customerKeyId/revoke', showRevoke)
+router.post('/:customerKeyId/revoke', revoke)
 
 if (deletionEnabled) {
-  router.get('/keys/:organisationId/:customerKeyId/delete', showDeleteKey)
-  router.post('/keys/:organisationId/:customerKeyId/delete', deleteKey)
+  router.get('/:customerKeyId/delete', showDeleteKey)
+  router.post('/:customerKeyId/delete', deleteKey)
 }
 
 export default router

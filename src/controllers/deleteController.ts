@@ -20,11 +20,10 @@ export const showDeleteKey = async (req: Request, res: Response): Promise<void> 
 export const deleteKey = async (req: Request, res: Response): Promise<void> => {
   const user = await ApiService.handleRequest(req)
   const customerKeyId = req.params.customerKeyId
-  const organisationId = user.groupId
 
   try {
     await ApiService.deleteAPIKey(user, customerKeyId)
-    res.redirect('/dashboard/' + organisationId)
+    res.redirect('/dashboard')
   } catch (error) {
     logger.error('Error revoking API key:', error)
     res.status(500).send('Error revoking API key')

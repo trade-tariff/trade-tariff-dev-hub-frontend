@@ -8,12 +8,9 @@ export const showDashboard = async (req: Request, res: Response): Promise<void> 
 
   try {
     const apiKeys = await ApiService.listKeys(user)
+    const formattedData = DashboardPresenter.present(apiKeys)
 
-    logger.debug(`API keys fetched successfully for FPO ID: ${user.groupId} with count: ${apiKeys.length}`)
-    logger.debug(`API keys: ${JSON.stringify(apiKeys)}`)
-
-    const formattedData = DashboardPresenter.present(apiKeys, user.groupId)
-    res.render('dashboard', { formattedData, organisationId: user.groupId })
+    res.render('dashboard', { formattedData })
   } catch (error) {
     logger.error('Error fetching API keys:', error)
     res.status(500).send('Error fetching API keys')

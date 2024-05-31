@@ -29,7 +29,7 @@ export const revoke = async (req: Request, res: Response): Promise<void> => {
       enabled === 'true'
     )
 
-    res.redirect('/dashboard/local-development')
+    res.redirect('/dashboard')
   } catch (error) {
     logger.error('Error revoking API key:', error)
     res.status(500).send('Error revoking API key')

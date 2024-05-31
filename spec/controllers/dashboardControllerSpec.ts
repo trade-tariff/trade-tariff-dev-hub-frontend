@@ -32,7 +32,7 @@ describe('DashboardController', () => {
     sendSpy = jasmine.createSpy()
     renderSpy = jasmine.createSpy()
 
-    mockRequest = { params: { organisationId: 'local-development' } }
+    mockRequest = {}
     mockResponse = {
       render: renderSpy,
       status: statusSpy,
@@ -44,15 +44,14 @@ describe('DashboardController', () => {
     await showDashboard(mockRequest as Request, mockResponse as Response)
 
     expect(ApiService.listKeys).toHaveBeenCalled()
-    expect(DashboardPresenter.present).toHaveBeenCalledWith(jasmine.any(Array), 'local-development')
+    expect(DashboardPresenter.present).toHaveBeenCalledWith(jasmine.any(Array))
     expect(renderSpy).toHaveBeenCalledWith(
       'dashboard',
       {
         formattedData: {
           headers: [],
           rows: []
-        },
-        organisationId: 'local-development'
+        }
       }
     )
   })

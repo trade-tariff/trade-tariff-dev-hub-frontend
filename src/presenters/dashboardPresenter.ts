@@ -10,7 +10,7 @@ interface DashboardTable {
 }
 
 export namespace DashboardPresenter {
-  export function present (apiKeys: ApiKey[], organisationId: string): DashboardTable {
+  export function present (apiKeys: ApiKey[]): DashboardTable {
     const headers = [
       { text: 'API Key' },
       { text: 'Description' },
@@ -21,8 +21,8 @@ export namespace DashboardPresenter {
     const rows = apiKeys.map(key => {
       const shouldDelete = !key.Enabled && deletionEnabled
       const status = key.Enabled ? 'Active' : `Revoked on ${formatDate(key.UpdatedAt, false)}`
-      const revokeButton = key.Enabled ? createRevokeLink(organisationId, key.CustomerApiKeyId) : ''
-      const deleteButton = shouldDelete ? createDeleteLink(organisationId, key.CustomerApiKeyId) : ''
+      const revokeButton = key.Enabled ? createRevokeLink(key.CustomerApiKeyId) : ''
+      const deleteButton = shouldDelete ? createDeleteLink(key.CustomerApiKeyId) : ''
 
       return [
         { text: key.Secret },
@@ -36,18 +36,18 @@ export namespace DashboardPresenter {
     return { headers, rows }
   }
 
-  function createRevokeLink (organisationId: string, customerKeyId: string): string {
+  function createRevokeLink (customerKeyId: string): string {
     return `
         <p class="govuk-body">
-          <a class="govuk-link govuk-link--no-visited-state" href="/dashboard/keys/${organisationId}/${customerKeyId}/revoke">Revoke</a>
+          <a class="govuk-link govuk-link--no-visited-state" href="/dashboard/${customerKeyId}/revoke">Revoke</a>
         </p>
         `
   }
 
-  function createDeleteLink (organisationId: string, customerKeyId: string): string {
+  function createDeleteLink (customerKeyId: string): string {
     return `
         <p class="govuk-body">
-          <a class="govuk-link govuk-link--no-visited-state" href="/dashboard/keys/${organisationId}/${customerKeyId}/delete">Delete</a>
+          <a class="govuk-link govuk-link--no-visited-state" href="/dashboard/${customerKeyId}/delete">Delete</a>
         </p>
         `
   }
