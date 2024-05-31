@@ -11,7 +11,8 @@ const skippedUserAgents = [
 const skippedPaths = [
   '/healthcheck',
   '/healthcheckz',
-  '/assets/'
+  '/assets/',
+  '/govuk/'
 ]
 
 function jsonFormat (tokens: morgan.TokenIndexer, req: Request, res: Response): string {

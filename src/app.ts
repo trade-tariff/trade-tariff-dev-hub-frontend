@@ -2,19 +2,19 @@ import { type Express, type Request, type Response, type NextFunction } from 'ex
 
 import createError from 'http-errors'
 import express from 'express'
-import path from 'path'
-import nunjucks from 'nunjucks'
-import morgan from 'morgan'
-
-import indexRouter from './routes/index'
-import dashboardRoutes from './routes/dashboardRoutes'
-import applicationRoutes from './routes/applicationRoutes'
-import { httpRequestLoggingMiddleware, logger } from './config/logging'
-import validateCognitoConfig from './config/cognitoAuth'
-import initEnvironment from './config/env'
-import { configureAuth } from './config/scpAuth'
 import favicon from 'serve-favicon'
-import mainNavigationOptions from './middleware/main-navigation-options'
+import morgan from 'morgan'
+import nunjucks from 'nunjucks'
+import path from 'path'
+
+import dashboardRoutes from './routes/dashboardRoutes'
+import indexRouter from './routes/index'
+
+import initEnvironment from './config/env'
+import mainNavigationOptions from './config/main-navigation-options'
+import validateCognitoConfig from './config/cognitoAuth'
+import { configureAuth } from './config/scpAuth'
+import { httpRequestLoggingMiddleware, logger } from './config/logging'
 
 initEnvironment()
 
@@ -66,7 +66,6 @@ app.use('/assets', express.static('node_modules/govuk-frontend/dist/govuk/assets
 app.use(express.static('public'))
 
 app.use('/', indexRouter)
-app.use('/', applicationRoutes)
 app.use('/dashboard', dashboardRoutes)
 
 // catch 404 and forward to error handler

@@ -4,7 +4,8 @@ import { ApiKeyPresenter } from '../presenters/apiKeyPresenter'
 import { logger } from '../config/logging'
 
 export const newKey = async (req: Request, res: Response): Promise<void> => {
-  const organisationId = req.params.organisationId
+  const user = await ApiService.handleRequest(req)
+  const organisationId = user.groupId
 
   try {
     res.render('newKey', { organisationId })
@@ -22,7 +23,8 @@ export const create = async (req: Request, res: Response): Promise<void> => {
     if (apiKeyDescription === '') {
       res.render('newKey', { organisationId })
     } else {
-      const apiKey = await ApiService.createAPIKey(organisationId, apiKeyDescription)
+      const user = await ApiService.handleRequest(req)
+      const apiKey = await ApiService.createAPIKey(user, apiKeyDescription)
       const secretHtml = ApiKeyPresenter.secretHtml(apiKey.Secret)
       res.render('keySuccessPage', { secretHtml, organisationId })
     }

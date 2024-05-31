@@ -30,14 +30,30 @@ export const configureAuth = (): ScpConfiguration => {
     routes: { callback },
     authorizationParams: {
       response_type: 'code',
-      scope: 'openid email',
+      scope: 'openid profile',
       audience
     },
     authRequired: false,
     afterCallback: async (_req, _res, session, _decodedState) => {
-      const userProfile = await fetch(`${issuerBaseURL}/userinfo`)
+      try {
+        const userProfileResponse = await fetch(`${issuerBaseURL}/userinfo`, {
+          headers: {
+            Authorization: `Bearer ${session.access_token}`
+          }
+        })
 
-      return { ...session, userProfile }
+        if (!userProfileResponse.ok) {
+          throw new Error('Failed to fetch user profile')
+        }
+
+        const userProfile = await userProfileResponse.json()
+        console.log('userProfile', userProfile)
+
+        return { ...session, userProfile }
+      } catch (error) {
+        console.error('Error fetching user profile:', error)
+        return session
+      }
     }
   })
 

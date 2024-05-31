@@ -4,9 +4,9 @@ import { logger } from '../config/logging'
 import { DashboardPresenter } from '../presenters/dashboardPresenter'
 
 export const showDeleteKey = async (req: Request, res: Response): Promise<void> => {
+  const user = await ApiService.handleRequest(req)
   const customerKeyId = req.params.customerKeyId
-  const organisationId = req.params.organisationId
-  const apiKey = await ApiService.getKey(organisationId, customerKeyId)
+  const apiKey = await ApiService.getKey(user, customerKeyId)
   const createdAt = DashboardPresenter.formatDate(apiKey.CreatedAt, true)
 
   try {
@@ -18,12 +18,12 @@ export const showDeleteKey = async (req: Request, res: Response): Promise<void> 
 }
 
 export const deleteKey = async (req: Request, res: Response): Promise<void> => {
+  const user = await ApiService.handleRequest(req)
   const customerKeyId = req.params.customerKeyId
-  const organisationId = req.params.organisationId
-  console.log('deleteKey', organisationId, customerKeyId)
+  const organisationId = user.groupId
 
   try {
-    await ApiService.deleteAPIKey(organisationId, customerKeyId)
+    await ApiService.deleteAPIKey(user, customerKeyId)
     res.redirect('/dashboard/' + organisationId)
   } catch (error) {
     logger.error('Error revoking API key:', error)
