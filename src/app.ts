@@ -62,9 +62,6 @@ app.use('/govuk', express.static('node_modules/govuk-frontend/dist/govuk'))
 app.use('/assets', express.static('node_modules/govuk-frontend/dist/govuk/assets'))
 app.use(express.static('public'))
 
-app.engine('html', nunjucks.render)
-app.set('view engine', 'html')
-
 app.use('/', indexRouter)
 app.use('/', applicationRoutes)
 app.use('/dashboard', dashboardRoutes)
