@@ -1,0 +1,40 @@
+{% extends "layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+    <h1 class="govuk-heading-l">Revoke an API Key</h1>
+    {{ govukWarningText({
+        "text": "Your API Key will be revoked with immediate effect and cannot be reactivated once revoked.",
+        "iconFallbackText": "Warning"
+    }) }}
+    <p class="govuk-body">
+        Please check the below details regarding the API Key you have selected to revoke and confirm your choice.
+    </p>
+    <table class="govuk-table">
+        <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th class="govuk-table__header" scope="col">Description</th>
+                <th class="govuk-table__header" scope="col">Client ID</th>
+            </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+                <th class="govuk-table__header" scope="row">API Key</th>
+                <td class="govuk-table__cell">{{ apiKey.CustomerApiKeyId }}</td>
+            </tr>
+            <tr class="govuk-table__row">
+                <th class="govuk-table__header" scope="row">Description</th>
+                <td class="govuk-table__cell">{{ apiKey.Description }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <form method="POST"
+          action="/dashboard/keys/{{ apiKey.OrganisationId }}/{{ apiKey.CustomerApiKeyId }}/revoke">
+        <div class="govuk-button-group">
+            <button class="govuk-button govuk-button--warning" data-module="govuk-button">Revoke</button>
+            <a href="/dashboard/{{ apiKey.OrganisationId }}" class="govuk-link">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

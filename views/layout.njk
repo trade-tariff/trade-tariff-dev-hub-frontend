@@ -1,0 +1,117 @@
+{% extends "govuk/template.njk" %}
+<!DOCTYPE html>
+{% from "govuk/components/cookie-banner/macro.njk" import govukCookieBanner %}
+{% from "govuk/components/skip-link/macro.njk" import govukSkipLink %}
+{% from "govuk/components/header/macro.njk" import govukHeader %}
+{% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
+{% from "govuk/components/footer/macro.njk" import govukFooter %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+<html lang="en" class="govuk-template">
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            {% block title %}{% endblock %}
+        </title>
+        <link rel="stylesheet" href="/stylesheets/style.css">
+        <link rel="stylesheet" href="/govuk/govuk-frontend.min.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% block head %}<link rel="stylesheet" href="/govuk/govuk-frontend.min.css">{% endblock %}
+    </head>
+    <nav>
+        <header class="govuk-header" role="banner" data-module="govuk-header">
+            <div class="govuk-header__container govuk-width-container">
+                <div class="govuk-header__logo">
+                    {% block header %}
+                        {{ govukHeader({
+                            "homepageUrl": "#",
+                            "containerClasses": "app-width-container",
+                            "serviceName": "Commodity Code Identification Tool Developer Hub",
+                            "serviceUrl": "#",
+                            "navigation": []
+                        }) }}
+                    {% endblock %}
+                </div>
+            </div>
+        </header>
+    </nav>
+    {% block beforeContent %}
+        <div class="govuk-phase-banner">
+            <div class="govuk-phase-banner__content"
+                 style="display: flex;
+                        justify-content: space-between;
+                        align-items: center">
+                <p>
+                    <strong class="govuk-tag govuk-phase-banner__content__tag">BETA</strong>
+                    <span class="govuk-phase-banner__text">
+                        This is a new service – your <a class="govuk-link" href="{{ feedbackURL }}">feedback</a> will help us to improve it.
+                    </span>
+                </p>
+                <p>
+                    <span class="govuk-phase-banner__text">
+                        <a class="govuk-link" href="/logout?returnUrl={{ baseURL }}">Sign Out</a>
+                    </span>
+                </p>
+            </div>
+        </div>
+    {% endblock %}
+    <body class="govuk-template_body govuk-frontend-supported">
+        <main id="main-content"
+              class="govuk-template__body uk-service js-enabled"
+              role="main">
+            <div class="govuk-width-container">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+    {% block footer %}
+        {{ govukFooter({
+                navigation: [
+                {
+                title: "Related links",
+                items: [
+                {
+                href: "https://api.trade-tariff.service.gov.uk/fpo.njk",
+                text: "API Documentation"
+                },
+                {
+                href: feedbackURL,
+                text: "Feedback"
+                }
+                ]
+                }
+                ],
+                meta: {
+                items: [
+                {
+                href: "#",
+                text: "Help"
+                },
+                {
+                href: "#",
+                text: "Cookies"
+                },
+                {
+                href: "#",
+                text: "Contact"
+                },
+                {
+                href: "#",
+                text: "Terms and conditions"
+                }
+                ]
+                }
+                }) }}
+    {% endblock %}
+    {% block bodyEnd %}
+        <script type="module" src="/govuk/govuk-frontend.min.js"></script>
+        <script type="module">
+    import { initAll } from '/govuk/govuk-frontend.min.js'
+    initAll()
+        </script>
+    {% endblock %}
+</html>

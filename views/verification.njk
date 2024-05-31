@@ -1,0 +1,60 @@
+{% extends "layout.njk" %}
+{% block content %}
+    {% include "back-button.njk" %}
+    <h1 class="govuk-heading-l">Verification</h1>
+    <p class="govuk-body">
+        Welcome to the Commodity Code Identification Tool Developer Hub. We need to verify some details before you can gain access and use the tool.
+    </p>
+    <p class="govuk-body">To start your verification request, fill out the form below and click continue.</p>
+    <form method="POST" action="/{{ id }}/check-verification">
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="organisation-name">Organisation Name</label>
+            <span id="organisation-name-hint" class="govuk-hint">
+                The name of the organisation you are accessing the Commodity Code Identification Tool on behalf of.
+            </span>
+            <input class="govuk-input"
+                   id="organisation-name"
+                   name="organisationName"
+                   type="text">
+        </div>
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="eori-number">EORI Number</label>
+            <span id="eori-number-hint" class="govuk-hint">
+                EORI stands for Economic Operators Registration and Identification.
+            </span>
+            <input class="govuk-input" id="eori-number" name="eoriNumber" type="text">
+        </div>
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="ukacs-reference">UK Authorised Carrier Scheme Reference Number</label>
+            <span id="ukacs-reference-hint" class="govuk-hint">
+                Organisations receive a unique reference number when registered for the UK Authorised Carrier Scheme.
+            </span>
+            <input class="govuk-input"
+                   id="ukacs-reference"
+                   name="ukacsReference"
+                   type="text">
+        </div>
+        <div class="govuk-form-group">
+            <label class="govuk-label" for="email-address">Email address</label>
+            <span id="email-address-hint" class="govuk-hint">
+                We will use your email address to send essential updates regarding the Commodity Code Identification Tool and your verification request.
+            </span>
+            <input class="govuk-input"
+                   id="email-address"
+                   name="emailAddress"
+                   type="email">
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <button type="submit" class="govuk-button" data-module="govuk-button">Continue</button>
+            </div>
+            <div class="govuk-grid-column-one-third govuk-!-text-align-right">
+                <a href="/" class="govuk-link">Cancel</a>
+            </div>
+        </div>
+    </form>
+    <p class="govuk-body">
+        If you have any further queries relating to the developer hub contact: <a href="mailto:hmrc-fpo-tool-support@digital.hmrc.gov.uk"
+    class="govuk-link">hmrc-fpo-tool-support@digital.hmrc.gov.uk</a>
+    </p>
+{% endblock %}
