@@ -68,14 +68,33 @@
 <body class="govuk-template_body govuk-frontend-supported">
     <main id="main-content" class="govuk-template__body uk-service js-enabled" role="main">
       <div class="govuk-width-container">
-        {% block content %}
-        {% endblock %}
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
+            {% block content %}
+            {% endblock %}
+          </div>
+       </div>
       </div>
     </main>
 </body>
 
 {% block footer %}
   {{ govukFooter({
+      navigation: [
+      {
+        title: "Related links",
+        items: [
+          {
+            href: "https://api.trade-tariff.service.gov.uk/fpo.html",
+            text: "API Documentation"
+          },
+          {
+            href: feedbackURL,
+            text: "Feedback"
+          }
+        ]
+      }
+    ],
     meta: {
       items: [
         {
