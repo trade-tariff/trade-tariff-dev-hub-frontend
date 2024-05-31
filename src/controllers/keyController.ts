@@ -3,7 +3,7 @@ import { ApiService } from '../services/apiService'
 import { ApiKeyPresenter } from '../presenters/apiKeyPresenter'
 import { logger } from '../config/logging'
 
-export const newKey = async (req: Request, res: Response): Promise<void> => {
+export const newKey = async (_req: Request, res: Response): Promise<void> => {
   try {
     res.render('newKey')
   } catch (error) {
