@@ -11,20 +11,18 @@
         Please check the below details regarding the API Key you have selected to delete and confirm your choice.
     </p>
     <table class="govuk-table">
-        <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-                <th class="govuk-table__header" scope="col">Description</th>
-                <th class="govuk-table__header" scope="col">Client ID</th>
-            </tr>
-        </thead>
         <tbody class="govuk-table__body">
             <tr class="govuk-table__row">
                 <th class="govuk-table__header" scope="row">API Key</th>
-                <td class="govuk-table__cell">{{ apiKey.CustomerApiKeyId }}</td>
+                <td class="govuk-table__cell">{{ apiKey.Secret }}</td>
             </tr>
             <tr class="govuk-table__row">
                 <th class="govuk-table__header" scope="row">Description</th>
                 <td class="govuk-table__cell">{{ apiKey.Description }}</td>
+            </tr>
+            <tr class="govuk-table__row">
+                <th class="govuk-table__header" scope="row">Created on</th>
+                <td class="govuk-table__cell">{{ createdAt }}</td>
             </tr>
         </tbody>
     </table>
