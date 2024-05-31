@@ -47,7 +47,6 @@ export const configureAuth = (): ScpConfiguration => {
         }
 
         const userProfile = await userProfileResponse.json()
-        console.log('userProfile', userProfile)
 
         return { ...session, userProfile }
       } catch (error) {
