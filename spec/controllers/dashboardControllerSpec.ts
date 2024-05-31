@@ -20,7 +20,7 @@ describe('DashboardController', () => {
         Secret: 'qux',
         Enabled: true,
         Description: 'quux',
-        OrganisationId: '123',
+        OrganisationId: 'local-development',
         CreatedAt: '2024-04-10T16:11:45.714Z',
         UpdatedAt: '2024-04-10T16:11:45.715Z'
       }
@@ -32,7 +32,7 @@ describe('DashboardController', () => {
     sendSpy = jasmine.createSpy()
     renderSpy = jasmine.createSpy()
 
-    mockRequest = { params: { organisationId: '123' } }
+    mockRequest = { params: { organisationId: 'local-development' } }
     mockResponse = {
       render: renderSpy,
       status: statusSpy,
@@ -44,7 +44,7 @@ describe('DashboardController', () => {
     await showDashboard(mockRequest as Request, mockResponse as Response)
 
     expect(ApiService.listKeys).toHaveBeenCalled()
-    expect(DashboardPresenter.present).toHaveBeenCalledWith(jasmine.any(Array), '123')
+    expect(DashboardPresenter.present).toHaveBeenCalledWith(jasmine.any(Array), 'local-development')
     expect(renderSpy).toHaveBeenCalledWith(
       'dashboard',
       {
@@ -52,7 +52,7 @@ describe('DashboardController', () => {
           headers: [],
           rows: []
         },
-        organisationId: '123'
+        organisationId: 'local-development'
       }
     )
   })
