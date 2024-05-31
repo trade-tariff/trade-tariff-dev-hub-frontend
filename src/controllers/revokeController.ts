@@ -1,14 +1,16 @@
 import { type Request, type Response } from 'express'
 import { ApiService } from '../services/apiService'
 import { logger } from '../config/logging'
+import { DashboardPresenter } from '../presenters/dashboardPresenter'
 
 export const showRevoke = async (req: Request, res: Response): Promise<void> => {
   const customerKeyId = req.params.customerKeyId
   const organisationId = req.params.organisationId
   const apiKey = await ApiService.getKey(organisationId, customerKeyId)
+  const createdAt = DashboardPresenter.formatDate(apiKey.CreatedAt, true)
 
   try {
-    res.render('revoke', { apiKey })
+    res.render('revoke', { apiKey, createdAt })
   } catch (error) {
     logger.error('Error fetching API key details:', error)
     res.status(500).send('Error fetching API key details')

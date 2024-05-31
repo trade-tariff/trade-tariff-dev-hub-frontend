@@ -20,7 +20,7 @@ export interface ApiKey {
 }
 
 export namespace ApiService {
-  export async function getKey (organisationId: string, customerKeyId: string): Promise<ApiKey[]> {
+  export async function getKey (organisationId: string, customerKeyId: string): Promise<ApiKey> {
     try {
       return await doRequest(
         `/api/keys/${organisationId}/${customerKeyId}`,

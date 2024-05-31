@@ -25,7 +25,7 @@ export namespace DashboardPresenter {
       const deleteButton = shouldDelete ? createDeleteLink(organisationId, key.CustomerApiKeyId) : ''
 
       return [
-        { text: maskString(key.Secret) },
+        { text: key.Secret },
         { text: key.Description },
         { text: formatDate(key.CreatedAt, true) },
         { html: status },
@@ -52,20 +52,7 @@ export namespace DashboardPresenter {
         `
   }
 
-  function maskString (input: string): string {
-    const visibleLength = 4
-
-    if (input.length <= visibleLength) {
-      return input
-    }
-
-    const lastFour = input.slice(-visibleLength)
-    const maskedPart = '*'.repeat(4)
-
-    return maskedPart + lastFour
-  }
-
-  function formatDate (dateInput: Date | string, useToday: boolean = false): string {
+  export function formatDate (dateInput: Date | string, useToday: boolean = false): string {
     const date = new Date(dateInput)
 
     if (useToday && isToday(date)) return 'Today'
