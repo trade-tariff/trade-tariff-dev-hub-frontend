@@ -3,7 +3,7 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% block title %}Dashboard{% endblock %}
 {% block content %}
-    <form action="/dashboard/keys/{{ organisationId }}/create" method="post">
+    <form action="/dashboard/create" method="post">
         {{ govukInput({
             "label": {
                 "text": "Enter the description for your API key.",
@@ -14,14 +14,11 @@
                 "text": "Text explaining good example of API key description."
             },
             "id": "description",
-            "name": "apiKeyDescription",
-            "errorMessage": {
-                "text": "Enter the description for your API key"
-            }
+            "name": "apiKeyDescription"
         }) }}
         <div class="govuk-button-group">
             {{ govukButton({"text": "Continue", "type": "submit"}) }}
-            <a class="govuk-link" href="/dashboard/{{ organisationId }}">Cancel</a>
+            <a class="govuk-link" href="/dashboard">Cancel</a>
         </div>
     </form>
     <p class="govuk-body">

@@ -27,7 +27,6 @@ export const checkVerificationDetails = async (req: Request, res: Response): Pro
 export const applicationComplete = async (req: Request, res: Response): Promise<void> => {
   const id = req.params.id
 
-  console.log('YOU ARE HERE- complete application')
   try {
     res.render('completion', { id })
   } catch (error) {

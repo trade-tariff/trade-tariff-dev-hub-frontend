@@ -18,7 +18,7 @@ describe('DashboardPresenter', () => {
         }
       ]
 
-      const result = DashboardPresenter.present(apiKeys, 'organisationId')
+      const result = DashboardPresenter.present(apiKeys)
       expect(result.rows.length).toBe(1)
       expect(result.rows[0]).toEqual(jasmine.any(Array))
       expect(result.rows[0][3].html).toContain('Active')
