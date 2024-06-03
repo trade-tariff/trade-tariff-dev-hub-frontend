@@ -27,7 +27,7 @@
                 }) }}
     {% endblock %}
     {% block beforeContent %}
-        {% set phaseBannerHtml = ['This is a new service – your <a class="govuk-link" href="#', feedbackURL, '">feedback</a> will help us to improve it.'] | join %}
+        {% set phaseBannerHtml = ['This is a new service – your <a class="govuk-link" href="', feedbackURL, '">feedback</a> will help us to improve it.'] | join %}
         {{ govukPhaseBanner({
                 tag: {
                 text: "Beta"
