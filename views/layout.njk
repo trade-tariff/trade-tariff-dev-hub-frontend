@@ -50,34 +50,23 @@
     </body>
     {% block footer %}
         {{ govukFooter({
-                navigation: [
-                {
-                title: "Related links",
+                meta: {
                 items: [
                 {
-                href: "https://api.trade-tariff.service.gov.uk/fpo.html",
+                href: "https://api.trade-tariff.service.gov.uk/fpo.njk",
                 text: "API Documentation"
                 },
                 {
                 href: feedbackURL,
                 text: "Feedback"
-                }
-                ]
-                }
-                ],
-                meta: {
-                items: [
+                },           
                 {
                 href: "#",
-                text: "Help"
+                text: "Privacy policy "
                 },
                 {
                 href: "#",
                 text: "Cookies"
-                },
-                {
-                href: "#",
-                text: "Contact"
                 },
                 {
                 href: "#",
