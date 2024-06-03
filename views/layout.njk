@@ -50,31 +50,31 @@
     </body>
     {% block footer %}
         {{ govukFooter({
-                meta: {
-                items: [
-                {
-                href: "https://api.trade-tariff.service.gov.uk/fpo.njk",
-                text: "API Documentation"
-                },
-                {
-                href: feedbackURL,
-                text: "Feedback"
-                },
-                {
-                href: "#",
-                text: "Privacy policy "
-                },
-                {
-                href: "#",
-                text: "Cookies"
-                },
-                {
-                href: "#",
-                text: "Terms and conditions"
-                }
-                ]
-                }
-                }) }}
+            meta: {
+            items: [
+            {
+            href: "https://api.trade-tariff.service.gov.uk/fpo.html",
+            text: "API Documentation"
+            },
+            {
+            href: feedbackURL,
+            text: "Feedback"
+            },
+            {
+            href: "#",
+            text: "Privacy policy "
+            },
+            {
+            href: "#",
+            text: "Cookies"
+            },
+            {
+            href: "#",
+            text: "Terms and conditions"
+            }
+            ]
+            }
+        }) }}
     {% endblock %}
     {% block bodyEnd %}
         <script type="module" src="/govuk/govuk-frontend.min.js"></script>
