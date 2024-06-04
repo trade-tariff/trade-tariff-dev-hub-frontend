@@ -17,7 +17,6 @@ export const create = async (req: Request, res: Response): Promise<void> => {
   const apiKeyDescription = req.body.apiKeyDescription as string
   // Extract the validation errors from a request.
   const result = validationResult(req)
-
   try {
     if (result.isEmpty()) {
       const user = await ApiService.handleRequest(req)

@@ -19,7 +19,7 @@ if (isProduction) { router.use(requiresAuth()) }
 router.get('/', showDashboard)
 
 router.get('/new', newKey)
-router.post('/create', body('description', 'Enter the description for your API key').notEmpty(), create)
+router.post('/create', body('apiKeyDescription', 'Enter the description for your API key').notEmpty(), create)
 
 router.get('/:customerKeyId/revoke', showRevoke)
 router.post('/:customerKeyId/revoke', revoke)
