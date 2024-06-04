@@ -50,7 +50,7 @@
         {% endif %}
 
         <div class="govuk-button-group">
-            {{ govukButton({"text": "Continue", "type": "submit"}) }}
+            {{ govukButton({"text": "Continue", "type": "submit", "preventDoubleClick": true}) }}
             <a class="govuk-link" href="/dashboard">Cancel</a>
         </div>
     </form>
