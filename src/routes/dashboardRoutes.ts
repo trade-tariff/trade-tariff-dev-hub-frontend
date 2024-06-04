@@ -7,6 +7,7 @@ import { newKey, create } from '../controllers/keyController'
 import { showDashboard } from '../controllers/dashboardController'
 import { showDeleteKey, deleteKey } from '../controllers/deleteController'
 import { showRevoke, revoke } from '../controllers/revokeController'
+import { body } from 'express-validator'
 
 const router: Router = express.Router()
 
@@ -18,7 +19,7 @@ if (isProduction) { router.use(requiresAuth()) }
 router.get('/', showDashboard)
 
 router.get('/new', newKey)
-router.post('/create', create)
+router.post('/create', body('apiKeyDescription', 'Enter the description for your API key').notEmpty(), create)
 
 router.get('/:customerKeyId/revoke', showRevoke)
 router.post('/:customerKeyId/revoke', revoke)

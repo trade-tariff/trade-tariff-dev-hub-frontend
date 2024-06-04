@@ -3,6 +3,7 @@
 {% block title %}Dashboard{% endblock %}
 {% set createKeyPath = ["/dashboard/new"] | join %}
 {% block content %}
+    {% include "back-button.njk" %}
     <span class="govuk-caption-l">Commodity Code Identification Tool Hub</span>
     <h1 class="govuk-heading-l">Your account</h1>
     <p class="govuk-body">

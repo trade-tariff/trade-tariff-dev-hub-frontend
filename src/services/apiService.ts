@@ -104,9 +104,9 @@ export namespace ApiService {
 
   export async function handleRequest (req: any): Promise<ScpUser> {
     const env = process.env.NODE_ENV ?? 'development'
-    const oidc = req.oidc ?? null
+    const userProfile = req.appSession?.userProfile ?? null
 
-    if (oidc === null) {
+    if (userProfile === null) {
       if (env === 'production') throw new Error('User not authenticated')
 
       return {
@@ -117,9 +117,8 @@ export namespace ApiService {
 
     if (req.oidc.isAuthenticated() === false) if (env === 'production') throw new Error('User not authenticated')
 
-    const userInfo = await req.oidc.fetchUserInfo()
-    const userId = userInfo.sub ?? ''
-    const groupId = userInfo['bas:groupId'] ?? ''
+    const userId = userProfile.sub ?? ''
+    const groupId = userProfile['bas:groupId'] ?? ''
 
     if (userId === '') throw new Error('User sub not set')
     if (groupId === '') throw new Error('User bas:groupId not set')

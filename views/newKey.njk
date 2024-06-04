@@ -1,23 +1,56 @@
 {% extends "layout.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
 {% block title %}Dashboard{% endblock %}
 {% block content %}
-    <form action="/dashboard/create" method="post">
-        {{ govukInput({
-            "label": {
-                "text": "Enter the description for your API key.",
-                "classes": "govuk-label--l",
-                "isPageHeading": true
-            },
-            "hint": {
-                "text": "Text explaining good example of API key description."
-            },
-            "id": "description",
-            "name": "apiKeyDescription"
+    {% include "back-button.njk" %}
+    {% if error %}
+        {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+                {
+                text: "Enter the description for your API key",
+                href: "#description"
+                }
+            ]
         }) }}
+    {% endif %}
+    <form action="/dashboard/create" method="post">
+        {% if error %}
+            {{ govukInput({
+                "label": {
+                    "text": "Enter the description for your API key.",
+                    "classes": "govuk-label--l",
+                    "isPageHeading": true
+                },
+                "hint": {
+                    "text": "Text explaining good example of API key description."
+                },
+                "id": "description",
+                "name": "apiKeyDescription",
+                "errorMessage": {
+                    "text": "Enter the description for your API key"
+                }
+            }) }}
+        {% else %}
+            {{ govukInput({
+                "label": {
+                    "text": "Enter the description for your API key.",
+                    "classes": "govuk-label--l",
+                    "isPageHeading": true
+                },
+                "hint": {
+                    "text": "Text explaining good example of API key description."
+                },
+                "id": "description",
+                "name": "apiKeyDescription"
+            }) }}
+        {% endif %}
+
         <div class="govuk-button-group">
-            {{ govukButton({"text": "Continue", "type": "submit"}) }}
+            {{ govukButton({"text": "Continue", "type": "submit", "preventDoubleClick": true}) }}
             <a class="govuk-link" href="/dashboard">Cancel</a>
         </div>
     </form>

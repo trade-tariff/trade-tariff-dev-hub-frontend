@@ -4,31 +4,42 @@
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+
 {% block title %}Dashboard{% endblock %}
 {% block content %}
-    {{ govukPanel({
-        "titleText": "API Key Created Successfully",
-        "html": "Copy your key to somewhere safe as you will not be able to view it again once you leave this page."
-    }) }}
-    <h2 class="govuk-heading-l">What happens next</h2>
-    <p class="govuk-body">
-        You can use this API key to access the FPO Commodity Code Identification Tool by including it in the <code>X-Api-Key</code> header of any calls.
-    </p>
-    {{ govukInsetText({ text: secretHtml|safe }) }}
-    <button class="govuk-button"
-            data-module="govuk-button"
-            onclick="copyToClipboard()">Copy to clipboard</button>
-    <p class="govuk-body">
-        <a class="govuk-link" href="/dashboard">Back to dashboard</a>
-    </p>
-    <script>
-  function copyToClipboard() {
-    const apiKey = document.querySelector('.govuk-code').innerText;
-    navigator.clipboard.writeText(apiKey).then(function() {
-      alert('API Key copied to clipboard');
-    }, function(err) {
-      alert('Failed to copy API Key: ', err);
-    });
+  {% include "back-button.njk" %}
+  {{ govukPanel({
+      html: "Your API Key has been created successfully"
+  }) }}
+  <h2 class="govuk-heading-l">What happens next</h2>
+  <p class="govuk-body">Use the API key to access the FPO Commodity Code Identification Tool by including it in the <strong>X-Api-Key</strong> header of any calls you make.</p>
+  {{ govukWarningText({
+    text: "You must copy this key to somewhere safe. You will not be able to view this API key again once you leave this page.",
+    iconFallbackText: "Warning"
+  }) }}
+
+  <p class="govuk-body">
+  {{ govukInsetText({ text: secretHtml|safe }) }}
+  {{ govukButton({
+    text: "Copy to clipboard",
+    classes: "govuk-button--secondary",
+    attributes: {"onclick": "copyToClipboard()"}
+  }) }}
+  </p>
+
+  <p class="govuk-body">
+      <a class="govuk-link" href="/dashboard">Back to dashboard</a>
+  </p>
+
+  <script>
+    function copyToClipboard() {
+      const apiKey = document.querySelector('.govuk-code').innerText;
+      navigator.clipboard.writeText(apiKey).then(function() {
+        alert('API Key copied to clipboard');
+      }, function(err) {
+        alert('Failed to copy API Key: ', err);
+      });
   }
-    </script>
+  </script>
 {% endblock %}
