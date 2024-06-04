@@ -1,16 +1,9 @@
 {% extends "layout.njk" %}
 {% block content %}
     {% include "back-button.njk" %}
-    <h1 class="govuk-heading-l">Check your answers before sending your application</h1>
+    <h1 class="govuk-heading-l">Check your answers</h1>
     <h2 class="govuk-heading-m">Application Details</h2>
     <table class="govuk-table">
-        <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-                <th class="govuk-table__header" scope="col">Field</th>
-                <th class="govuk-table__header" scope="col">Value</th>
-                <th class="govuk-table__header" scope="col">Action</th>
-            </tr>
-        </thead>
         <tbody class="govuk-table__body">
             <tr class="govuk-table__row">
                 <th class="govuk-table__header" scope="row">Organisation Name</th>
@@ -59,7 +52,7 @@
     }
   }
     </script>
-    <h2 class="govuk-heading-m">Terms and Conditions</h2>
+    <h2 class="govuk-heading-l">Terms and Conditions</h2>
     <p class="govuk-body">
         Read the information below carefully. By ticking the boxes, you acknowledge that you have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool.
     </p>
@@ -106,10 +99,16 @@
                 </label>
             </div>
         </div>
+        <p class="govuk-body"/p>
         <p class="govuk-body">
             Full terms and conditions are available <a href="#" class="govuk-link">here</a>.
         </p>
-        <button class="govuk-button" data-module="govuk-button">Accept and send</button>
-        <a href="/" class="govuk-link">Cancel</a>
+        <p class="govuk-body">
+            By submitting this application you are confirming that, to the best of your knowledge, the details you are providing are correct.
+        </p>
+        <div class="govuk-button-group">
+            <button type="submit" class="govuk-button" data-module="govuk-button">Accept and send</button>
+            <a href="/" class="govuk-link">Cancel</a>
+        </div>
     </form>
 {% endblock %}
