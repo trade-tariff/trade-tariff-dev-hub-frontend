@@ -1,57 +1,58 @@
 {% extends "layout.njk" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
 {% block content %}
     {% include "back-button.njk" %}
-    <div class="govuk-body">
-        Commodity Code Identification Tool Developer Hub
-    </div>
+    <span class="govuk-caption-l">Commodity Code Identification Tool Developer Hub</span>
     <h1 class="govuk-label govuk-label--l">Enter details about your organisation</h1>
     <p class="govuk-body">Enter the following information about your organisation. This will be used to verify your account.</p>
     <form method="POST" action="/{{ id }}/check-verification">
-        <div class="govuk-form-group">
-            <h1 class="govuk-label-wrapper">
-                <label class="govuk-label govuk-label--l" for="organisation-name">What is the name of your organisation?</label>
-                <div id="event-name-hint" class="govuk-hint">
-                    This should be the name of the organisation you are accessing the Commodity Code Tool on behalf of.
-                </div>
-            </h1>
-            <input class="govuk-input"
-                   id="organisation-name"
-                   name="organisationName"
-                   type="text">
-        </div>
-        <div class="govuk-form-group">
-            <h1 class="govuk-label-wrapper">
-                <label class="govuk-label govuk-label--l" for="organisation-name">What is your EORI number?</label>
-                <div id="event-name-hint" class="govuk-hint">
-                    Your organisation will have an Economic Operators Registration and Identification (EORI) number.
-                </div>
-            </h1>
-            <input class="govuk-input" id="eori-number" name="eoriNumber" type="text">
-        </div>
-        <div class="govuk-form-group">
-            <h1 class="govuk-label-wrapper">
-                <label class="govuk-label govuk-label--l" for="organisation-name">What is your UK Authorised Carrier Scheme reference number?</label>
-                <div id="event-name-hint" class="govuk-hint">
-                    Your organisation would have received a unique reference number when signing up for the UK Authorised Carrier Scheme.
-                </div>
-            </h1>
-            <input class="govuk-input"
-                   id="ukacs-reference"
-                   name="ukacsReference"
-                   type="text">
-        </div>
-        <div class="govuk-form-group">
-            <h1 class="govuk-label-wrapper">
-                <label class="govuk-label govuk-label--l" for="organisation-name">Email address</label>
-                <div id="event-name-hint" class="govuk-hint">
-                    We will use your email address to send essential updates regarding the Commodity Code Identification Tool and your verification request.
-                </div>
-            </h1>
-            <input class="govuk-input"
-                   id="email-address"
-                   name="emailAddress"
-                   type="email">
-        </div>
+        {{ govukInput({
+          label: {
+            text: "What is the name of your organisation?",
+            classes: "govuk-label--m"
+          },
+          hint: {
+            text: "This should be the name of the organisation you are accessing the Commodity Code Tool on behalf of."
+          },
+          id: "organisation-name",
+          name: "organisationName"
+        }) }}
+        {{ govukInput({
+          label: {
+            text: "What is your EORI number?",
+            classes: "govuk-label--m"
+          },
+          hint: {
+            text: "Your organisation will have an Economic Operators Registration and Identification (EORI) number."
+          },
+          id: "eori-number",
+          name: "eoriNumber"
+        }) }}
+        {{ govukInput({
+          label: {
+            text: "What is your UK Authorised Carrier Scheme reference number?",
+            classes: "govuk-label--m"
+          },
+          hint: {
+            text: "Your organisation would have received a unique reference number when signing up for the UK Authorised Carrier Scheme."
+          },
+          id: "ukacs-reference",
+          name: "ukacsReference"
+        }) }}
+        {{ govukInput({
+          label: {
+            text: "Email address",
+            classes: "govuk-label--m"
+          },
+          hint: {
+            text: "We will use your email address to send essential updates regarding the Commodity Code Identification Tool and your verification request."
+          },
+          id: "email-address",
+          name: "emailAddress",
+          type: "email",
+          autocomplete: "email",
+          spellcheck: false
+        }) }}
         <div class="govuk-button-group">
             <button type="submit" class="govuk-button" data-module="govuk-button">Continue</button>
             <a href="/" class="govuk-link">Cancel</a>
