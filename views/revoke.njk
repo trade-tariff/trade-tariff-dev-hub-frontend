@@ -6,13 +6,13 @@
 {% block content %}
     {% include "back-button.njk" %}
     <h1 class="govuk-heading-l">Revoke an API Key</h1>
+    <p class="govuk-body">
+        Check the below details regarding the API Key you have selected to revoke and confirm your choice.
+    </p>
     {{ govukWarningText({
-        "text": "Your API Key will be revoked with immediate effect and cannot be reactivated once revoked.",
+        "text": "Your API Key will be revoked with immediate effect. Once revoked it cannot be reactivated.",
         "iconFallbackText": "Warning"
     }) }}
-    <p class="govuk-body">
-        Please check the below details regarding the API Key you have selected to revoke and confirm your choice.
-    </p>
     <table class="govuk-table">
         <tbody class="govuk-table__body">
             <tr class="govuk-table__row">
@@ -22,10 +22,6 @@
             <tr class="govuk-table__row">
                 <th class="govuk-table__header" scope="row">Description</th>
                 <td class="govuk-table__cell">{{ apiKey.Description }}</td>
-            </tr>
-            <tr class="govuk-table__row">
-                <th class="govuk-table__header" scope="row">Created on</th>
-                <td class="govuk-table__cell">{{ createdAt }}</td>
             </tr>
         </tbody>
     </table>

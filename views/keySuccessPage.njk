@@ -10,10 +10,10 @@
 {% block content %}
   {% include "back-button.njk" %}
   {{ govukPanel({
-      html: "Your API Key has been created successfully"
+      titleText: "Your API Key has been created successfully"
   }) }}
   <h2 class="govuk-heading-l">What happens next</h2>
-  <p class="govuk-body">Use the API key to access the FPO Commodity Code Identification Tool by including it in the <strong>X-Api-Key</strong> header of any calls you make.</p>
+  <p class="govuk-body">Use the API key to access the Commodity Code Identification Tool. Use this API in the <strong>X-Api-Key</strong> header of any calls you make.</p>
   {{ govukWarningText({
     text: "You must copy this key to somewhere safe. You will not be able to view this API key again once you leave this page.",
     iconFallbackText: "Warning"

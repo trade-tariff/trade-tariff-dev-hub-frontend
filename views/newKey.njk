@@ -11,7 +11,7 @@
             titleText: "There is a problem",
             errorList: [
                 {
-                text: "Enter the description for your API key",
+                text: "Enter API Key Description",
                 href: "#description"
                 }
             ]
@@ -21,28 +21,28 @@
         {% if error %}
             {{ govukInput({
                 "label": {
-                    "text": "Enter the description for your API key.",
+                    "text": "Enter API Key Description",
                     "classes": "govuk-label--l",
                     "isPageHeading": true
                 },
                 "hint": {
-                    "text": "Text explaining good example of API key description."
+                    "text": "Use a description you will recognise in the future. Do not reuse the same description across API keys."
                 },
                 "id": "description",
                 "name": "apiKeyDescription",
                 "errorMessage": {
-                    "text": "Enter the description for your API key"
+                    "text": "Enter API key description"
                 }
             }) }}
         {% else %}
             {{ govukInput({
                 "label": {
-                    "text": "Enter the description for your API key.",
+                    "text": "Enter API Key Description",
                     "classes": "govuk-label--l",
                     "isPageHeading": true
                 },
                 "hint": {
-                    "text": "Text explaining good example of API key description."
+                    "text": "Use a description you will recognise in the future. Do not reuse the same description across API keys."
                 },
                 "id": "description",
                 "name": "apiKeyDescription"
@@ -54,8 +54,4 @@
             <a class="govuk-link" href="/dashboard">Cancel</a>
         </div>
     </form>
-    <p class="govuk-body">
-        If you have any further questions relating to your API Credentials, please contact us at:
-        <a href="mailto:hmrc-fpo-tool-support@digital.hmrc.gov.uk">hmrc-fpo-tool-support@digital.hmrc.gov.uk</a>
-    </p>
 {% endblock %}
