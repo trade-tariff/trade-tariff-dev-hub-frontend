@@ -1,65 +1,87 @@
 {% extends "layout.njk" %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% block content %}
     {% include "back-button.njk" %}
-    <h1 class="govuk-heading-l">Check your answers before sending your application</h1>
-    <h2 class="govuk-heading-m">Application Details</h2>
-    <table class="govuk-table">
-        <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-                <th class="govuk-table__header" scope="col">Field</th>
-                <th class="govuk-table__header" scope="col">Value</th>
-                <th class="govuk-table__header" scope="col">Action</th>
-            </tr>
-        </thead>
-        <tbody class="govuk-table__body">
-            <tr class="govuk-table__row">
-                <th class="govuk-table__header" scope="row">Organisation Name</th>
-                <td class="govuk-table__cell">{{ body.organisationName }}</td>
-                <td class="govuk-table__cell">
-                    <a href="javascript:void(0);"
-                       class="govuk-link"
-                       onclick="handleChange('{{ id }}')">Change</a>
-                </td>
-            </tr>
-            <tr class="govuk-table__row">
-                <th class="govuk-table__header" scope="row">Organisation EORI</th>
-                <td class="govuk-table__cell">{{ body.eoriNumber }}</td>
-                <td class="govuk-table__cell">
-                    <a href="javascript:void(0);"
-                       class="govuk-link"
-                       onclick="handleChange('{{ id }}')">Change</a>
-                </td>
-            </tr>
-            <tr class="govuk-table__row">
-                <th class="govuk-table__header" scope="row">UKACS Reference</th>
-                <td class="govuk-table__cell">{{ body.ukacsReference }}</td>
-                <td class="govuk-table__cell">
-                    <a href="javascript:void(0);"
-                       class="govuk-link"
-                       onclick="handleChange('{{ id }}')">Change</a>
-                </td>
-            </tr>
-            <tr class="govuk-table__row">
-                <th class="govuk-table__header" scope="row">Email Address</th>
-                <td class="govuk-table__cell">{{ body.emailAddress }}</td>
-                <td class="govuk-table__cell">
-                    <a href="javascript:void(0);"
-                       class="govuk-link"
-                       onclick="handleChange('{{ id }}')">Change</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <script>
-  function handleChange(id) {
-    if (id) {
-      window.location.href = `/${id}/verification`;
-    } else {
-      window.history.back();
-    }
-  }
-    </script>
-    <h2 class="govuk-heading-m">Terms and Conditions</h2>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds-from-desktop">
+            <h1 class="govuk-heading-l">Check your answers</h1>
+            <h2 class="govuk-heading-m">Application details</h2>
+            {{ govukSummaryList({
+                classes: "govuk-!-margin-bottom-9",
+                rows: [
+                {
+                    key: {
+                    text: "Organisation Name"
+                    },
+                    value: {
+                    text: body.organisationName
+                    },
+                    actions: {
+                    items: [
+                        {
+                        href: "/$ {{ id }}/verification",
+                        text: "Change",
+                        visuallyHiddenText: "Organisation Name"
+                        }
+                    ]
+                    }
+                },
+                {
+                    key: {
+                    text: "Organisation EORI"
+                    },
+                    value: {
+                    text: body.eoriNumber
+                    },
+                    actions: {
+                    items: [
+                        {
+                        href: "/$ {{ id }}/verification",
+                        text: "Change",
+                        visuallyHiddenText: "Organisation EORI"
+                        }
+                    ]
+                    }
+                },
+                {
+                    key: {
+                    text: "UKACS Reference"
+                    },
+                    value: {
+                    text: body.ukacsReference
+                    },
+                    actions: {
+                    items: [
+                        {
+                        href: "/$ {{ id }}/verification",
+                        text: "Change",
+                        visuallyHiddenText: "UKACS Reference"
+                        }
+                    ]
+                    }
+                },
+                {
+                    key: {
+                    text: "Email Address"
+                    },
+                    value: {
+                    text: body.emailAddress
+                    },
+                    actions: {
+                    items: [
+                        {
+                        href: "/$ {{ id }}/verification",
+                        text: "Change",
+                        visuallyHiddenText: "Email Address"
+                        }
+                    ]
+                    }
+                }
+                ]
+            }) }}
+        </div>
+    </div>
+    <h2 class="govuk-heading-l">Terms and Conditions</h2>
     <p class="govuk-body">
         Read the information below carefully. By ticking the boxes, you acknowledge that you have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool.
     </p>
@@ -106,10 +128,15 @@
                 </label>
             </div>
         </div>
+        <p class="govuk-body"/p>
         <p class="govuk-body">
             Full terms and conditions are available <a href="#" class="govuk-link">here</a>.
         </p>
-        <button class="govuk-button" data-module="govuk-button">Accept and send</button>
-        <a href="/" class="govuk-link">Cancel</a>
+        <p class="govuk-body">
+            By submitting this application you are confirming that, to the best of your knowledge, the details you are providing are correct.
+        </p>
+        <div class="govuk-button-group">
+            <button type="submit" class="govuk-button" data-module="govuk-button">Accept and send</button>
+        </div>
     </form>
 {% endblock %}
