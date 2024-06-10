@@ -1,6 +1,6 @@
-import { type NextFunction, type Request, type Response } from 'express'
+import { type NextFunction, type Response } from 'express'
 
-export default function (req: Request, res: Response, next: NextFunction): void {
+export default function (req: any, res: Response, next: NextFunction): void {
   const mainNavigation: any = []
 
   if (req.oidc?.isAuthenticated()) {
@@ -8,8 +8,12 @@ export default function (req: Request, res: Response, next: NextFunction): void 
       href: '/dashboard',
       text: 'Dashboard'
     })
+
+    const userProfile = req.appSession?.userProfile ?? null
+    console.log('UserProfileFound:', userProfile)
+
     mainNavigation.push({
-      href: '/profile',
+      href: '/userProfile',
       text: 'Update Profile'
     })
     mainNavigation.push({
