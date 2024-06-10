@@ -1,5 +1,4 @@
 import {type NextFunction, type Request, type Response } from 'express'
-import {type RequestContext } from 'express-openid-connect'
 
 export default function (req: any, res: Response, next: NextFunction): void {
   const mainNavigation: any = []
