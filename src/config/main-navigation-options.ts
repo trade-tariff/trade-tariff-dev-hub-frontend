@@ -3,13 +3,13 @@ import { type NextFunction, type Response } from 'express'
 export default function (req: any, res: Response, next: NextFunction): void {
   const mainNavigation: any = []
 
-  if (req.oidc?.isAuthenticated()) {
+  if ((Boolean)(req.oidc?.isAuthenticated())) {
     mainNavigation.push({
       href: '/dashboard',
       text: 'Dashboard'
     })
 
-    const userProfile = req.appSession?.userProfile ?? null
+    const userProfile = (String)(req.appSession?.userProfile) ?? null
     console.log('UserProfileFound:', userProfile)
 
     mainNavigation.push({
