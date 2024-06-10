@@ -1,9 +1,8 @@
-import {type NextFunction, type Request, type Response } from 'express'
+import { type NextFunction, type Response } from 'express'
 
 export default function (req: any, res: Response, next: NextFunction): void {
   const mainNavigation: any = []
 
-  req as Request
   if (req.oidc?.isAuthenticated()) {
     mainNavigation.push({
       href: '/dashboard',
