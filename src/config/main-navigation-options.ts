@@ -1,15 +1,16 @@
-import { type NextFunction, type Response } from 'express'
+import {type NextFunction, type Request, type Response } from 'express'
+import { RequestContext } from 'express-openid-connect'
 
 export default function (req: any, res: Response, next: NextFunction): void {
   const mainNavigation: any = []
 
-  if ((Boolean)(req.oidc?.isAuthenticated())) {
+  if (<Request>req.oidc?.isAuthenticated()) {
     mainNavigation.push({
       href: '/dashboard',
       text: 'Dashboard'
     })
 
-    const userProfile = (String)(req.appSession?.userProfile) ?? null
+    const userProfile = <RequestContext>req.appSession?.userProfile ?? null
     console.log('UserProfileFound:', userProfile)
 
     mainNavigation.push({
