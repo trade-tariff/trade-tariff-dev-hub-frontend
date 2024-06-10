@@ -5,6 +5,18 @@ export default function (req: Request, res: Response, next: NextFunction): void 
 
   if (req.oidc?.isAuthenticated()) {
     mainNavigation.push({
+      href: '/dashboard',
+      text: 'Dashboard'
+    })
+    mainNavigation.push({
+      href: '/profile',
+      text: 'Update Profile'
+    })
+    mainNavigation.push({
+      href: '/team',
+      text: 'Manage Team'
+    })
+    mainNavigation.push({
       href: '/logout',
       text: 'Sign Out'
     })
