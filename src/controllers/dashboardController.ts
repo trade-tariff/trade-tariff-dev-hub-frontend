@@ -1,10 +1,11 @@
 import { type Request, type Response } from 'express'
 import { ApiService } from '../services/apiService'
+import { CommonService } from '../services/commonService'
 import { DashboardPresenter } from '../presenters/dashboardPresenter'
 import { logger } from '../config/logging'
 
 export const showDashboard = async (req: Request, res: Response): Promise<void> => {
-  const user = await ApiService.handleRequest(req)
+  const user = await CommonService.handleRequest(req)
 
   try {
     const apiKeys = await ApiService.listKeys(user)

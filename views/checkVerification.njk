@@ -19,7 +19,7 @@
                     actions: {
                     items: [
                         {
-                        href: "/$ {{ id }}/verification",
+                        href: "javascript:history.back()",
                         text: "Change",
                         visuallyHiddenText: "Organisation Name"
                         }
@@ -36,7 +36,7 @@
                     actions: {
                     items: [
                         {
-                        href: "/$ {{ id }}/verification",
+                        href: "javascript:history.back()",
                         text: "Change",
                         visuallyHiddenText: "Organisation EORI"
                         }
@@ -53,7 +53,7 @@
                     actions: {
                     items: [
                         {
-                        href: "/$ {{ id }}/verification",
+                        href: "javascript:history.back()",
                         text: "Change",
                         visuallyHiddenText: "UKACS Reference"
                         }
@@ -70,7 +70,7 @@
                     actions: {
                     items: [
                         {
-                        href: "/$ {{ id }}/verification",
+                        href: "javascript:history.back()",
                         text: "Change",
                         visuallyHiddenText: "Email Address"
                         }
@@ -85,7 +85,7 @@
     <p class="govuk-body">
         Read the information below carefully. By ticking the boxes, you acknowledge that you have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool.
     </p>
-    <form method="POST" action="/{{ id }}/completion">
+    <form method="POST" action="/completion">
         <div class="govuk-checkboxes">
             <div class="govuk-checkboxes__item">
                 <input class="govuk-checkboxes__input"

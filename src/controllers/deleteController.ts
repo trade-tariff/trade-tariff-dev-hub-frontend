@@ -1,10 +1,11 @@
 import { type Request, type Response } from 'express'
 import { ApiService } from '../services/apiService'
+import { CommonService } from '../services/commonService'
 import { logger } from '../config/logging'
 import { DashboardPresenter } from '../presenters/dashboardPresenter'
 
 export const showDeleteKey = async (req: Request, res: Response): Promise<void> => {
-  const user = await ApiService.handleRequest(req)
+  const user = await CommonService.handleRequest(req)
   const customerKeyId = req.params.customerKeyId
   const apiKey = await ApiService.getKey(user, customerKeyId)
   const createdAt = DashboardPresenter.formatDate(apiKey.CreatedAt, true)
@@ -18,7 +19,7 @@ export const showDeleteKey = async (req: Request, res: Response): Promise<void> 
 }
 
 export const deleteKey = async (req: Request, res: Response): Promise<void> => {
-  const user = await ApiService.handleRequest(req)
+  const user = await CommonService.handleRequest(req)
   const customerKeyId = req.params.customerKeyId
 
   try {

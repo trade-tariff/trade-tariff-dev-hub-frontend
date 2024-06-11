@@ -1,5 +1,6 @@
 import { type RequestHandler } from 'express'
 import { auth } from 'express-openid-connect'
+import { logger } from '../config/logging'
 
 interface ScpConfiguration {
   middleware: RequestHandler
@@ -50,7 +51,7 @@ export const configureAuth = (): ScpConfiguration => {
 
         return { ...session, userProfile }
       } catch (error) {
-        console.error('Error fetching user profile:', error)
+        logger.error('Error fetching user profile:', error)
         return session
       }
     }

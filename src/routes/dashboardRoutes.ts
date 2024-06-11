@@ -2,7 +2,7 @@
 
 import express, { type Router } from 'express'
 import { requiresAuth } from 'express-openid-connect'
-
+import registration from '../config/registration'
 import { newKey, create } from '../controllers/keyController'
 import { showDashboard } from '../controllers/dashboardController'
 import { showDeleteKey, deleteKey } from '../controllers/deleteController'
@@ -14,13 +14,14 @@ const router: Router = express.Router()
 const isProduction = (process.env.NODE_ENV ?? 'development') === 'production'
 const deletionEnabled = (process.env.DELETION_ENABLED ?? 'false') === 'true'
 
-if (isProduction) { router.use(requiresAuth()) }
+if (isProduction) {
+  router.use(requiresAuth())
+  router.use(registration)
+}
 
 router.get('/', showDashboard)
-
 router.get('/new', newKey)
 router.post('/create', body('apiKeyDescription', 'Enter the description for your API key').notEmpty(), create)
-
 router.get('/:customerKeyId/revoke', showRevoke)
 router.post('/:customerKeyId/revoke', revoke)
 
