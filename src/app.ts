@@ -44,10 +44,10 @@ if (isDev) {
   nunjucksConfiguration.addGlobal('baseURL', `http://localhost:${port}`)
 } else {
   const scpConfiguration = configureAuth()
+
   validateCognitoConfig()
   app.use(httpRequestLoggingMiddleware())
   app.use(scpConfiguration.middleware)
-
   nunjucksConfiguration.addGlobal('baseURL', scpConfiguration.baseURL)
 }
 

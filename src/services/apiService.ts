@@ -1,5 +1,6 @@
 import { AuthTokenFetcher } from '../utils/authTokenFetcher'
 import { logger } from '../config/logging'
+import { type ScpUser } from './commonService'
 
 const tokenFetcher = new AuthTokenFetcher(
   process.env.COGNITO_AUTH_URL ?? '',
@@ -19,13 +20,10 @@ export interface ApiKey {
   UpdatedAt: string
 }
 
-interface ScpUser {
-  groupId: string
-  userId: string
-}
-
 export namespace ApiService {
   export async function getKey (user: ScpUser, customerKeyId: string): Promise<ApiKey> {
+    logger.debug(`Fetching API key for user ${user.userId} group: ${user.groupId} key: ${customerKeyId}`)
+
     try {
       return await doRequest(
         {
@@ -42,6 +40,7 @@ export namespace ApiService {
 
   export async function listKeys (user: ScpUser): Promise<ApiKey[]> {
     try {
+      logger.debug(`Listing API keys for user ${user.userId} group: ${user.groupId}`)
       return await doRequest(
         {
           path: `/api/keys/${user.groupId}`,
@@ -57,6 +56,7 @@ export namespace ApiService {
 
   export async function revokeAPIKey (user: ScpUser, customerKeyId: string, enabled: boolean): Promise<any> {
     try {
+      logger.debug(`Revoking API key for user ${user.userId} group: ${user.groupId} key: ${customerKeyId} enabled: ${enabled}`)
       return await doRequest(
         {
           path: `/api/keys/${user.groupId}/${customerKeyId}`,
@@ -73,6 +73,7 @@ export namespace ApiService {
 
   export async function deleteAPIKey (user: ScpUser, customerKeyId: string): Promise<any> {
     try {
+      logger.debug(`Deleting API key for user ${user.userId} group: ${user.groupId} key: ${customerKeyId}`)
       return await doRequest(
         {
           path: `/api/keys/${user.groupId}/${customerKeyId}`,
@@ -88,6 +89,7 @@ export namespace ApiService {
 
   export async function createAPIKey (user: ScpUser, description: string): Promise<ApiKey> {
     try {
+      logger.debug('Fetching API key for user:', user.userId, 'group:', user.groupId, 'description:', description)
       return await doRequest(
         {
           path: `/api/keys/${user.groupId}`,
@@ -100,30 +102,6 @@ export namespace ApiService {
       logger.error('Error creating API key:', error)
       throw error
     }
-  }
-
-  export async function handleRequest (req: any): Promise<ScpUser> {
-    const env = process.env.NODE_ENV ?? 'development'
-    const userProfile = req.appSession?.userProfile ?? null
-
-    if (userProfile === null) {
-      if (env === 'production') throw new Error('User not authenticated')
-
-      return {
-        userId: 'local-development',
-        groupId: 'local-development'
-      }
-    }
-
-    if (req.oidc.isAuthenticated() === false) if (env === 'production') throw new Error('User not authenticated')
-
-    const userId = userProfile.sub ?? ''
-    const groupId = userProfile['bas:groupId'] ?? ''
-
-    if (userId === '') throw new Error('User sub not set')
-    if (groupId === '') throw new Error('User bas:groupId not set')
-
-    return { userId, groupId }
   }
 
   interface RequestOpts {

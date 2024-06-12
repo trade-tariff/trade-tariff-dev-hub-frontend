@@ -75,6 +75,10 @@ module "service" {
       name  = "FEEDBACK_URL"
       value = var.feedback_url
     },
+    {
+      name  = "LOG_LEVEL"
+      value = var.log_level
+    }
   ]
 
   service_secrets_config = [

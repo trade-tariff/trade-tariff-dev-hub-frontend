@@ -5,6 +5,9 @@ import { HealthchecksController } from '../controllers/healthchecksController'
 import { newVerificationPage, checkVerificationDetails, applicationComplete } from '../controllers/verificationController'
 import { privacyPolicyPage } from '../controllers/privacyPolicyController'
 import { cookiesPage } from '../controllers/cookiesController'
+import { rejectedPage } from '../controllers/rejectedController'
+import { requiresAuth } from 'express-openid-connect'
+import registration from '../config/registration'
 
 const healthchecksController = new HealthchecksController()
 const router: Router = express.Router()
@@ -15,7 +18,16 @@ router.get('/healthcheckz', (req, res) => { healthchecksController.showz(req, re
 router.get('/privacyPolicy', privacyPolicyPage)
 router.get('/cookies', cookiesPage)
 
-router.get('/:id/verification', newVerificationPage)
-router.post('/:id/check-verification', checkVerificationDetails)
-router.post('/:id/completion', applicationComplete)
+const isProduction = (process.env.NODE_ENV ?? 'development') === 'production'
+
+if (isProduction) {
+  router.use(requiresAuth())
+  router.use(registration)
+}
+
+router.get('/verification', newVerificationPage)
+router.post('/check-verification', checkVerificationDetails)
+router.post('/completion', applicationComplete)
+router.get('/rejectedPage', rejectedPage)
+
 export default router
