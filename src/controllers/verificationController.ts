@@ -1,6 +1,9 @@
 import { type Request, type Response } from 'express'
 import { logger } from '../config/logging'
 
+// User is registered
+// User sees dashboard
+
 export const newVerificationPage = async (req: Request, res: Response): Promise<void> => {
   res.render('verification')
 }

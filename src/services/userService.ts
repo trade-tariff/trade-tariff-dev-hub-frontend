@@ -23,6 +23,7 @@ interface ScpUser {
 export namespace UserService {
   export async function getUser (user: ScpUser): Promise<User> {
     try {
+      logger.debug('Fetching User', user.userId)
       return await doRequest(
         {
           path: `/api/users/${user.userId}`,
@@ -39,6 +40,7 @@ export namespace UserService {
     const organisationId = user.groupId
 
     try {
+      logger.debug('Creating a user', user.userId, 'for organisation', organisationId)
       return await doRequest(
         {
           path: `/api/users/${user.userId}`,

@@ -22,6 +22,8 @@ export interface ApiKey {
 
 export namespace ApiService {
   export async function getKey (user: ScpUser, customerKeyId: string): Promise<ApiKey> {
+    logger.debug('Fetching API key for user:', user.userId, 'group:', user.groupId, 'key:', customerKeyId)
+
     try {
       return await doRequest(
         {
@@ -38,6 +40,7 @@ export namespace ApiService {
 
   export async function listKeys (user: ScpUser): Promise<ApiKey[]> {
     try {
+      logger.debug('Fetching API key for user:', user.userId, 'group:', user.groupId)
       return await doRequest(
         {
           path: `/api/keys/${user.groupId}`,
@@ -53,6 +56,7 @@ export namespace ApiService {
 
   export async function revokeAPIKey (user: ScpUser, customerKeyId: string, enabled: boolean): Promise<any> {
     try {
+      logger.debug('Fetching API key for user:', user.userId, 'group:', user.groupId, 'key:', customerKeyId, 'enabled:', enabled)
       return await doRequest(
         {
           path: `/api/keys/${user.groupId}/${customerKeyId}`,
@@ -69,6 +73,7 @@ export namespace ApiService {
 
   export async function deleteAPIKey (user: ScpUser, customerKeyId: string): Promise<any> {
     try {
+      logger.debug('Fetching API key for user:', user.userId, 'group:', user.groupId, 'key:', customerKeyId)
       return await doRequest(
         {
           path: `/api/keys/${user.groupId}/${customerKeyId}`,
@@ -84,6 +89,7 @@ export namespace ApiService {
 
   export async function createAPIKey (user: ScpUser, description: string): Promise<ApiKey> {
     try {
+      logger.debug('Fetching API key for user:', user.userId, 'group:', user.groupId, 'description:', description)
       return await doRequest(
         {
           path: `/api/keys/${user.groupId}`,

@@ -33,10 +33,10 @@ export function httpRequestLoggingMiddleware (): any {
     {
       skip: (req: Request, _res: Response) => {
         const userAgent = req.headers['user-agent'] ?? ''
-        const path = req.path
+        const url = req.url
 
         const skippedByAgent = skippedUserAgents.includes(userAgent)
-        const skippedByPath = skippedPaths.some(skippedPath => path.includes(skippedPath))
+        const skippedByPath = skippedPaths.some(skippedPath => url.includes(skippedPath))
 
         return skippedByAgent || skippedByPath
       }
@@ -44,8 +44,10 @@ export function httpRequestLoggingMiddleware (): any {
   )
 }
 
+const level = process.env.LOG_LEVEL ?? 'info'
+
 export const logger = winston.createLogger({
-  level: 'info',
+  level,
   format: winston.format.simple(),
   defaultMeta: { service: 'hub-frontend' },
   transports: [
