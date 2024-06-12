@@ -4,7 +4,7 @@ import { UserService } from '../services/userService'
 import { logger } from '../config/logging'
 
 export default async function (req: Request, res: Response, next: NextFunction): Promise<void> {
-  const user = await CommonService.handleRequest(req)
+  const user = CommonService.handleRequest(req)
   const scpUser = { userId: user.userId, groupId: user.groupId }
   const userInfo = await UserService.getUser(scpUser)
 

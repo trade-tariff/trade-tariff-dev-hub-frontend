@@ -4,8 +4,7 @@ export interface ScpUser {
 }
 
 export namespace CommonService {
-
-  export async function handleRequest (req: any): Promise<ScpUser> {
+  export function handleRequest (req: any): ScpUser {
     const env = process.env.NODE_ENV ?? 'development'
     const userProfile = req.appSession?.userProfile ?? null
 

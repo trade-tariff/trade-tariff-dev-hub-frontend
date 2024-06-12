@@ -20,7 +20,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
   const result = validationResult(req)
   try {
     if (result.isEmpty()) {
-      const user = await CommonService.handleRequest(req)
+      const user = CommonService.handleRequest(req)
       const apiKey = await ApiService.createAPIKey(user, apiKeyDescription)
       const secretHtml = ApiKeyPresenter.secretHtml(apiKey.Secret)
       res.render('keySuccessPage', { secretHtml })

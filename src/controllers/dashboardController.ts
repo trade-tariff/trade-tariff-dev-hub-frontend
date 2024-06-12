@@ -5,7 +5,7 @@ import { DashboardPresenter } from '../presenters/dashboardPresenter'
 import { logger } from '../config/logging'
 
 export const showDashboard = async (req: Request, res: Response): Promise<void> => {
-  const user = await CommonService.handleRequest(req)
+  const user = CommonService.handleRequest(req)
 
   try {
     const apiKeys = await ApiService.listKeys(user)

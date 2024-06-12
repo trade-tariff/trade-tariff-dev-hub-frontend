@@ -5,7 +5,7 @@ import { logger } from '../config/logging'
 import { DashboardPresenter } from '../presenters/dashboardPresenter'
 
 export const showRevoke = async (req: Request, res: Response): Promise<void> => {
-  const user = await CommonService.handleRequest(req)
+  const user = CommonService.handleRequest(req)
   const customerKeyId = req.params.customerKeyId
   const apiKey = await ApiService.getKey(user, customerKeyId)
   const createdAt = DashboardPresenter.formatDate(apiKey.CreatedAt, true)
@@ -19,7 +19,7 @@ export const showRevoke = async (req: Request, res: Response): Promise<void> => 
 }
 
 export const revoke = async (req: Request, res: Response): Promise<void> => {
-  const user = await CommonService.handleRequest(req)
+  const user = CommonService.handleRequest(req)
   const customerKeyId = req.params.customerKeyId
   const enabled = req.params.enabled
 
