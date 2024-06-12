@@ -1,4 +1,11 @@
+import { AuthTokenFetcher } from '../utils/authTokenFetcher'
 import { logger } from '../config/logging'
+
+const tokenFetcher = new AuthTokenFetcher(
+  process.env.COGNITO_AUTH_URL ?? '',
+  process.env.COGNITO_CLIENT_ID ?? '',
+  process.env.COGNITO_CLIENT_SECRET ?? ''
+)
 
 export interface User {
   UserId: string
@@ -19,7 +26,8 @@ export namespace UserService {
       return await doRequest(
         {
           path: `/api/users/${user.userId}`,
-          method: 'GET'
+          method: 'GET',
+          userId: user.userId
         }
       )
     } catch (error) {
@@ -35,7 +43,8 @@ export namespace UserService {
         {
           path: `/api/users/${user.userId}`,
           method: 'POST',
-          body: JSON.stringify({ organisationId })
+          body: JSON.stringify({ organisationId }),
+          userId: user.userId
         }
       )
     } catch (error) {
@@ -47,6 +56,7 @@ export namespace UserService {
   interface RequestOpts {
     path: string
     method: 'GET' | 'POST' | 'PATCH' | 'DELETE'
+    userId: string
     body?: string
   }
 
@@ -56,7 +66,12 @@ export namespace UserService {
     const headers: Record<string, string> = {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      'User-Agent': 'hub-frontend'
+      'User-Agent': 'hub-frontend',
+      'X-User-Id': opts.userId
+    }
+
+    if (process.env.NODE_ENV === 'production') {
+      headers.Authorization = `Bearer ${await tokenFetcher.fetchToken()}`
     }
 
     const options: RequestInit = {
