@@ -57,3 +57,8 @@ variable "feedback_url" {
   description = "Feedback URL."
   type        = string
 }
+
+variable "log_level" {
+  description = "Log level. Defaults to info. One of debug, info, warn, error."
+  type        = string
+}
