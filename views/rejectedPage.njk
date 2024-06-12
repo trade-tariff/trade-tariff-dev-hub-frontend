@@ -1,12 +1,14 @@
 {% extends "layout.njk" %}
-{% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "govuk/components/input/macro.njk" import govukInput %}
-{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
-
-{% block title %}Application Rejected{% endblock %}
 {% block content %}
-    <h1 class="govuk-heading-m">Application Rejected</h1>
-    <p class="govuk-body">
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-    </p>
+    {% include "back-button.njk" %}
+    <main class="govuk-main-wrapper govuk-width-container"
+          id="main-content"
+          role="main">
+        <div class="govuk-panel govuk-panel--confirmation", style="background-color:red">
+            <h1 class="govuk-panel__title">Application rejected</h1>
+        </div>
+        <p class="govuk-body">
+            <a href="/feedback" class="govuk-link" target="_blank">What did you think of this service?</a> (takes 30 seconds)
+        </p>
+    </main>
 {% endblock %}
