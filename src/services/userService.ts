@@ -1,5 +1,6 @@
 import { AuthTokenFetcher } from '../utils/authTokenFetcher'
 import { logger } from '../config/logging'
+import { type ScpUser } from '../services/commonService'
 
 const tokenFetcher = new AuthTokenFetcher(
   process.env.COGNITO_AUTH_URL ?? '',
@@ -13,11 +14,6 @@ export interface User {
   OrganisationId: string
   CreatedAt: string
   UpdatedAt: string
-}
-
-interface ScpUser {
-  groupId: string
-  userId: string
 }
 
 export namespace UserService {
