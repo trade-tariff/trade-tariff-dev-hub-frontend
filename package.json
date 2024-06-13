@@ -7,12 +7,17 @@
     "build": "rm -rf dist && tsc",
     "dev": "nodemon src/app.ts",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "prettier": "prettier . --write",
+    "lint:fix": "eslint --fix .",
+    "format": "prettier --write .",
     "start": "node ./dist/src/app.js",
     "test": "ts-node node_modules/jasmine/bin/jasmine",
     "clean": "rm -rf dist",
     "prepare": "husky"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "axios": "^1.6.8",
@@ -47,6 +52,7 @@
     "husky": "^9.0.11",
     "jasmine": "^5.1.0",
     "jasmine-spec-reporter": "^7.0.0",
+    "lint-staged": "^15.2.7",
     "nodemon": "^3.1.0",
     "prettier": "3.3.1",
     "sinon": "^17.0.1",
