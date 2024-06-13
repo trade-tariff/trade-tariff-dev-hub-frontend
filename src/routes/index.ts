@@ -7,7 +7,6 @@ import { privacyPolicyPage } from '../controllers/privacyPolicyController'
 import { cookiesPage } from '../controllers/cookiesController'
 import { rejectedPage } from '../controllers/rejectedController'
 import { requiresAuth } from 'express-openid-connect'
-import registration from '../config/registration'
 
 const healthchecksController = new HealthchecksController()
 const router: Router = express.Router()
@@ -22,7 +21,6 @@ const isProduction = (process.env.NODE_ENV ?? 'development') === 'production'
 
 if (isProduction) {
   router.use(requiresAuth())
-  router.use(registration)
 }
 
 router.get('/verification', newVerificationPage)
