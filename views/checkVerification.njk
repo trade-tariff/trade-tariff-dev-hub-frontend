@@ -1,5 +1,8 @@
 {% extends "layout.njk" %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
 {% block content %}
     {% include "back-button.njk" %}
     <div class="govuk-grid-row">
@@ -81,53 +84,86 @@
             }) }}
         </div>
     </div>
-    <h2 class="govuk-heading-l">Terms and Conditions</h2>
-    <p class="govuk-body">
-        Read the information below carefully. By ticking the boxes, you acknowledge that you have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool.
-    </p>
+    {% if error %}
+        {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: [
+                {
+                text: "Select all the terms & conditions.",
+                href: "#"
+                }
+            ]
+        }) }}
+    {% endif %}
     <form method="POST" action="/completion">
-        <div class="govuk-checkboxes">
-            <div class="govuk-checkboxes__item">
-                <input class="govuk-checkboxes__input"
-                       id="term1"
-                       name="terms"
-                       type="checkbox"
-                       value="term1">
-                <label class="govuk-label govuk-checkboxes__label" for="term1">
-                    The Commodity Code Identification Tool is designated for backend operations only and must not be directly integrated into any customer-facing interfaces, applications, or websites.
-                </label>
-            </div>
-            <div class="govuk-checkboxes__item">
-                <input class="govuk-checkboxes__input"
-                       id="term2"
-                       name="terms"
-                       type="checkbox"
-                       value="term2">
-                <label class="govuk-label govuk-checkboxes__label" for="term2">
-                    The Commodity Code Identification Tool is solely for internal use and must not be shared with external parties. Access credentials must remain confidential and not be disclosed to anyone outside the organisation.
-                </label>
-            </div>
-            <div class="govuk-checkboxes__item">
-                <input class="govuk-checkboxes__input"
-                       id="term3"
-                       name="terms"
-                       type="checkbox"
-                       value="term3">
-                <label class="govuk-label govuk-checkboxes__label" for="term3">
-                    The Commodity Code Identification Tool is solely intended for generating commodity codes for parcels being transported from Great Britain to Northern Ireland that are classified as "Not at Risk."
-                </label>
-            </div>
-            <div class="govuk-checkboxes__item">
-                <input class="govuk-checkboxes__input"
-                       id="term4"
-                       name="terms"
-                       type="checkbox"
-                       value="term4">
-                <label class="govuk-label govuk-checkboxes__label" for="term4">
-                    I have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool.
-                </label>
-            </div>
-        </div>
+        {% if error %}
+            {{ govukCheckboxes({
+            name: "terms",
+            fieldset: {
+                legend: {
+                text: "Terms and Conditions",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+                text: "Read the information below carefully. By ticking the boxes, you acknowledge that you have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool."
+            },
+            errorMessage: {
+                text: "Select all the terms & conditions."
+            },
+            items: [
+                {
+                value: "term1",
+                text: "The Commodity Code Identification Tool is designated for backend operations only and must not be directly integrated into any customer-facing interfaces, applications, or websites."
+                },
+                {
+                value: "term2",
+                text: "The Commodity Code Identification Tool is solely for internal use and must not be shared with external parties. Access credentials must remain confidential and not be disclosed to anyone outside the organisation."
+                },
+                {
+                value: "term3",
+                text: "The Commodity Code Identification Tool is solely intended for generating commodity codes for parcels being transported from Great Britain to Northern Ireland that are classified as 'Not at Risk'."
+                },
+                {
+                value: "term4",
+                text: "I have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool."
+                }
+            ]
+            }) }}
+        {% else %}
+            {{ govukCheckboxes({
+            name: "terms",
+            fieldset: {
+                legend: {
+                text: "Terms and Conditions",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+                text: "Read the information below carefully. By ticking the boxes, you acknowledge that you have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool."
+            },
+            items: [
+                {
+                value: "term1",
+                text: "The Commodity Code Identification Tool is designated for backend operations only and must not be directly integrated into any customer-facing interfaces, applications, or websites."
+                },
+                {
+                value: "term2",
+                text: "The Commodity Code Identification Tool is solely for internal use and must not be shared with external parties. Access credentials must remain confidential and not be disclosed to anyone outside the organisation."
+                },
+                {
+                value: "term3",
+                text: "The Commodity Code Identification Tool is solely intended for generating commodity codes for parcels being transported from Great Britain to Northern Ireland that are classified as 'Not at Risk'."
+                },
+                {
+                value: "term4",
+                text: "I have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool."
+                }
+            ]
+            }) }}
+        {% endif %}
         <p class="govuk-body"/p>
         <p class="govuk-body">
             Full terms and conditions are available <a href="#" class="govuk-link">here</a>.
