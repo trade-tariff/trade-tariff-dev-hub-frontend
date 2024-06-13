@@ -46,3 +46,9 @@ repos:
     rev: v8.16.1
     hooks:
       - id: gitleaks
+
+  - repo: https://github.com/djlint/djLint
+    rev: v1.34.1
+    hooks:
+      - id: djlint-reformat-nunjucks
+      - id: djlint-nunjucks
