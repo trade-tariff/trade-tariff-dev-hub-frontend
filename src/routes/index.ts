@@ -7,6 +7,7 @@ import { privacyPolicyPage } from '../controllers/privacyPolicyController'
 import { cookiesPage } from '../controllers/cookiesController'
 import { rejectedPage } from '../controllers/rejectedController'
 import { requiresAuth } from 'express-openid-connect'
+import { body } from 'express-validator'
 
 const healthchecksController = new HealthchecksController()
 const router: Router = express.Router()
@@ -25,7 +26,7 @@ if (isProduction) {
 
 router.get('/verification', newVerificationPage)
 router.post('/check-verification', checkVerificationDetails)
-router.post('/completion', applicationComplete)
+router.post('/completion', body('terms', 'Select all the terms & conditions.').isArray({ min: 4 }), applicationComplete)
 router.get('/rejectedPage', rejectedPage)
 
 export default router
