@@ -1,5 +1,6 @@
 import { type Request, type Response } from 'express'
 import { logger } from '../config/logging'
+import { validationResult } from 'express-validator'
 
 export const newVerificationPage = async (req: Request, res: Response): Promise<void> => {
   const session = req.session ?? {}
@@ -26,6 +27,18 @@ export const checkVerificationDetails = async (req: Request, res: Response): Pro
 }
 
 export const applicationComplete = async (req: Request, res: Response): Promise<void> => {
-  req.session = null
-  res.render('completion')
+  const body = req.body
+  const result = validationResult(req)
+
+  try {
+    if (result.isEmpty()) {
+      req.session = null
+      res.render('completion')
+    } else {
+      res.render('checkVerification', { body, error: result })
+    }
+  } catch (error) {
+    logger.error('Error fetching API keys:', error)
+    res.status(500).send('Error fetching API keys')
+  }
 }
