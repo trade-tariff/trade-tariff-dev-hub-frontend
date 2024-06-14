@@ -28,6 +28,7 @@ export const checkVerificationDetails = async (req: Request, res: Response): Pro
 
 export const applicationComplete = async (req: Request, res: Response): Promise<void> => {
   const body = req.body
+  const session = req.session ?? {}
   const result = validationResult(req)
 
   try {
@@ -35,7 +36,7 @@ export const applicationComplete = async (req: Request, res: Response): Promise<
       req.session = null
       res.render('completion')
     } else {
-      res.render('checkVerification', { body, error: result })
+      res.render('checkVerification', { body, session, error: result })
     }
   } catch (error) {
     logger.error('Error fetching API keys:', error)
