@@ -17,12 +17,12 @@
                     text: "Organisation Name"
                     },
                     value: {
-                    text: body.organisationName
+                    text: session.organisationName
                     },
                     actions: {
                     items: [
                         {
-                        href: "javascript:history.back()",
+                        href: "/verification",
                         text: "Change",
                         visuallyHiddenText: "Organisation Name"
                         }
@@ -34,12 +34,12 @@
                     text: "Organisation EORI"
                     },
                     value: {
-                    text: body.eoriNumber
+                    text: session.eoriNumber
                     },
                     actions: {
                     items: [
                         {
-                        href: "javascript:history.back()",
+                        href: "/verification",
                         text: "Change",
                         visuallyHiddenText: "Organisation EORI"
                         }
@@ -51,12 +51,12 @@
                     text: "UKACS Reference"
                     },
                     value: {
-                    text: body.ukacsReference
+                    text: session.ukacsReference
                     },
                     actions: {
                     items: [
                         {
-                        href: "javascript:history.back()",
+                        href: "/verification",
                         text: "Change",
                         visuallyHiddenText: "UKACS Reference"
                         }
@@ -68,12 +68,12 @@
                     text: "Email Address"
                     },
                     value: {
-                    text: body.emailAddress
+                    text: session.emailAddress
                     },
                     actions: {
                     items: [
                         {
-                        href: "javascript:history.back()",
+                        href: "/verification",
                         text: "Change",
                         visuallyHiddenText: "Email Address"
                         }

@@ -1,4 +1,5 @@
 import { type Express, type Request, type Response, type NextFunction } from 'express'
+import cookieSession from 'cookie-session'
 
 import createError from 'http-errors'
 import express from 'express'
@@ -64,6 +65,12 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/govuk', express.static('node_modules/govuk-frontend/dist/govuk'))
 app.use('/assets', express.static('node_modules/govuk-frontend/dist/govuk/assets'))
 app.use(express.static('public'))
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['2qOcKGTD32sjl70MxB0l'],
+  maxAge: 24 * 60 * 60 * 1000
+}))
 
 app.use('/', indexRouter)
 app.use('/dashboard', dashboardRoutes)
