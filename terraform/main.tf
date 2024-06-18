@@ -82,6 +82,14 @@ module "service" {
     {
       name  = "EORI_LOOKUP_URL"
       value = var.eori_lookup_url
+    },
+    {
+      name  = "REGISTRATION_TEMPLATE_ID"
+      value = var.registration_template_id
+    },
+    {
+      name  = "SUPPORT_TEMPLATE_ID"
+      value = var.support_template_id
     }
   ]
 
@@ -105,6 +113,14 @@ module "service" {
     {
       name      = "SCP_OPEN_ID_CLIENT_SECRET"
       valueFrom = data.aws_secretsmanager_secret.scp_open_id_client_secret.arn
+    },
+    {
+      name      = "GOVUK_NOTIFY_API_KEY"
+      valueFrom = data.aws_secretsmanager_secret.govuk_notify_api_key.arn
+    },
+    {
+      name      = "APPLICATION_SUPPORT_EMAIL"
+      valueFrom = data.aws_secretsmanager_secret.application_support_email.arn
     }
   ]
 }
