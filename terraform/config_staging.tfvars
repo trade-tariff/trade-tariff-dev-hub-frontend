@@ -10,3 +10,4 @@ scp_open_id_issuer_base_url = "https://api.ete.access.service.gov.uk"
 deletion_enabled            = true
 feedback_url                = "https://staging.trade-tariff.service.gov.uk/feedback"
 log_level                   = "info"
+eori_lookup_url             = "https://api.service.hmrc.gov.uk/customs/eori/lookup/check-multiple-eori"

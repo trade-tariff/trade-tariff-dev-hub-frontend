@@ -78,6 +78,10 @@ module "service" {
     {
       name  = "LOG_LEVEL"
       value = var.log_level
+    },
+    {
+      name  = "EORI_LOOKUP_URL"
+      value = var.eori_lookup_url
     }
   ]
 
