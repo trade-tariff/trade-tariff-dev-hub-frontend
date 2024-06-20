@@ -95,7 +95,7 @@ export const applicationComplete = async (req: Request, res: Response): Promise<
   const body = req.body
   const session = req.session ?? {}
   const result = validationResult(req)
-  const templateId: string = process.env.REGISTRATION_TEMPLATE_ID ?? ''
+  const registrationTemplateId: string = process.env.REGISTRATION_TEMPLATE_ID ?? ''
   const applicationTemplateId: string = process.env.SUPPORT_TEMPLATE_ID ?? ''
   const applicationSupporteEmail: string = process.env.APPLICATION_SUPPORT_EMAIL ?? ''
 
