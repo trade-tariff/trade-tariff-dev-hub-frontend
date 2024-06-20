@@ -104,7 +104,7 @@ export const applicationComplete = async (req: Request, res: Response): Promise<
       const env = process.env.NODE_ENV ?? 'development'
       if (env === 'production') {
         const referenceNumber: string = generateApplicationReference(8)
-        await EmailService.sendEmail(templateId, session.emailAddress as string, session.organisationName as string, referenceNumber)
+        await EmailService.sendEmail(registrationTemplateId, session.emailAddress as string, session.organisationName as string, referenceNumber)
         await EmailService.sendEmail(applicationTemplateId, applicationSupporteEmail, session.organisationName as string, referenceNumber)
       }
       req.session = null
