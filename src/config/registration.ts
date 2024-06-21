@@ -1,12 +1,15 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import { CommonService } from '../services/commonService'
 import { UserService } from '../services/userService'
+import { OrganisationService } from '../services/organisationService'
 import { logger } from '../config/logging'
 
 export default async function (req: Request, res: Response, next: NextFunction): Promise<void> {
   const user = CommonService.handleRequest(req)
   const scpUser = { userId: user.userId, groupId: user.groupId }
   const userInfo = await UserService.getUser(scpUser)
+  const organisation = await OrganisationService.getOrganisation(user.groupId)
+  const applicationReference = organisation.ApplicationReference
 
   logger.debug(`User info: ${JSON.stringify(userInfo)}`)
   logger.debug(`User info status: ${userInfo.Status}`)
@@ -22,7 +25,7 @@ export default async function (req: Request, res: Response, next: NextFunction):
         break
       case 'Rejected':
         logger.debug('User is rejected')
-        res.render('rejectedPage')
+        res.render('rejectedPage', { applicationReference })
         break
       case 'Unregistered':
         logger.debug('User is unregistered')

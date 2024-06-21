@@ -3,6 +3,10 @@ export interface ScpUser {
   userId: string
 }
 
+export interface ScpOrganisation {
+  organisationId: string
+}
+
 export namespace CommonService {
   export function handleRequest (req: any): ScpUser {
     const env = process.env.NODE_ENV ?? 'development'

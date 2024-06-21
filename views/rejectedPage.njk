@@ -7,7 +7,7 @@
         <div class="govuk-grid-column-two-thirds-from-desktop">
             <h1 class="govuk-heading-l">Your application has been rejected</h1>
             <p class="govuk-body">
-                Your application, with reference number <strong>HDJ2123F</strong>, has been rejected.
+                Your application, with reference number <strong>{{ applicationReference }}</strong>, has been rejected.
             </p>
             <p class="govuk-body">
                 A notification of this decision, including further details, has been sent to the email address provided in the application.
@@ -16,7 +16,7 @@
                 For further enquiries relating to this decision and general advice, email <a class="govuk-link"
         href="mailto:hmrc-fpo-tool-support@digital.hmrc.gov.uk">hmrc-fpo-tool-support@digital.hmrc.gov.uk</a> using below reference number.
             </p>
-            <h1 class="govuk-heading-l">HDJ2123F</h1>
+            <h1 class="govuk-heading-l">{{ applicationReference }}</h1>
             <p class="govuk-body">
                 {{ govukButton({
                     text: "Copy to clipboard",
