@@ -19,7 +19,8 @@
   "include": [
     "src/**/*.ts",
     "spec/**/*.ts",
-    ".eslintrc.js"
+    ".eslintrc.js",
+    "globals.d.ts"
   ],
   "exclude": [
     "node_modules",

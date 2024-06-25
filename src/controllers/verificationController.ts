@@ -1,7 +1,9 @@
 import { type Request, type Response } from 'express'
 import { type Result, type ValidationError, type FieldValidationError } from 'express-validator'
+import { randomBytes } from 'node:crypto'
 import { logger } from '../config/logging'
 import { validationResult } from 'express-validator'
+import { EmailService } from '../services/emailService'
 
 interface EoriCheckResult {
   eori: string
@@ -55,6 +57,14 @@ export const checkVerificationDetails = async (req: Request, res: Response): Pro
   const inputValidationResult: Result<ValidationError> = validationResult(req)
   const errorList = []
   try {
+    const array = inputValidationResult.array({ onlyFirstError: true })
+    for (let index = 0; index < array.length; index++) {
+      const element: FieldValidationError = array[index] as FieldValidationError
+      errorList.push({
+        text: element.msg,
+        href: '#' + element.path
+      })
+    }
     const eoriNumberError = inputValidationResult.array({ onlyFirstError: true }).find((error) => (error as FieldValidationError).path === 'eoriNumber')
     if (eoriNumberError == null) {
       const eoriValidationResult: EoriCheckResult[] = await getEoriValidationResult(body.eoriNumber as string)
@@ -66,17 +76,9 @@ export const checkVerificationDetails = async (req: Request, res: Response): Pro
         })
       }
     }
-    if (inputValidationResult.isEmpty()) {
+    if (errorList.length === 0) {
       res.render('checkVerification', { body, session })
     } else {
-      const array = inputValidationResult.array({ onlyFirstError: true })
-      for (let index = 0; index < array.length; index++) {
-        const element: FieldValidationError = array[index] as FieldValidationError
-        errorList.push({
-          text: element.msg,
-          href: '#' + element.path
-        })
-      }
       const organisationNameError = errorList.find((element) => element.href === '#organisationName')
       const eoriNumberError = errorList.find((element) => element.href === '#eoriNumber')
       const ukacsReferenceError = errorList.find((element) => element.href === '#ukacsReference')
@@ -93,9 +95,18 @@ export const applicationComplete = async (req: Request, res: Response): Promise<
   const body = req.body
   const session = req.session ?? {}
   const result = validationResult(req)
+  const registrationTemplateId: string = process.env.REGISTRATION_TEMPLATE_ID ?? ''
+  const applicationTemplateId: string = process.env.SUPPORT_TEMPLATE_ID ?? ''
+  const applicationSupporteEmail: string = process.env.APPLICATION_SUPPORT_EMAIL ?? ''
 
   try {
     if (result.isEmpty()) {
+      const env = process.env.NODE_ENV ?? 'development'
+      if (env === 'production') {
+        const referenceNumber: string = generateApplicationReference(8)
+        await EmailService.sendEmail(registrationTemplateId, session.emailAddress as string, session.organisationName as string, referenceNumber)
+        await EmailService.sendEmail(applicationTemplateId, applicationSupporteEmail, session.organisationName as string, referenceNumber)
+      }
       req.session = null
       res.render('completion')
     } else {
@@ -105,4 +116,10 @@ export const applicationComplete = async (req: Request, res: Response): Promise<
     logger.error('Error completing the application:', error)
     res.status(500).send('Error completing the application')
   }
+}
+function generateApplicationReference (length: number): string {
+  if (length % 2 !== 0) {
+    length++
+  }
+  return randomBytes(length / 2).toString('hex').toUpperCase()
 }
