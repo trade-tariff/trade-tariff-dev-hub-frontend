@@ -33,10 +33,6 @@ export default async function (req: Request, res: Response, next: NextFunction):
         logger.debug('User is unregistered')
         res.render('verification')
         break
-      default: {
-        logger.debug(`Default case: User status ${userInfo.Status}`)
-        next()
-      }
     }
   } catch (error) {
     logger.error('Error in the registration flow:', error)
