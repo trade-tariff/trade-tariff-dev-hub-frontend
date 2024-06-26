@@ -6,10 +6,15 @@ import { logger } from '../config/logging'
 export default async function (req: Request, res: Response, next: NextFunction): Promise<void> {
   const user = CommonService.handleRequest(req)
   const scpUser = { userId: user.userId, groupId: user.groupId }
-  const userInfo = await UserService.getUser(scpUser)
+  let userInfo = await UserService.getUser(scpUser)
 
   logger.debug(`User info: ${JSON.stringify(userInfo)}`)
   logger.debug(`User info status: ${userInfo.Status}`)
+  if (userInfo.Status === undefined) {
+    await UserService.createUser(scpUser)
+  }
+  userInfo = await UserService.getUser(scpUser)
+  logger.debug(`After create: User info status: ${userInfo.Status}`)
   try {
     switch (userInfo.Status) {
       case 'Authorised':
@@ -28,10 +33,6 @@ export default async function (req: Request, res: Response, next: NextFunction):
         logger.debug('User is unregistered')
         res.render('verification')
         break
-      default:
-        logger.debug(`User status not recognised ${userInfo.Status}`)
-        await UserService.createUser(scpUser)
-        res.render('verification')
     }
   } catch (error) {
     logger.error('Error in the registration flow:', error)
