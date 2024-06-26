@@ -16,7 +16,7 @@ export default async function (req: Request, res: Response, next: NextFunction):
   if (userInfo.Status === undefined) {
     await UserService.createUser(scpUser)
   }
-  userInfo = await UserService.getUser(scpUser)
+
   logger.debug(`After create: User info status: ${userInfo.Status}`)
   try {
     switch (userInfo.Status) {
