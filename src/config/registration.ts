@@ -11,6 +11,7 @@ export default async function (req: Request, res: Response, next: NextFunction):
   const organisation = await OrganisationService.getOrganisation(user.groupId)
   const applicationReference = organisation.ApplicationReference
 
+  logger.debug(`organisation info: ${JSON.stringify(organisation)}`)
   logger.debug(`User info: ${JSON.stringify(userInfo)}`)
   logger.debug(`User info status: ${userInfo.Status}`)
   if (userInfo.Status === undefined) {
