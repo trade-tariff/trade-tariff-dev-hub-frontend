@@ -21,7 +21,7 @@ export namespace OrganisationService {
       logger.debug(`Fetching organisation with id ${organisationId}`)
       return await doRequest(
         {
-          path: `/api/organisation/${organisationId}`,
+          path: `/api/organisations/${organisationId}`,
           method: 'GET',
           organisationId
         }
@@ -35,17 +35,17 @@ export namespace OrganisationService {
   export async function updateOrganisationStatusAndReference (organisationId: string, applicationReference: string): Promise<Organisation> {
     const status: string = 'Pending'
     try {
-      logger.debug(`Creating organisation with organisation ${organisationId}`)
+      logger.debug(`Updating organisation ${organisationId}`)
       return await doRequest(
         {
-          path: `/api/organisation/${organisationId}`,
+          path: `/api/organisations/${organisationId}`,
           method: 'PATCH',
           body: JSON.stringify({ applicationReference, status }),
           organisationId
         }
       )
     } catch (error) {
-      logger.error('Error creating a organisation :', error)
+      logger.error('Error updating organisation :', error)
       throw error
     }
   }
