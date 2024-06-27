@@ -4,6 +4,7 @@ import { randomBytes } from 'node:crypto'
 import { logger } from '../config/logging'
 import { validationResult } from 'express-validator'
 import { EmailService } from '../services/emailService'
+import { OrganisationService } from '../services/organisationService'
 
 interface EoriCheckResult {
   eori: string
@@ -98,17 +99,19 @@ export const applicationComplete = async (req: Request, res: Response): Promise<
   const registrationTemplateId: string = process.env.REGISTRATION_TEMPLATE_ID ?? ''
   const applicationTemplateId: string = process.env.SUPPORT_TEMPLATE_ID ?? ''
   const applicationSupporteEmail: string = process.env.APPLICATION_SUPPORT_EMAIL ?? ''
+  const organisationId: string = body.groupId
 
   try {
     if (result.isEmpty()) {
       const env = process.env.NODE_ENV ?? 'development'
+      const applicationReference: string = generateApplicationReference(8)
       if (env === 'production') {
-        const referenceNumber: string = generateApplicationReference(8)
-        await EmailService.sendEmail(registrationTemplateId, session.emailAddress as string, session.organisationName as string, referenceNumber)
-        await EmailService.sendEmail(applicationTemplateId, applicationSupporteEmail, session.organisationName as string, referenceNumber)
+        await EmailService.sendEmail(registrationTemplateId, session.emailAddress as string, session.organisationName as string, applicationReference)
+        await EmailService.sendEmail(applicationTemplateId, applicationSupporteEmail, session.organisationName as string, applicationReference)
       }
       req.session = null
-      res.render('completion')
+      res.render('completion', { applicationReference })
+      await OrganisationService.updateOrganisationStatusAndReference(organisationId, applicationReference)
     } else {
       res.render('checkVerification', { body, session, error: result })
     }
