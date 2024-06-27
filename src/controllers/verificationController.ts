@@ -5,6 +5,7 @@ import { logger } from '../config/logging'
 import { validationResult } from 'express-validator'
 import { EmailService } from '../services/emailService'
 import { OrganisationService } from '../services/organisationService'
+import { CommonService } from '../services/commonService'
 
 interface EoriCheckResult {
   eori: string
@@ -99,19 +100,20 @@ export const applicationComplete = async (req: Request, res: Response): Promise<
   const registrationTemplateId: string = process.env.REGISTRATION_TEMPLATE_ID ?? ''
   const applicationTemplateId: string = process.env.SUPPORT_TEMPLATE_ID ?? ''
   const applicationSupporteEmail: string = process.env.APPLICATION_SUPPORT_EMAIL ?? ''
-  const organisationId: string = body.groupId
+  const user = CommonService.handleRequest(req)
+  const organisationId = user.groupId
 
   try {
     if (result.isEmpty()) {
       const env = process.env.NODE_ENV ?? 'development'
       const applicationReference: string = generateApplicationReference(8)
+      await OrganisationService.updateOrganisationStatusAndReference(organisationId, applicationReference)
       if (env === 'production') {
         await EmailService.sendEmail(registrationTemplateId, session.emailAddress as string, session.organisationName as string, applicationReference)
         await EmailService.sendEmail(applicationTemplateId, applicationSupporteEmail, session.organisationName as string, applicationReference)
       }
       req.session = null
       res.render('completion', { applicationReference })
-      await OrganisationService.updateOrganisationStatusAndReference(organisationId, applicationReference)
     } else {
       res.render('checkVerification', { body, session, error: result })
     }
