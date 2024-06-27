@@ -8,11 +8,12 @@ export default async function (req: Request, res: Response, next: NextFunction):
   const user = CommonService.handleRequest(req)
   const scpUser = { userId: user.userId, groupId: user.groupId }
   const userInfo = await UserService.getUser(scpUser)
-  const organisation = await OrganisationService.getOrganisation(user.groupId)
+  const organisation = await OrganisationService.getOrganisation(userInfo.OrganisationId)
   const applicationReference = organisation.ApplicationReference
 
   logger.debug(`User info: ${JSON.stringify(userInfo)}`)
   logger.debug(`User info status: ${userInfo.Status}`)
+  logger.debug(`organisation info: ${JSON.stringify(organisation)}`)
   if (userInfo.Status === undefined) {
     await UserService.createUser(scpUser)
   }
