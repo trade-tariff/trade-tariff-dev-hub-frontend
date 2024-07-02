@@ -32,7 +32,7 @@ export namespace OrganisationService {
     }
   }
 
-  export async function updateOrganisationStatusAndReference (organisationId: string, applicationReference: string): Promise<Organisation> {
+  export async function updateOrganisation (organisationId: string, applicationReference: string, organisationName: string, eoriNumber: string, ukAcsReference: string): Promise<Organisation> {
     const status: string = 'Pending'
     try {
       logger.debug(`Updating organisation ${organisationId}`)
@@ -40,7 +40,7 @@ export namespace OrganisationService {
         {
           path: `/api/organisations/${organisationId}`,
           method: 'PATCH',
-          body: JSON.stringify({ applicationReference, status }),
+          body: JSON.stringify({ applicationReference, status, organisationName, eoriNumber, ukAcsReference }),
           organisationId
         }
       )

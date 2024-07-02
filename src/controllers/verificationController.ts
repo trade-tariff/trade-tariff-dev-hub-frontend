@@ -6,6 +6,7 @@ import { validationResult } from 'express-validator'
 import { EmailService } from '../services/emailService'
 import { OrganisationService } from '../services/organisationService'
 import { CommonService } from '../services/commonService'
+import { UserService } from '../services/userService'
 
 interface EoriCheckResult {
   eori: string
@@ -107,10 +108,13 @@ export const applicationComplete = async (req: Request, res: Response): Promise<
     if (result.isEmpty()) {
       const env = process.env.NODE_ENV ?? 'development'
       const applicationReference: string = generateApplicationReference(8)
-      await OrganisationService.updateOrganisationStatusAndReference(organisationId, applicationReference)
+      await OrganisationService.updateOrganisation(organisationId, applicationReference, session.organisationName as string, session.eoriNumber as string, session.ukacsReference as string)
+      logger.debug('******* Organisation updating *******')
+      await UserService.updateUser(user, session.emailAddress as string)
+      logger.debug('******* User updating ***** ')
       if (env === 'production') {
         await EmailService.sendEmail(registrationTemplateId, session.emailAddress as string, session.organisationName as string, applicationReference)
-        await EmailService.sendEmail(applicationTemplateId, applicationSupporteEmail, session.organisationName as string, applicationReference)
+        await EmailService.sendEmail(applicationTemplateId, applicationSupporteEmail, session.organisationName as string, applicationReference, session.eoriNumber as string, session.ukacsReference as string)
       }
       req.session = null
       res.render('completion', { applicationReference })

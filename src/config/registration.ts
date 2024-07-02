@@ -7,7 +7,7 @@ import { logger } from '../config/logging'
 export default async function (req: Request, res: Response, next: NextFunction): Promise<void> {
   const user = CommonService.handleRequest(req)
   const scpUser = { userId: user.userId, groupId: user.groupId }
-  const userInfo = await UserService.getUser(scpUser)
+  let userInfo = await UserService.getUser(scpUser)
   const organisation = await OrganisationService.getOrganisation(userInfo.OrganisationId)
   const applicationReference = organisation.ApplicationReference
 
@@ -18,7 +18,7 @@ export default async function (req: Request, res: Response, next: NextFunction):
   if (userInfo.Status === undefined) {
     await UserService.createUser(scpUser)
   }
-
+  userInfo = await UserService.getUser(scpUser)
   logger.debug(`After create: User info status: ${userInfo.Status}`)
   try {
     switch (userInfo.Status) {

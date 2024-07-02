@@ -9,15 +9,17 @@ type NotifyClient = typeof NotifyClient
 const notifyClient: NotifyClient = new NotifyClient(govUKNotifyAPIKey)
 
 export namespace EmailService {
-  export async function sendEmail (templateId: string, emailAddress: string, organisationName: string, ref: string): Promise<void> {
+  export async function sendEmail (templateId: string, emailAddress: string, organisationName: string, ref: string, eoriNumber?: string, ukcReference?: string): Promise<void> {
     try {
       await notifyClient.sendEmail(
         templateId,
         emailAddress,
         {
           personalisation: {
-            name: organisationName,
-            reference: ref
+            organisation: organisationName,
+            reference: ref,
+            eori: eoriNumber,
+            ukc: ref
           },
           reference: ref
         }
