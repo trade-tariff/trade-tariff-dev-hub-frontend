@@ -121,6 +121,10 @@ module "service" {
     {
       name      = "APPLICATION_SUPPORT_EMAIL"
       valueFrom = data.aws_secretsmanager_secret.application_support_email.arn
+    },
+    {
+      name      = "COOKIE_SIGNING_SECRET"
+      valueFrom = data.aws_secretsmanager_secret.cookie_signing_secret.arn
     }
   ]
 }

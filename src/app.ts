@@ -24,6 +24,7 @@ const app: Express = express()
 const isDev = app.get('env') === 'development'
 const port = process.env.PORT ?? 8080
 const feedbackURL = process.env.FEEDBACK_URL ?? ''
+const cookieSigningSecret = process.env.COOKIE_SIGNING_SECRET ?? ''
 
 const templateConfig: nunjucks.ConfigureOptions = {
   autoescape: true,
@@ -68,7 +69,7 @@ app.use(express.static('public'))
 
 app.use(cookieSession({
   name: 'session',
-  keys: ['2qOcKGTD32sjl70MxB0l'],
+  keys: [cookieSigningSecret],
   maxAge: 24 * 60 * 60 * 1000
 }))
 
