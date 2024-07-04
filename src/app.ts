@@ -16,6 +16,7 @@ import mainNavigationOptions from './config/main-navigation-options'
 import validateCognitoConfig from './config/cognitoAuth'
 import { configureAuth } from './config/scpAuth'
 import { httpRequestLoggingMiddleware, logger } from './config/logging'
+import config from './config/config'
 
 initEnvironment()
 
@@ -23,7 +24,6 @@ const app: Express = express()
 
 const isDev = app.get('env') === 'development'
 const port = process.env.PORT ?? 8080
-const feedbackURL = process.env.FEEDBACK_URL ?? ''
 
 const templateConfig: nunjucks.ConfigureOptions = {
   autoescape: true,
@@ -40,6 +40,8 @@ const nunjucksConfiguration = nunjucks.configure(
   templateConfig
 )
 
+nunjucksConfiguration.addGlobal('config', config);
+
 if (isDev) {
   app.use(morgan('dev'))
   nunjucksConfiguration.addGlobal('baseURL', `http://localhost:${port}`)
@@ -53,8 +55,6 @@ if (isDev) {
 }
 
 app.use(mainNavigationOptions)
-
-nunjucksConfiguration.addGlobal('feedbackURL', feedbackURL)
 
 app.set('view engine', 'njk')
 

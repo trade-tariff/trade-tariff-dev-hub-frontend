@@ -51,28 +51,28 @@
     {% block footer %}
         {{ govukFooter({
             meta: {
-            items: [
-            {
-            href: "https://api.trade-tariff.service.gov.uk/fpo.html",
-            text: "API Documentation"
-            },
-            {
-            href: feedbackURL,
-            text: "Feedback"
-            },
-            {
-            href: "/privacyPolicy",
-            text: "Privacy policy "
-            },
-            {
-            href: "/cookies",
-            text: "Cookies"
-            },
-            {
-            href: "#",
-            text: "Terms and conditions"
-            }
-            ]
+                items: [
+                    {
+                        href: config.urls.apiDocs,
+                        text: "API Documentation"
+                    },
+                    {
+                        href: config.urls.feedback,
+                        text: "Feedback"
+                    },
+                    {
+                        href: "/privacyPolicy",
+                        text: "Privacy policy "
+                    },
+                    {
+                        href: "/cookies",
+                        text: "Cookies"
+                    },
+                    {
+                        href: config.urls.termsAndConditions,
+                        text: "Terms and conditions"
+                    }
+                ]
             }
         }) }}
     {% endblock %}
