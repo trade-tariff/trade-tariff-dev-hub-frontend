@@ -3,8 +3,8 @@ import { type Result, type ValidationError, type FieldValidationError } from 'ex
 import { randomBytes } from 'node:crypto'
 import { logger } from '../config/logging'
 import { validationResult } from 'express-validator'
-import { EmailService } from '../services/emailService'
-import { OrganisationService } from '../services/organisationService'
+import { type EmailData, sendCustomerEmail, sendSupportEmail } from '../services/emailService'
+import { type Organisation, OrganisationService } from '../services/organisationService'
 import { CommonService } from '../services/commonService'
 import { UserService } from '../services/userService'
 
@@ -98,9 +98,6 @@ export const applicationComplete = async (req: Request, res: Response): Promise<
   const body = req.body
   const session = req.session ?? {}
   const result = validationResult(req)
-  const registrationTemplateId: string = process.env.REGISTRATION_TEMPLATE_ID ?? ''
-  const applicationTemplateId: string = process.env.SUPPORT_TEMPLATE_ID ?? ''
-  const applicationSupporteEmail: string = process.env.APPLICATION_SUPPORT_EMAIL ?? ''
   const user = CommonService.handleRequest(req)
   const organisationId = user.groupId
 
@@ -108,13 +105,28 @@ export const applicationComplete = async (req: Request, res: Response): Promise<
     if (result.isEmpty()) {
       const env = process.env.NODE_ENV ?? 'development'
       const applicationReference: string = generateApplicationReference(8)
-      await OrganisationService.updateOrganisation(organisationId, applicationReference, session.organisationName as string, session.eoriNumber as string, session.ukacsReference as string)
-      logger.debug('******* Organisation updating *******')
+      const organisation = {
+        OrganisationId: organisationId,
+        ApplicationReference: applicationReference,
+        OrganisationName: session.organisationName as string,
+        UkAcsReference: session.ukacsReference as string,
+        EoriNumber: session.eoriNumber as string,
+        Status: '',
+        CreatedAt: '',
+        UpdatedAt: ''
+      } satisfies Organisation
+      await OrganisationService.updateOrganisation(organisation)
       await UserService.updateUser(user, session.emailAddress as string)
-      logger.debug('******* User updating ***** ')
       if (env === 'production') {
-        await EmailService.sendEmail(registrationTemplateId, session.emailAddress as string, session.organisationName as string, applicationReference)
-        await EmailService.sendEmail(applicationTemplateId, applicationSupporteEmail, session.organisationName as string, applicationReference, session.eoriNumber as string, session.ukacsReference as string)
+        const emailData = {
+          organisation,
+          userEmail: {
+            Email: session.emailAddress as string,
+            ScpEmail: user.email
+          }
+        } satisfies EmailData
+        await sendCustomerEmail(emailData)
+        await sendSupportEmail(emailData)
       }
       req.session = null
       res.render('completion', { applicationReference })
