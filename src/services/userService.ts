@@ -50,6 +50,22 @@ export namespace UserService {
       throw error
     }
   }
+  export async function updateUser (user: ScpUser, emailAddress: string): Promise<User> {
+    try {
+      logger.debug(`Updating user ${user.userId}`)
+      return await doRequest(
+        {
+          path: `/api/users/${user.userId}`,
+          method: 'PATCH',
+          body: JSON.stringify({ emailAddress }),
+          userId: user.userId
+        }
+      )
+    } catch (error) {
+      logger.error('Error updating user :', error)
+      throw error
+    }
+  }
 
   interface RequestOpts {
     path: string
