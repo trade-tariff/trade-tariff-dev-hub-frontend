@@ -25,10 +25,11 @@ if (isProduction) {
 }
 
 const userAnswersValidator = [
-  body('organisationName', 'Enter the name of the organisation you are accessing the Commodity Code Tool on behalf of').notEmpty(),
-  body('eoriNumber', 'Enter your Economic Operators Registration and Identification (EORI) number').notEmpty(),
+  body('organisationName', 'Enter the name of your organisation').notEmpty(),
+  body('eoriNumber', 'Enter your EORI number').notEmpty(),
   body('ukacsReference', 'Enter your UK Carrier Scheme (UKC) reference number').notEmpty(),
-  body('emailAddress', 'Enter your email').isEmail()
+  body('emailAddress', 'Enter your work email address').notEmpty(),
+  body('emailAddress', 'Enter an email address in the correct format, like name@example.com').isEmail()
 ]
 router.get('/verification', newVerificationPage)
 router.post('/check-verification', userAnswersValidator, checkVerificationDetails)

@@ -87,19 +87,19 @@ export const checkVerificationDetails = async (req: Request, res: Response, next
 }
 
 export const applicationComplete = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  const body = req.body
-  const session = req.session ?? {}
-  const user = CommonService.handleRequest(req)
-  const organisationId = user.groupId
-
-  const inputValidationResult = validationResult(req)
-  const errors = inputValidationResult
-    .array({ onlyFirstError: true })
-    .filter((error) => error.type === 'field')
-    .map((error) => error as FieldValidationError)
-    .reduce<Record<string, GovUkErrorSummaryError>>((prev, error) => { prev[error.path] = { text: error.msg, href: `#field-${error.path}` }; return prev }, {})
-
   try {
+    const body = req.body
+    const session = req.session ?? {}
+    const user = CommonService.handleRequest(req)
+    const organisationId = user.groupId
+
+    const inputValidationResult = validationResult(req)
+    const errors = inputValidationResult
+      .array({ onlyFirstError: true })
+      .filter((error) => error.type === 'field')
+      .map((error) => error as FieldValidationError)
+      .reduce<Record<string, GovUkErrorSummaryError>>((prev, error) => { prev[error.path] = { text: error.msg, href: `#field-${error.path}` }; return prev }, {})
+
     if (Object.keys(errors).length === 0) {
       const env = process.env.NODE_ENV ?? 'development'
       const applicationReference: string = generateApplicationReference(8)
