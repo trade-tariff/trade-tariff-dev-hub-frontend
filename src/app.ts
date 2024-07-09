@@ -40,7 +40,7 @@ const nunjucksConfiguration = nunjucks.configure(
   templateConfig
 )
 
-nunjucksConfiguration.addGlobal('config', config);
+nunjucksConfiguration.addGlobal('config', config)
 
 if (isDev) {
   app.use(morgan('dev'))

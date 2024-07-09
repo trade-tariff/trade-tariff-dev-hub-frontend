@@ -7,7 +7,7 @@
     {% if errors.length > 0 %}
         {{ govukErrorSummary({
             titleText: "There is a problem",
-            errorList: errors
+            errorList: errors.values()
         }) }}
     {% endif %}
     <span class="govuk-caption-l">Commodity Code Identification Tool Developer Hub</span>

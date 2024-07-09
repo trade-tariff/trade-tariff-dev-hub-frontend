@@ -27,7 +27,7 @@ if (isProduction) {
 const userAnswersValidator = [
   body('organisationName', 'Enter the name of the organisation you are accessing the Commodity Code Tool on behalf of').notEmpty(),
   body('eoriNumber', 'Enter your Economic Operators Registration and Identification (EORI) number').notEmpty(),
-  body('ukacsReference', 'Enter your unique reference number when signing up for the UK Authorised Carrier Scheme').notEmpty(),
+  body('ukacsReference', 'Enter your unique reference number when signing up for the UK Carrier Scheme (UKC)').notEmpty(),
   body('emailAddress', 'Enter your email').isEmail()
 ]
 router.get('/verification', newVerificationPage)

@@ -1,106 +1,49 @@
 
-{% if organisationNameError %}
-    {{ govukInput({
-    label: {
-        text: "What is the name of your organisation?",
-        classes: "govuk-label--m"
-    },
-    hint: {
-        text: "This should be the name of the organisation you are accessing the Commodity Code Tool on behalf of."
-    },
-    "errorMessage": {
-        "text": "This should be the name of the organisation you are accessing the Commodity Code Tool on behalf of."
-    },
-    id: "organisation-name",
-    name: "organisationName",
-    value: session.organisationName
-    })
-    }}
-{% else %}
     {{ govukInput({
         label: {
-        text: "What is the name of your organisation?",
-        classes: "govuk-label--m"
+            text: "What is the name of your organisation?",
+            classes: "govuk-label--m"
         },
         hint: {
-        text: "This should be the name of the organisation you are accessing the Commodity Code Tool on behalf of."
+            text: "This should be the name of the organisation you are accessing the Commodity Code Tool on behalf of."
         },
-        id: "organisation-name",
+        errorMessage: errors.get('organisationName'),
+        id: "field-organisationName",
         name: "organisationName",
         value: session.organisationName
         })
     }}
-{% endif %}
-
-{% if eoriNumberError %}
 
     {{ govukInput({
-    label: {
-        text: "What is your EORI number?",
-        classes: "govuk-label--m"
-    },
-    hint: {
-        text: "Your organisation will have an Economic Operators Registration and Identification (EORI) number."
-    },
-    "errorMessage": {
-        "text": "Your organisation will have an Economic Operators Registration and Identification (EORI) number."
-    },
-    id: "eori-number",
-    name: "eoriNumber",
-    value: session.eoriNumber
-    })
-    }}
-{% else %}
- {{ govukInput({
         label: {
-        text: "What is your EORI number?",
-        classes: "govuk-label--m"
+            text: "What is your EORI number?",
+            classes: "govuk-label--m"
         },
         hint: {
-        text: "Your organisation will have an Economic Operators Registration and Identification (EORI) number."
+            text: "Your organisation will have an Economic Operators Registration and Identification (EORI) number."
         },
-        id: "eori-number",
+        errorMessage: errors.get('eoriNumber'),
+        id: "field-eoriNumber",
         name: "eoriNumber",
         value: session.eoriNumber
         })
     }}
-{% endif %}
 
-{% if ukacsReferenceError %}
-
-    {{ govukInput({
-    label: {
-        text: "What is your UK Authorised Carrier Scheme reference number?",
-        classes: "govuk-label--m"
-    },
-    hint: {
-        text: "Your organisation would have received a unique reference number when signing up for the UK Authorised Carrier Scheme."
-    },
-    "errorMessage": {
-        "text": "Your organisation would have received a unique reference number when signing up for the UK Authorised Carrier Scheme."
-    },
-    id: "ukacs-reference",
-    name: "ukacsReference",
-    value: session.ukacsReference
-    })
-    }}
-{% else %}
     {{ govukInput({
         label: {
-        text: "What is your UK Authorised Carrier Scheme reference number?",
-        classes: "govuk-label--m"
+            text: "What is your UK Authorised Carrier Scheme reference number?",
+            classes: "govuk-label--m"
         },
         hint: {
-        text: "Your organisation would have received a unique reference number when signing up for the UK Authorised Carrier Scheme."
+            text: "Your organisation would have received a unique reference number when signing up for the UK Authorised Carrier Scheme."
         },
-        id: "ukacs-reference",
+        errorMessage: errors.get('ukacsReference'),
+        id: "field-ukacsReference",
         name: "ukacsReference",
         value: session.ukacsReference
         })
     }}
-{% endif %}
 
-{% if emailAddressError %}
     {{ govukInput({
         label: {
             text: "Email address",
@@ -109,10 +52,8 @@
         hint: {
             text: "We will use your email address to send essential updates regarding the Commodity Code Identification Tool and your verification request."
         },
-        "errorMessage": {
-            "text": "We will use your email address to send essential updates regarding the Commodity Code Identification Tool and your verification request."
-        },
-        id: "email-address",
+        errorMessage: errors.get('emailAddress'),
+        id: "field-emailAddress",
         name: "emailAddress",
         type: "email",
         autocomplete: "email",
@@ -120,21 +61,3 @@
         value: session.emailAddress
         })
     }}
-{% else %}
-    {{ govukInput({
-        label: {
-        text: "Email address",
-        classes: "govuk-label--m"
-        },
-        hint: {
-        text: "We will use your email address to send essential updates regarding the Commodity Code Identification Tool and your verification request."
-        },
-        id: "email-address",
-        name: "emailAddress",
-        type: "email",
-        autocomplete: "email",
-        spellcheck: false,
-        value: session.emailAddress
-        })
-    }}
-{% endif %}

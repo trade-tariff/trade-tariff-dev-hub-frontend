@@ -1,4 +1,4 @@
-import { type Request, type Response } from 'express'
+import { type NextFunction, type Request, type Response } from 'express'
 import { type Result, type ValidationError, type FieldValidationError } from 'express-validator'
 import { randomBytes } from 'node:crypto'
 import { logger } from '../config/logging'
@@ -49,62 +49,60 @@ export const newVerificationPage = async (req: Request, res: Response): Promise<
   res.render('verification', { session })
 }
 
-export const checkVerificationDetails = async (req: Request, res: Response): Promise<void> => {
-  const body = req.body
-  const session = req.session ?? {}
-  session.organisationName = body.organisationName ?? ''
-  session.eoriNumber = body.eoriNumber ?? ''
-  session.ukacsReference = body.ukacsReference ?? ''
-  session.emailAddress = body.emailAddress ?? ''
-  const inputValidationResult: Result<ValidationError> = validationResult(req)
-  const errorList = []
+export const checkVerificationDetails = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const array = inputValidationResult.array({ onlyFirstError: true })
-    for (let index = 0; index < array.length; index++) {
-      const element: FieldValidationError = array[index] as FieldValidationError
-      errorList.push({
-        text: element.msg,
-        href: '#' + element.path
-      })
-    }
-    const eoriNumberError = inputValidationResult.array({ onlyFirstError: true }).find((error) => (error as FieldValidationError).path === 'eoriNumber')
-    if (eoriNumberError == null) {
+    const body = req.body
+    const session = req.session ?? {}
+    session.organisationName = body.organisationName ?? ''
+    session.eoriNumber = body.eoriNumber ?? ''
+    session.ukacsReference = body.ukacsReference ?? ''
+    session.emailAddress = body.emailAddress ?? ''
+
+    const inputValidationResult: Result<ValidationError> = validationResult(req)
+    const errors = inputValidationResult
+      .array({ onlyFirstError: true })
+      .filter((error) => error.type === 'field')
+      .map((error) => error as FieldValidationError)
+      .reduce((prev, error) => prev.set(error.path, { text: error.msg, href: `#field-${error.path}` }), new Map<string, GovUkErrorSummaryError>())
+
+    if (errors.get('eoriNumber') === undefined) {
       const eoriValidationResult: EoriCheckResult[] = await getEoriValidationResult(body.eoriNumber as string)
 
       if (!eoriValidationResult[0].valid) {
-        errorList.push({
-          text: 'Enter your Economic Operators Registration and Identification (EORI) number',
+        errors.set('eoriNumber', {
+          text: 'Enter a real EORI number',
           href: '#eoriNumber'
         })
       }
     }
-    if (errorList.length === 0) {
+    if (errors.size === 0) {
       res.render('checkVerification', { body, session })
     } else {
-      const organisationNameError = errorList.find((element) => element.href === '#organisationName')
-      const eoriNumberError = errorList.find((element) => element.href === '#eoriNumber')
-      const ukacsReferenceError = errorList.find((element) => element.href === '#ukacsReference')
-      const emailAddressError = errorList.find((element) => element.href === '#emailAddress')
-      res.render('verification', { body, session, errors: errorList, organisationNameError, eoriNumberError, ukacsReferenceError, emailAddressError })
+      res.render('verification', { body, session, errors })
     }
   } catch (error) {
-    logger.error('Error checking verification details:', error)
-    res.status(500).send('Error checking verification details')
+    next(error)
   }
 }
 
-export const applicationComplete = async (req: Request, res: Response): Promise<void> => {
+export const applicationComplete = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const body = req.body
   const session = req.session ?? {}
-  const result = validationResult(req)
   const registrationTemplateId: string = process.env.REGISTRATION_TEMPLATE_ID ?? ''
   const applicationTemplateId: string = process.env.SUPPORT_TEMPLATE_ID ?? ''
   const applicationSupporteEmail: string = process.env.APPLICATION_SUPPORT_EMAIL ?? ''
   const user = CommonService.handleRequest(req)
   const organisationId = user.groupId
 
+  const inputValidationResult = validationResult(req)
+  const errors = inputValidationResult
+    .array({ onlyFirstError: true })
+    .filter((error) => error.type === 'field')
+    .map((error) => error as FieldValidationError)
+    .reduce((prev, error) => prev.set(error.path, { text: error.msg, href: `#field-${error.path}` }), new Map<string, GovUkErrorSummaryError>())
+
   try {
-    if (result.isEmpty()) {
+    if (errors.size === 0) {
       const env = process.env.NODE_ENV ?? 'development'
       const applicationReference: string = generateApplicationReference(8)
       await OrganisationService.updateOrganisationStatusAndReference(organisationId, applicationReference)
@@ -115,11 +113,10 @@ export const applicationComplete = async (req: Request, res: Response): Promise<
       req.session = null
       res.render('completion', { applicationReference })
     } else {
-      res.render('checkVerification', { body, session, error: result })
+      res.render('checkVerification', { body, session, errors })
     }
   } catch (error) {
-    logger.error('Error completing the application:', error)
-    res.status(500).send('Error completing the application')
+    next(error)
   }
 }
 function generateApplicationReference (length: number): string {
