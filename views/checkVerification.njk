@@ -71,7 +71,7 @@
                 },
                 {
                     key: {
-                    text: "organisation email address"
+                    text: "Work email address"
                     },
                     value: {
                     text: session.emailAddress
@@ -81,7 +81,7 @@
                         {
                         href: "/verification",
                         text: "Change",
-                        visuallyHiddenText: "organisation email address"
+                        visuallyHiddenText: "work email address"
                         }
                     ]
                     }
@@ -90,6 +90,11 @@
             }) }}
         </div>
     </div>
+
+    {% set termsAndConditionsHintHtml %}
+        Read the information below carefully. By ticking the boxes, you acknowledge that you have read, understood and agree to the <a href="{{ config.urls.termsAndConditions }}" class="govuk-link" target="_blank" rel="noreferrer noopener">terms and conditions of the Commodity Code Identification Tool (opens in new tab)</a>.
+    {% endset %}
+
     <form method="POST" action="/completion">
             {{ govukCheckboxes({
             name: "terms",
@@ -102,31 +107,28 @@
             },
             id: "field-terms",
             hint: {
-                text: "Read the information below carefully. By ticking the boxes, you acknowledge that you have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool."
+                html: termsAndConditionsHintHtml
             },
             errorMessage: errors.terms,
             items: [
                 {
                 value: "term1",
-                text: "The Commodity Code Identification Tool is designated for backend operations only and must not be directly integrated into any customer-facing interfaces, applications, or websites."
+                text: "The Commodity Code Identification Tool is designated for backend operations only and must not be directly integrated into any customer-facing interfaces, applications, or websites"
                 },
                 {
                 value: "term2",
-                text: "The Commodity Code Identification Tool is solely for internal use and must not be shared with external parties. Access credentials must remain confidential and not be disclosed to anyone outside the organisation."
+                text: "Any access credentials are for the sole use of the UK Carrier Scheme (UKC) registered Fast Parcel Operator (FPO) to which they have been granted. They may be shared and used by third party suppliers but must only be used for the purposes of providing services to the FPO. It is the responsibility of the FPO to ensure that their suppliers adhere to these terms and that access credentials are kept confidential"
                 },
                 {
                 value: "term3",
-                text: "The Commodity Code Identification Tool is solely intended for generating commodity codes for parcels being transported from Great Britain to Northern Ireland that are classified as 'Not at Risk'."
+                text: "The API is only intended for generating commodity codes for parcels being transported from Great Britain to Northern Ireland that are classified as \"Not at Risk\" of onward movement out of Northern Ireland, where Northern Ireland is their final destination and place of use/consumption. This includes goods moved under the UK Carrier Scheme (UKC)"
                 },
                 {
                 value: "term4",
-                text: "I have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool."
+                text: "I have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool"
                 }
             ]
             }) }}
-        <p class="govuk-body">
-            Full terms and conditions are available <a href="{{ config.urls.termsAndConditions }}" class="govuk-link">here</a>.
-        </p>
         <p class="govuk-body">
             By submitting this application you are confirming that, to the best of your knowledge, the details you are providing are correct.
         </p>
