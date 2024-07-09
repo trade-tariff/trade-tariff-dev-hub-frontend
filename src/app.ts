@@ -1,5 +1,7 @@
 import { type Express, type Request, type Response, type NextFunction } from 'express'
 import cookieSession from 'cookie-session'
+import helmet from 'helmet'
+import csrf from 'lusca'
 
 import createError from 'http-errors'
 import express from 'express'
@@ -55,6 +57,10 @@ if (isDev) {
   nunjucksConfiguration.addGlobal('baseURL', scpConfiguration.baseURL)
 }
 
+app.use(helmet())
+
+app.disable('x-powered-by')
+
 app.use(mainNavigationOptions)
 
 app.set('view engine', 'njk')
@@ -70,8 +76,10 @@ app.use(express.static('public'))
 app.use(cookieSession({
   name: 'session',
   keys: [cookieSigningSecret],
-  maxAge: 24 * 60 * 60 * 1000
+  maxAge: 24 * 60 * 60 * 1000,
 }))
+
+app.use(csrf())
 
 app.use('/', indexRouter)
 app.use('/dashboard', dashboardRoutes)
