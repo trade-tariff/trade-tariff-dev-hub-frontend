@@ -1,7 +1,6 @@
-import { NextFunction, type Request, type Response } from 'express'
+import { type NextFunction, type Request, type Response } from 'express'
 import { ApiService } from '../services/apiService'
 import { CommonService } from '../services/commonService'
-import { logger } from '../config/logging'
 import { DashboardPresenter } from '../presenters/dashboardPresenter'
 
 export const showDeleteKey = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

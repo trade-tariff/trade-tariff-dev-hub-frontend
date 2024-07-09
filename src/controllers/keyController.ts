@@ -1,8 +1,7 @@
-import { NextFunction, type Request, type Response } from 'express'
+import { type NextFunction, type Request, type Response } from 'express'
 import { ApiService } from '../services/apiService'
 import { CommonService } from '../services/commonService'
 import { ApiKeyPresenter } from '../presenters/apiKeyPresenter'
-import { logger } from '../config/logging'
 import { validationResult } from 'express-validator'
 
 export const newKey = (_req: Request, res: Response): void => {

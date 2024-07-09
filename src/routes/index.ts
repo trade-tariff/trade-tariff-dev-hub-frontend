@@ -33,7 +33,7 @@ const userAnswersValidator = [
 ]
 router.get('/verification', newVerificationPage)
 router.post('/check-verification', userAnswersValidator, checkVerificationDetails)
-router.post('/completion', body('terms', 'Select all the terms & conditions.').isArray({ min: 4 }), applicationComplete)
+router.post('/completion', body('terms', 'You must agree to all the terms & conditions by ticking the boxes').isArray({ min: 4 }), applicationComplete)
 router.get('/rejectedPage', rejectedPage)
 
 export default router

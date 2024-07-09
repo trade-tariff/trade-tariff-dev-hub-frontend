@@ -1,8 +1,7 @@
-import { NextFunction, type Request, type Response } from 'express'
+import { type NextFunction, type Request, type Response } from 'express'
 import { ApiService } from '../services/apiService'
 import { CommonService } from '../services/commonService'
 import { DashboardPresenter } from '../presenters/dashboardPresenter'
-import { logger } from '../config/logging'
 
 export const showDashboard = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
