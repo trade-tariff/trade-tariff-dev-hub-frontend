@@ -64,7 +64,7 @@ export const checkVerificationDetails = async (req: Request, res: Response, next
       .array({ onlyFirstError: true })
       .filter((error) => error.type === 'field')
       .map((error) => error as FieldValidationError)
-      .reduce<Record<string, GovUkErrorSummaryError>>((prev, error) => { prev[error.path] = { text: error.msg, href: `#field-${error.path}` }; return prev }, {})
+      .reduce<Record<string, GovUkErrorSummaryError>>((prev, error) => { prev[error.path] = { text: error.msg, href: `#${error.path}` }; return prev }, {})
 
     if (errors.eoriNumber === undefined) {
       const eoriValidationResult: EoriCheckResult[] = await getEoriValidationResult(body.eoriNumber as string)
@@ -98,7 +98,7 @@ export const applicationComplete = async (req: Request, res: Response, next: Nex
       .array({ onlyFirstError: true })
       .filter((error) => error.type === 'field')
       .map((error) => error as FieldValidationError)
-      .reduce<Record<string, GovUkErrorSummaryError>>((prev, error) => { prev[error.path] = { text: error.msg, href: `#field-${error.path}` }; return prev }, {})
+      .reduce<Record<string, GovUkErrorSummaryError>>((prev, error) => { prev[error.path] = { text: error.msg, href: `#${error.path}` }; return prev }, {})
 
     if (Object.keys(errors).length === 0) {
       const env = process.env.NODE_ENV ?? 'development'
