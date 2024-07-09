@@ -11,6 +11,9 @@ export interface Organisation {
   OrganisationId: string
   Status: string
   ApplicationReference: string
+  OrganisationName: string
+  EoriNumber: string
+  UkAcsReference: string
   CreatedAt: string
   UpdatedAt: string
 }
@@ -32,15 +35,20 @@ export namespace OrganisationService {
     }
   }
 
-  export async function updateOrganisationStatusAndReference (organisationId: string, applicationReference: string): Promise<Organisation> {
+  export async function updateOrganisation (organisation: Organisation): Promise<Organisation> {
     const status: string = 'Pending'
+    const applicationReference = organisation.ApplicationReference
+    const organisationName = organisation.OrganisationName
+    const eoriNumber = organisation.EoriNumber
+    const ukAcsReference = organisation.UkAcsReference
+    const organisationId = organisation.OrganisationId
     try {
-      logger.debug(`Updating organisation ${organisationId}`)
+      logger.debug(`Updating organisation ${organisation.OrganisationId}`)
       return await doRequest(
         {
-          path: `/api/organisations/${organisationId}`,
+          path: `/api/organisations/${organisation.OrganisationId}`,
           method: 'PATCH',
-          body: JSON.stringify({ applicationReference, status }),
+          body: JSON.stringify({ applicationReference, status, organisationName, eoriNumber, ukAcsReference }),
           organisationId
         }
       )

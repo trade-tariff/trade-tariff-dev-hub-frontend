@@ -6,18 +6,19 @@ import { logger } from '../config/logging'
 
 export default async function (req: Request, res: Response, next: NextFunction): Promise<void> {
   const user = CommonService.handleRequest(req)
-  const scpUser = { userId: user.userId, groupId: user.groupId }
-  const userInfo = await UserService.getUser(scpUser)
-  const organisation = await OrganisationService.getOrganisation(user.groupId)
+  const scpUser = { userId: user.userId, groupId: user.groupId, email: user.email }
+  let userInfo = await UserService.getUser(scpUser)
+  const organisation = await OrganisationService.getOrganisation(userInfo.OrganisationId)
   const applicationReference = organisation.ApplicationReference
 
-  logger.debug(`organisation info: ${JSON.stringify(organisation)}`)
   logger.debug(`User info: ${JSON.stringify(userInfo)}`)
   logger.debug(`User info status: ${userInfo.Status}`)
+  logger.debug(`organisation info: ${JSON.stringify(organisation)}`)
+  logger.debug(`organisationId : ${organisation.OrganisationId} applicationReference :${applicationReference}`)
   if (userInfo.Status === undefined) {
     await UserService.createUser(scpUser)
   }
-
+  userInfo = await UserService.getUser(scpUser)
   logger.debug(`After create: User info status: ${userInfo.Status}`)
   try {
     switch (userInfo.Status) {
@@ -27,7 +28,7 @@ export default async function (req: Request, res: Response, next: NextFunction):
         break
       case 'Pending':
         logger.debug('User is pending')
-        res.render('completion')
+        res.render('completion', { applicationReference })
         break
       case 'Rejected':
         logger.debug('User is rejected')
