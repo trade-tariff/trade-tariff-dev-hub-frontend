@@ -64,7 +64,7 @@ export const checkVerificationDetails = async (req: Request, res: Response, next
       .array({ onlyFirstError: true })
       .filter((error) => error.type === 'field')
       .map((error) => error as FieldValidationError)
-      .reduce((prev, error) => { prev[error.path] = { text: error.msg, href: `#field-${error.path}` }; return prev }, {} as Record<string, GovUkErrorSummaryError>)
+      .reduce<Record<string, GovUkErrorSummaryError>>((prev, error) => { prev[error.path] = { text: error.msg, href: `#field-${error.path}` }; return prev }, {})
 
     if (errors.eoriNumber === undefined) {
       const eoriValidationResult: EoriCheckResult[] = await getEoriValidationResult(body.eoriNumber as string)
@@ -97,7 +97,7 @@ export const applicationComplete = async (req: Request, res: Response, next: Nex
     .array({ onlyFirstError: true })
     .filter((error) => error.type === 'field')
     .map((error) => error as FieldValidationError)
-    .reduce((prev, error) => { prev[error.path] = { text: error.msg, href: `#field-${error.path}` }; return prev }, {} as Record<string, GovUkErrorSummaryError>)
+    .reduce<Record<string, GovUkErrorSummaryError>>((prev, error) => { prev[error.path] = { text: error.msg, href: `#field-${error.path}` }; return prev }, {})
 
   try {
     if (Object.keys(errors).length === 0) {
