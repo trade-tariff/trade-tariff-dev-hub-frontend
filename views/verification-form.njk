@@ -7,7 +7,7 @@
         hint: {
             text: "This should be the name of the organisation you are accessing the Commodity Code Tool on behalf of."
         },
-        errorMessage: errors.get('organisationName'),
+        errorMessage: errors.organisationName,
         id: "field-organisationName",
         name: "organisationName",
         value: session.organisationName
@@ -22,7 +22,7 @@
         hint: {
             text: "Your organisation will have an Economic Operators Registration and Identification (EORI) number."
         },
-        errorMessage: errors.get('eoriNumber'),
+        errorMessage: errors.eoriNumber,
         id: "field-eoriNumber",
         name: "eoriNumber",
         value: session.eoriNumber
@@ -37,7 +37,7 @@
         hint: {
             text: "Your organisation would have received a unique reference number when signing up for the UK Authorised Carrier Scheme."
         },
-        errorMessage: errors.get('ukacsReference'),
+        errorMessage: errors.ukacsReference,
         id: "field-ukacsReference",
         name: "ukacsReference",
         value: session.ukacsReference
@@ -52,7 +52,7 @@
         hint: {
             text: "We will use your email address to send essential updates regarding the Commodity Code Identification Tool and your verification request."
         },
-        errorMessage: errors.get('emailAddress'),
+        errorMessage: errors.emailAddress,
         id: "field-emailAddress",
         name: "emailAddress",
         type: "email",

@@ -11,7 +11,7 @@
             {% if error %}
                 {{ govukErrorSummary({
                     titleText: "There is a problem",
-                    errorList: errors.values()
+                    errorList: errorList
                 }) }}
             {% endif %}
             <h2 class="govuk-heading-m">Application details</h2>
@@ -104,7 +104,7 @@
             hint: {
                 text: "Read the information below carefully. By ticking the boxes, you acknowledge that you have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool."
             },
-            errorMessage: errors.get('terms'),
+            errorMessage: errors.terms,
             items: [
                 {
                 value: "term1",

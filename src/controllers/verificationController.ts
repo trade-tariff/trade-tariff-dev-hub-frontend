@@ -64,22 +64,22 @@ export const checkVerificationDetails = async (req: Request, res: Response, next
       .array({ onlyFirstError: true })
       .filter((error) => error.type === 'field')
       .map((error) => error as FieldValidationError)
-      .reduce((prev, error) => prev.set(error.path, { text: error.msg, href: `#field-${error.path}` }), new Map<string, GovUkErrorSummaryError>())
+      .reduce((prev, error) => { prev[error.path] = { text: error.msg, href: `#field-${error.path}` }; return prev }, {} as Record<string, GovUkErrorSummaryError>)
 
-    if (errors.get('eoriNumber') === undefined) {
+    if (errors.eoriNumber === undefined) {
       const eoriValidationResult: EoriCheckResult[] = await getEoriValidationResult(body.eoriNumber as string)
 
       if (!eoriValidationResult[0].valid) {
-        errors.set('eoriNumber', {
+        errors.eoriNumber = {
           text: 'Enter a real EORI number',
           href: '#eoriNumber'
-        })
+        }
       }
     }
-    if (errors.size === 0) {
+    if (Object.keys(errors).length === 0) {
       res.render('checkVerification', { body, session })
     } else {
-      res.render('verification', { body, session, errors })
+      res.render('verification', { body, session, errors, errorList: Object.values(errors) })
     }
   } catch (error) {
     next(error)
@@ -97,10 +97,10 @@ export const applicationComplete = async (req: Request, res: Response, next: Nex
     .array({ onlyFirstError: true })
     .filter((error) => error.type === 'field')
     .map((error) => error as FieldValidationError)
-    .reduce((prev, error) => prev.set(error.path, { text: error.msg, href: `#field-${error.path}` }), new Map<string, GovUkErrorSummaryError>())
+    .reduce((prev, error) => { prev[error.path] = { text: error.msg, href: `#field-${error.path}` }; return prev }, {} as Record<string, GovUkErrorSummaryError>)
 
   try {
-    if (errors.size === 0) {
+    if (Object.keys(errors).length === 0) {
       const env = process.env.NODE_ENV ?? 'development'
       const applicationReference: string = generateApplicationReference(8)
       const organisation = {
@@ -129,7 +129,7 @@ export const applicationComplete = async (req: Request, res: Response, next: Nex
       req.session = null
       res.render('completion', { applicationReference })
     } else {
-      res.render('checkVerification', { body, session, errors })
+      res.render('checkVerification', { body, session, errors, errorList: Object.values(errors) })
     }
   } catch (error) {
     next(error)
