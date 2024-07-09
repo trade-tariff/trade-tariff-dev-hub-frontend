@@ -41,7 +41,7 @@ async function getEoriValidationResult (eoriNumber: string): Promise<EoriCheckRe
   }
 }
 
-export const newVerificationPage = async (req: Request, res: Response): Promise<void> => {
+export const newVerificationPage = (req: Request, res: Response): void => {
   const session = req.session ?? {}
   session.organisationName = session.organisationName ?? ''
   session.eoriNumber = session.eoriNumber ?? ''

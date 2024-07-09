@@ -1,32 +1,30 @@
-import { type Request, type Response } from 'express'
+import { NextFunction, type Request, type Response } from 'express'
 import { ApiService } from '../services/apiService'
 import { CommonService } from '../services/commonService'
 import { logger } from '../config/logging'
 import { DashboardPresenter } from '../presenters/dashboardPresenter'
 
-export const showDeleteKey = async (req: Request, res: Response): Promise<void> => {
-  const user = CommonService.handleRequest(req)
-  const customerKeyId = req.params.customerKeyId
-  const apiKey = await ApiService.getKey(user, customerKeyId)
-  const createdAt = DashboardPresenter.formatDate(apiKey.CreatedAt, true)
-
+export const showDeleteKey = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
+    const user = CommonService.handleRequest(req)
+    const customerKeyId = req.params.customerKeyId
+    const apiKey = await ApiService.getKey(user, customerKeyId)
+    const createdAt = DashboardPresenter.formatDate(apiKey.CreatedAt, true)
+
     res.render('delete', { apiKey, createdAt })
   } catch (error) {
-    logger.error('Error fetching API key details:', error)
-    res.status(500).send('Error fetching API key details')
+    next(error)
   }
 }
 
-export const deleteKey = async (req: Request, res: Response): Promise<void> => {
-  const user = CommonService.handleRequest(req)
-  const customerKeyId = req.params.customerKeyId
-
+export const deleteKey = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
+    const user = CommonService.handleRequest(req)
+    const customerKeyId = req.params.customerKeyId
+
     await ApiService.deleteAPIKey(user, customerKeyId)
     res.redirect('/dashboard')
   } catch (error) {
-    logger.error('Error revoking API key:', error)
-    res.status(500).send('Error revoking API key')
+    next(error)
   }
 }
