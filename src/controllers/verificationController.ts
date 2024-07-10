@@ -1,5 +1,5 @@
 import { type NextFunction, type Request, type Response } from 'express'
-import { type Result, type ValidationError } from 'express-validator'
+import { type FieldValidationError, type Result, type ValidationError } from 'express-validator'
 import { randomBytes } from 'node:crypto'
 import { logger } from '../config/logging'
 import { validationResult } from 'express-validator'
@@ -63,8 +63,7 @@ export const checkVerificationDetails = async (req: Request, res: Response, next
     const errors = inputValidationResult
       .array({ onlyFirstError: true })
       .filter((error) => error.type === 'field')
-      .map((error) => error)
-      .reduce<Record<string, GovUkErrorSummaryError>>((prev, error) => { prev[error.path] = { text: error.msg, href: `#${error.path}` }; return prev }, {})
+      .reduce<Record<string, GovUkErrorSummaryError>>((prev, error) => { const path = (error as FieldValidationError).path; prev[path] = { text: error.msg, href: `#${path}` }; return prev }, {})
 
     if (errors.eoriNumber === undefined) {
       const eoriValidationResult: EoriCheckResult[] = await getEoriValidationResult(body.eoriNumber as string)
@@ -97,8 +96,7 @@ export const applicationComplete = async (req: Request, res: Response, next: Nex
     const errors = inputValidationResult
       .array({ onlyFirstError: true })
       .filter((error) => error.type === 'field')
-      .map((error) => error)
-      .reduce<Record<string, GovUkErrorSummaryError>>((prev, error) => { prev[error.path] = { text: error.msg, href: `#${error.path}` }; return prev }, {})
+      .reduce<Record<string, GovUkErrorSummaryError>>((prev, error) => { const path = (error as FieldValidationError).path; prev[path] = { text: error.msg, href: `#${path}` }; return prev }, {})
 
     if (Object.keys(errors).length === 0) {
       const env = process.env.NODE_ENV ?? 'development'

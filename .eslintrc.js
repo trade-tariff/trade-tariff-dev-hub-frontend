@@ -18,7 +18,8 @@ module.exports = {
   ],
   rules: {
     '@typescript-eslint/unbound-method': 'off',
-    '@typescript-eslint/no-namespace': 'off'
+    '@typescript-eslint/no-namespace': 'off',
+    '@typescript-eslint/no-unnecessary-type-assertion': 'off',
   },
   ignorePatterns: [
     'dist/',
