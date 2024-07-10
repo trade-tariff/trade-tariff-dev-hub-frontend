@@ -1,14 +1,41 @@
 {% extends "layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
 {% block content %}
     {% include "back-button.njk" %}
-    <main class="govuk-main-wrapper govuk-width-container"
-          id="main-content"
-          role="main">
-        <div class="govuk-panel govuk-panel--confirmation", style="background-color:red">
-            <h1 class="govuk-panel__title">Application rejected</h1>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds-from-desktop">
+            <h1 class="govuk-heading-l">Your application has been rejected</h1>
+            <p class="govuk-body">
+                Your application, with reference number <strong>{{ applicationReference }}</strong>, has been rejected.
+            </p>
+            <p class="govuk-body">
+                A notification of this decision, including further details, has been sent to the email address provided in the application.
+            </p>
+            <p class="govuk-body">
+                For further enquiries relating to this decision and general advice, email <a class="govuk-link"
+        href="mailto:hmrc-trade-tariff-support-g@digital.hmrc.gov.uk">hmrc-trade-tariff-support-g@digital.hmrc.gov.uk</a> using below reference number.
+            </p>
+            <h1 class="govuk-heading-l">{{ applicationReference }}</h1>
+            <p class="govuk-body">
+                {{ govukButton({
+                    text: "Copy to clipboard",
+                    classes: "govuk-button--secondary",
+                    attributes: {"onclick": "copyToClipboard()"}
+                }) }}
+            </p>
+            <p class="govuk-body">
+                <a href="/feedback" class="govuk-link" target="_blank">What did you think of this service?</a> (takes 30 seconds)
+            </p>
         </div>
-        <p class="govuk-body">
-            <a href="/feedback" class="govuk-link" target="_blank">What did you think of this service?</a> (takes 30 seconds)
-        </p>
-    </main>
+    </div>
+    <script>
+        function copyToClipboard() {
+            navigator.clipboard.writeText('HDJ2123F').then(function() {
+                alert('Application reference copied to clipboard');
+            }, function(err) {
+                alert('Failed to copy application reference: ', err);
+            });
+        }
+    </script>
 {% endblock %}

@@ -1,27 +1,36 @@
 {% extends "layout.njk" %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
 {% block content %}
     {% include "back-button.njk" %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds-from-desktop">
             <h1 class="govuk-heading-l">Check your answers</h1>
+            {% if errorList.length > 0 %}
+                {{ govukErrorSummary({
+                    titleText: "There is a problem",
+                    errorList: errorList
+                }) }}
+            {% endif %}
             <h2 class="govuk-heading-m">Application details</h2>
             {{ govukSummaryList({
                 classes: "govuk-!-margin-bottom-9",
                 rows: [
                 {
                     key: {
-                    text: "Organisation Name"
+                    text: "Organisation name"
                     },
                     value: {
-                    text: body.organisationName
+                    text: session.organisationName
                     },
                     actions: {
                     items: [
                         {
-                        href: "javascript:history.back()",
+                        href: "/verification",
                         text: "Change",
-                        visuallyHiddenText: "Organisation Name"
+                        visuallyHiddenText: "organisation name"
                         }
                     ]
                     }
@@ -31,48 +40,48 @@
                     text: "Organisation EORI"
                     },
                     value: {
-                    text: body.eoriNumber
+                    text: session.eoriNumber
                     },
                     actions: {
                     items: [
                         {
-                        href: "javascript:history.back()",
+                        href: "/verification",
                         text: "Change",
-                        visuallyHiddenText: "Organisation EORI"
+                        visuallyHiddenText: "organisation EORI"
                         }
                     ]
                     }
                 },
                 {
                     key: {
-                    text: "UKACS Reference"
+                    text: "UKC reference"
                     },
                     value: {
-                    text: body.ukacsReference
+                    text: session.ukacsReference
                     },
                     actions: {
                     items: [
                         {
-                        href: "javascript:history.back()",
+                        href: "/verification",
                         text: "Change",
-                        visuallyHiddenText: "UKACS Reference"
+                        visuallyHiddenText: "UKC reference"
                         }
                     ]
                     }
                 },
                 {
                     key: {
-                    text: "Email Address"
+                    text: "Work email address"
                     },
                     value: {
-                    text: body.emailAddress
+                    text: session.emailAddress
                     },
                     actions: {
                     items: [
                         {
-                        href: "javascript:history.back()",
+                        href: "/verification",
                         text: "Change",
-                        visuallyHiddenText: "Email Address"
+                        visuallyHiddenText: "work email address"
                         }
                     ]
                     }
@@ -81,57 +90,45 @@
             }) }}
         </div>
     </div>
-    <h2 class="govuk-heading-l">Terms and Conditions</h2>
-    <p class="govuk-body">
-        Read the information below carefully. By ticking the boxes, you acknowledge that you have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool.
-    </p>
+
+    {% set termsAndConditionsHintHtml %}
+        Read the information below carefully. By ticking the boxes, you acknowledge that you have read, understood and agree to the <a href="{{ config.urls.termsAndConditions }}" class="govuk-link" target="_blank" rel="noreferrer noopener">terms and conditions of the Commodity Code Identification Tool (opens in new tab)</a>.
+    {% endset %}
+
     <form method="POST" action="/completion">
-        <div class="govuk-checkboxes">
-            <div class="govuk-checkboxes__item">
-                <input class="govuk-checkboxes__input"
-                       id="term1"
-                       name="terms"
-                       type="checkbox"
-                       value="term1">
-                <label class="govuk-label govuk-checkboxes__label" for="term1">
-                    The Commodity Code Identification Tool is designated for backend operations only and must not be directly integrated into any customer-facing interfaces, applications, or websites.
-                </label>
-            </div>
-            <div class="govuk-checkboxes__item">
-                <input class="govuk-checkboxes__input"
-                       id="term2"
-                       name="terms"
-                       type="checkbox"
-                       value="term2">
-                <label class="govuk-label govuk-checkboxes__label" for="term2">
-                    The Commodity Code Identification Tool is solely for internal use and must not be shared with external parties. Access credentials must remain confidential and not be disclosed to anyone outside the organisation.
-                </label>
-            </div>
-            <div class="govuk-checkboxes__item">
-                <input class="govuk-checkboxes__input"
-                       id="term3"
-                       name="terms"
-                       type="checkbox"
-                       value="term3">
-                <label class="govuk-label govuk-checkboxes__label" for="term3">
-                    The Commodity Code Identification Tool is solely intended for generating commodity codes for parcels being transported from Great Britain to Northern Ireland that are classified as "Not at Risk."
-                </label>
-            </div>
-            <div class="govuk-checkboxes__item">
-                <input class="govuk-checkboxes__input"
-                       id="term4"
-                       name="terms"
-                       type="checkbox"
-                       value="term4">
-                <label class="govuk-label govuk-checkboxes__label" for="term4">
-                    I have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool.
-                </label>
-            </div>
-        </div>
-        <p class="govuk-body"/p>
-        <p class="govuk-body">
-            Full terms and conditions are available <a href="#" class="govuk-link">here</a>.
-        </p>
+            {{ govukCheckboxes({
+            name: "terms",
+            fieldset: {
+                legend: {
+                text: "Terms and conditions",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+                }
+            },
+            id: "field-terms",
+            hint: {
+                html: termsAndConditionsHintHtml
+            },
+            errorMessage: errors.terms,
+            items: [
+                {
+                value: "term1",
+                text: "The Commodity Code Identification Tool is designated for backend operations only and must not be directly integrated into any customer-facing interfaces, applications, or websites"
+                },
+                {
+                value: "term2",
+                text: "Any access credentials are for the sole use of the UK Carrier Scheme (UKC) registered Fast Parcel Operator (FPO) to which they have been granted. They may be shared and used by third party suppliers but must only be used for the purposes of providing services to the FPO. It is the responsibility of the FPO to ensure that their suppliers adhere to these terms and that access credentials are kept confidential"
+                },
+                {
+                value: "term3",
+                text: "The API is only intended for generating commodity codes for parcels being transported from Great Britain to Northern Ireland that are classified as \"Not at Risk\" of onward movement out of Northern Ireland, where Northern Ireland is their final destination and place of use/consumption. This includes goods moved under the UK Carrier Scheme (UKC)"
+                },
+                {
+                value: "term4",
+                text: "I have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool"
+                }
+            ]
+            }) }}
         <p class="govuk-body">
             By submitting this application you are confirming that, to the best of your knowledge, the details you are providing are correct.
         </p>

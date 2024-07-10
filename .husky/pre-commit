@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx lint-staged
+git rev-parse -q --no-revs --verify MERGE_HEAD || npx lint-staged

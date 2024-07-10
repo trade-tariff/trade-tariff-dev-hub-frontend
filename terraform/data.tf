@@ -48,3 +48,15 @@ data "aws_secretsmanager_secret" "scp_open_id_client_secret" {
 data "aws_secretsmanager_secret" "scp_open_id_secret" {
   name = "dev-hub-frontend-scp-open-id-secret"
 }
+
+data "aws_secretsmanager_secret" "govuk_notify_api_key" {
+  name = "dev-hub-frontend-govuk-notify-api-key"
+}
+
+data "aws_secretsmanager_secret" "application_support_email" {
+  name = "dev-hub-frontend-application-support-email"
+}
+
+data "aws_secretsmanager_secret" "cookie_signing_secret" {
+  name = "dev-hub-frontend-cookie-signing-secret"
+}

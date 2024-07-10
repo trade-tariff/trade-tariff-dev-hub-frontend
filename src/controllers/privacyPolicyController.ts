@@ -1,5 +1,5 @@
 import { type Request, type Response } from 'express'
 
-export const privacyPolicyPage = async (req: Request, res: Response): Promise<void> => {
+export const privacyPolicyPage = (req: Request, res: Response): void => {
   res.render('privacyPolicy')
 }

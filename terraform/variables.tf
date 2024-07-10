@@ -62,3 +62,18 @@ variable "log_level" {
   description = "Log level. Defaults to info. One of debug, info, warn, error."
   type        = string
 }
+
+variable "eori_lookup_url" {
+  description = "EORI number validation api."
+  type        = string
+}
+
+variable "registration_template_id" {
+  description = "Registration email template id."
+  type        = string
+}
+
+variable "support_template_id" {
+  description = "Support email template id."
+  type        = string
+}

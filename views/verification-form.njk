@@ -1,0 +1,63 @@
+
+    {{ govukInput({
+        label: {
+            text: "What is the name of your organisation?",
+            classes: "govuk-label--m"
+        },
+        hint: {
+            text: "This should be the name of the organisation you are accessing the Commodity Code Tool on behalf of."
+        },
+        errorMessage: errors.organisationName,
+        id: "organisationName",
+        name: "organisationName",
+        value: session.organisationName
+        })
+    }}
+
+    {{ govukInput({
+        label: {
+            text: "What is your EORI number?",
+            classes: "govuk-label--m"
+        },
+        hint: {
+            text: "Your organisation will have an Economic Operators Registration and Identification (EORI) number."
+        },
+        errorMessage: errors.eoriNumber,
+        id: "eoriNumber",
+        name: "eoriNumber",
+        value: session.eoriNumber
+        })
+    }}
+
+    {{ govukInput({
+        label: {
+            text: "What is your UK Carrier Scheme (UKC) reference number?",
+            classes: "govuk-label--m"
+        },
+        hint: {
+            text: "Your organisation would have received a unique reference number when signing up for the UK Authorised Carrier Scheme."
+        },
+        errorMessage: errors.ukacsReference,
+        id: "ukacsReference",
+        name: "ukacsReference",
+        value: session.ukacsReference
+        })
+    }}
+
+    {{ govukInput({
+        label: {
+            text: "Your work email address",
+            classes: "govuk-label--m"
+        },
+        hint: {
+            text: "We will only use your email address to send essential updates regarding the Commodity Code Identification Tool and your verification request."
+        },
+        errorMessage: errors.emailAddress,
+        id: "emailAddress",
+        name: "emailAddress",
+        type: "email",
+        autocomplete: "email",
+        spellcheck: false,
+        value: session.emailAddress
+        })
+    }}
