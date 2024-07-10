@@ -5,7 +5,7 @@ import { ApiKeyPresenter } from '../presenters/apiKeyPresenter'
 import { validationResult } from 'express-validator'
 
 export const newKey = (_req: Request, res: Response): void => {
-  res.render('newKey')
+  res.render('newKey', { backLinkHref: '/dashboard' })
 }
 
 export const create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

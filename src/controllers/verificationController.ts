@@ -47,7 +47,7 @@ export const newVerificationPage = (req: Request, res: Response): void => {
   session.eoriNumber = session.eoriNumber ?? ''
   session.ukacsReference = session.ukacsReference ?? ''
   session.emailAddress = session.emailAddress ?? ''
-  res.render('verification', { session })
+  res.render('verification', { session, backLinkHref: '/' })
 }
 
 export const checkVerificationDetails = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -76,9 +76,9 @@ export const checkVerificationDetails = async (req: Request, res: Response, next
       }
     }
     if (Object.keys(errors).length === 0) {
-      res.render('checkVerification', { body, session })
+      res.render('checkVerification', { body, session, backLinkHref: '/verification' })
     } else {
-      res.render('verification', { body, session, errors, errorList: Object.values(errors) })
+      res.render('verification', { body, session, errors, errorList: Object.values(errors), backLinkHref: '/' })
     }
   } catch (error) {
     next(error)
@@ -127,7 +127,7 @@ export const applicationComplete = async (req: Request, res: Response, next: Nex
       req.session = null
       res.render('completion', { applicationReference })
     } else {
-      res.render('checkVerification', { body, session, errors, errorList: Object.values(errors) })
+      res.render('checkVerification', { body, session, errors, errorList: Object.values(errors), backLinkHref: '/verification' })
     }
   } catch (error) {
     next(error)

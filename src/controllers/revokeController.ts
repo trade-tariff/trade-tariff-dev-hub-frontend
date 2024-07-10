@@ -10,7 +10,7 @@ export const showRevoke = async (req: Request, res: Response, next: NextFunction
     const apiKey = await ApiService.getKey(user, customerKeyId)
     const createdAt = DashboardPresenter.formatDate(apiKey.CreatedAt, true)
 
-    res.render('revoke', { apiKey, createdAt })
+    res.render('revoke', { apiKey, createdAt, backLinkHref: '/dashboard' })
   } catch (error) {
     next(error)
   }
