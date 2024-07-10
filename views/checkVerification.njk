@@ -8,13 +8,19 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds-from-desktop">
             <h1 class="govuk-heading-l">Check your answers</h1>
+            {% if errorList.length > 0 %}
+                {{ govukErrorSummary({
+                    titleText: "There is a problem",
+                    errorList: errorList
+                }) }}
+            {% endif %}
             <h2 class="govuk-heading-m">Application details</h2>
             {{ govukSummaryList({
                 classes: "govuk-!-margin-bottom-9",
                 rows: [
                 {
                     key: {
-                    text: "Organisation Name"
+                    text: "Organisation name"
                     },
                     value: {
                     text: session.organisationName
@@ -24,7 +30,7 @@
                         {
                         href: "/verification",
                         text: "Change",
-                        visuallyHiddenText: "Organisation Name"
+                        visuallyHiddenText: "organisation name"
                         }
                     ]
                     }
@@ -41,14 +47,14 @@
                         {
                         href: "/verification",
                         text: "Change",
-                        visuallyHiddenText: "Organisation EORI"
+                        visuallyHiddenText: "organisation EORI"
                         }
                     ]
                     }
                 },
                 {
                     key: {
-                    text: "UKACS Reference"
+                    text: "UKC reference"
                     },
                     value: {
                     text: session.ukacsReference
@@ -58,14 +64,14 @@
                         {
                         href: "/verification",
                         text: "Change",
-                        visuallyHiddenText: "UKACS Reference"
+                        visuallyHiddenText: "UKC reference"
                         }
                     ]
                     }
                 },
                 {
                     key: {
-                    text: "Organisation Email Address"
+                    text: "Work email address"
                     },
                     value: {
                     text: session.emailAddress
@@ -75,7 +81,7 @@
                         {
                         href: "/verification",
                         text: "Change",
-                        visuallyHiddenText: "Organisation Email Address"
+                        visuallyHiddenText: "work email address"
                         }
                     ]
                     }
@@ -84,90 +90,45 @@
             }) }}
         </div>
     </div>
-    {% if error %}
-        {{ govukErrorSummary({
-            titleText: "There is a problem",
-            errorList: [
-                {
-                text: "Select all the terms & conditions.",
-                href: "#"
-                }
-            ]
-        }) }}
-    {% endif %}
+
+    {% set termsAndConditionsHintHtml %}
+        Read the information below carefully. By ticking the boxes, you acknowledge that you have read, understood and agree to the <a href="{{ config.urls.termsAndConditions }}" class="govuk-link" target="_blank" rel="noreferrer noopener">terms and conditions of the Commodity Code Identification Tool (opens in new tab)</a>.
+    {% endset %}
+
     <form method="POST" action="/completion">
-        {% if error %}
             {{ govukCheckboxes({
             name: "terms",
             fieldset: {
                 legend: {
-                text: "Terms and Conditions",
+                text: "Terms and conditions",
                 isPageHeading: true,
                 classes: "govuk-fieldset__legend--l"
                 }
             },
+            id: "field-terms",
             hint: {
-                text: "Read the information below carefully. By ticking the boxes, you acknowledge that you have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool."
+                html: termsAndConditionsHintHtml
             },
-            errorMessage: {
-                text: "Select all the terms & conditions."
-            },
+            errorMessage: errors.terms,
             items: [
                 {
                 value: "term1",
-                text: "The Commodity Code Identification Tool is designated for backend operations only and must not be directly integrated into any customer-facing interfaces, applications, or websites."
+                text: "The Commodity Code Identification Tool is designated for backend operations only and must not be directly integrated into any customer-facing interfaces, applications, or websites"
                 },
                 {
                 value: "term2",
-                text: "The Commodity Code Identification Tool is solely for internal use and must not be shared with external parties. Access credentials must remain confidential and not be disclosed to anyone outside the organisation."
+                text: "Any access credentials are for the sole use of the UK Carrier Scheme (UKC) registered Fast Parcel Operator (FPO) to which they have been granted. They may be shared and used by third party suppliers but must only be used for the purposes of providing services to the FPO. It is the responsibility of the FPO to ensure that their suppliers adhere to these terms and that access credentials are kept confidential"
                 },
                 {
                 value: "term3",
-                text: "The Commodity Code Identification Tool is solely intended for generating commodity codes for parcels being transported from Great Britain to Northern Ireland that are classified as 'Not at Risk'."
+                text: "The API is only intended for generating commodity codes for parcels being transported from Great Britain to Northern Ireland that are classified as \"Not at Risk\" of onward movement out of Northern Ireland, where Northern Ireland is their final destination and place of use/consumption. This includes goods moved under the UK Carrier Scheme (UKC)"
                 },
                 {
                 value: "term4",
-                text: "I have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool."
+                text: "I have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool"
                 }
             ]
             }) }}
-        {% else %}
-            {{ govukCheckboxes({
-            name: "terms",
-            fieldset: {
-                legend: {
-                text: "Terms and Conditions",
-                isPageHeading: true,
-                classes: "govuk-fieldset__legend--l"
-                }
-            },
-            hint: {
-                text: "Read the information below carefully. By ticking the boxes, you acknowledge that you have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool."
-            },
-            items: [
-                {
-                value: "term1",
-                text: "The Commodity Code Identification Tool is designated for backend operations only and must not be directly integrated into any customer-facing interfaces, applications, or websites."
-                },
-                {
-                value: "term2",
-                text: "The Commodity Code Identification Tool is solely for internal use and must not be shared with external parties. Access credentials must remain confidential and not be disclosed to anyone outside the organisation."
-                },
-                {
-                value: "term3",
-                text: "The Commodity Code Identification Tool is solely intended for generating commodity codes for parcels being transported from Great Britain to Northern Ireland that are classified as 'Not at Risk'."
-                },
-                {
-                value: "term4",
-                text: "I have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool."
-                }
-            ]
-            }) }}
-        {% endif %}
-        <p class="govuk-body"/p>
-        <p class="govuk-body">
-            Full terms and conditions are available <a href="#" class="govuk-link">here</a>.
-        </p>
         <p class="govuk-body">
             By submitting this application you are confirming that, to the best of your knowledge, the details you are providing are correct.
         </p>

@@ -41,7 +41,7 @@ describe('DashboardController', () => {
   })
 
   it('should render the dashboard with formatted data from the presenter', async () => {
-    await showDashboard(mockRequest as Request, mockResponse as Response)
+    await showDashboard(mockRequest as Request, mockResponse as Response, () => {})
 
     expect(ApiService.listKeys).toHaveBeenCalled()
     expect(DashboardPresenter.present).toHaveBeenCalledWith(jasmine.any(Array))

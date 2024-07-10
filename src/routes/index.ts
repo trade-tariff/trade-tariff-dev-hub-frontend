@@ -25,14 +25,15 @@ if (isProduction) {
 }
 
 const userAnswersValidator = [
-  body('organisationName', 'Enter the name of the organisation you are accessing the Commodity Code Tool on behalf of').notEmpty(),
-  body('eoriNumber', 'Enter your Economic Operators Registration and Identification (EORI) number').notEmpty(),
-  body('ukacsReference', 'Enter your unique reference number when signing up for the UK Authorised Carrier Scheme').notEmpty(),
-  body('emailAddress', 'Enter your email').isEmail()
+  body('organisationName', 'Enter the name of your organisation').notEmpty(),
+  body('eoriNumber', 'Enter your EORI number').notEmpty(),
+  body('ukacsReference', 'Enter your UK Carrier Scheme (UKC) reference number').notEmpty(),
+  body('emailAddress', 'Enter your work email address').notEmpty(),
+  body('emailAddress', 'Enter an email address in the correct format, like name@example.com').isEmail()
 ]
 router.get('/verification', newVerificationPage)
 router.post('/check-verification', userAnswersValidator, checkVerificationDetails)
-router.post('/completion', body('terms', 'Select all the terms & conditions.').isArray({ min: 4 }), applicationComplete)
+router.post('/completion', body('terms', 'You must agree to all the terms & conditions by ticking the boxes').isArray({ min: 4 }), applicationComplete)
 router.get('/rejectedPage', rejectedPage)
 
 export default router
