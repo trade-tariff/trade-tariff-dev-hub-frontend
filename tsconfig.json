@@ -17,7 +17,7 @@
   "include": [
     "src/**/*.ts",
     "spec/**/*.ts",
-    "eslint.config.mjs",
+    ".eslintrc.js",
     "globals.d.ts"
   ],
   "exclude": [
