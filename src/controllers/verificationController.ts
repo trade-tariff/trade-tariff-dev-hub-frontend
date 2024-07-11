@@ -1,5 +1,5 @@
 import { type NextFunction, type Request, type Response } from 'express'
-import { type Result, type ValidationError, type FieldValidationError } from 'express-validator'
+import { type FieldValidationError, type Result, type ValidationError } from 'express-validator'
 import { randomBytes } from 'node:crypto'
 import { logger } from '../config/logging'
 import { validationResult } from 'express-validator'
@@ -47,7 +47,7 @@ export const newVerificationPage = (req: Request, res: Response): void => {
   session.eoriNumber = session.eoriNumber ?? ''
   session.ukacsReference = session.ukacsReference ?? ''
   session.emailAddress = session.emailAddress ?? ''
-  res.render('verification', { session })
+  res.render('verification', { session, backLinkHref: '/' })
 }
 
 export const checkVerificationDetails = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -63,8 +63,7 @@ export const checkVerificationDetails = async (req: Request, res: Response, next
     const errors = inputValidationResult
       .array({ onlyFirstError: true })
       .filter((error) => error.type === 'field')
-      .map((error) => error as FieldValidationError)
-      .reduce<Record<string, GovUkErrorSummaryError>>((prev, error) => { prev[error.path] = { text: error.msg, href: `#${error.path}` }; return prev }, {})
+      .reduce<Record<string, GovUkErrorSummaryError>>((prev, error) => { const path = (error as FieldValidationError).path; prev[path] = { text: error.msg, href: `#${path}` }; return prev }, {})
 
     if (errors.eoriNumber === undefined) {
       const eoriValidationResult: EoriCheckResult[] = await getEoriValidationResult(body.eoriNumber as string)
@@ -77,9 +76,9 @@ export const checkVerificationDetails = async (req: Request, res: Response, next
       }
     }
     if (Object.keys(errors).length === 0) {
-      res.render('checkVerification', { body, session })
+      res.render('checkVerification', { body, session, backLinkHref: '/verification' })
     } else {
-      res.render('verification', { body, session, errors, errorList: Object.values(errors) })
+      res.render('verification', { body, session, errors, errorList: Object.values(errors), backLinkHref: '/' })
     }
   } catch (error) {
     next(error)
@@ -97,8 +96,7 @@ export const applicationComplete = async (req: Request, res: Response, next: Nex
     const errors = inputValidationResult
       .array({ onlyFirstError: true })
       .filter((error) => error.type === 'field')
-      .map((error) => error as FieldValidationError)
-      .reduce<Record<string, GovUkErrorSummaryError>>((prev, error) => { prev[error.path] = { text: error.msg, href: `#${error.path}` }; return prev }, {})
+      .reduce<Record<string, GovUkErrorSummaryError>>((prev, error) => { const path = (error as FieldValidationError).path; prev[path] = { text: error.msg, href: `#${path}` }; return prev }, {})
 
     if (Object.keys(errors).length === 0) {
       const env = process.env.NODE_ENV ?? 'development'
@@ -129,7 +127,7 @@ export const applicationComplete = async (req: Request, res: Response, next: Nex
       req.session = null
       res.render('completion', { applicationReference })
     } else {
-      res.render('checkVerification', { body, session, errors, errorList: Object.values(errors) })
+      res.render('checkVerification', { body, session, errors, errorList: Object.values(errors), backLinkHref: '/verification' })
     }
   } catch (error) {
     next(error)

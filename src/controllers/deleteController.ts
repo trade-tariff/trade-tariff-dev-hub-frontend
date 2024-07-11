@@ -10,7 +10,7 @@ export const showDeleteKey = async (req: Request, res: Response, next: NextFunct
     const apiKey = await ApiService.getKey(user, customerKeyId)
     const createdAt = DashboardPresenter.formatDate(apiKey.CreatedAt, true)
 
-    res.render('delete', { apiKey, createdAt })
+    res.render('delete', { apiKey, createdAt, backLinkHref: '/dashboard' })
   } catch (error) {
     next(error)
   }
