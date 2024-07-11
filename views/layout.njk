@@ -1,5 +1,6 @@
 {% extends "govuk/template.njk" %}
 <!DOCTYPE html>
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/cookie-banner/macro.njk" import govukCookieBanner %}
 {% from "govuk/components/skip-link/macro.njk" import govukSkipLink %}
 {% from "govuk/components/header/macro.njk" import govukHeader %}
@@ -34,6 +35,12 @@
                 },
                 html: phaseBannerHtml
                 }) }}
+        {%- if backLinkHref %}
+        {{ govukBackLink({
+            href: backLinkHref,
+            text: "Back"
+        }) }}
+        {% endif %}
     {% endblock %}
     <body class="govuk-template_body govuk-frontend-supported">
         <main id="main-content"
@@ -78,7 +85,7 @@
     {% endblock %}
     {% block bodyEnd %}
         <script type="module" src="/govuk/govuk-frontend.min.js"></script>
-        <script type="module">
+        <script type="module" nonce="{{ cspNonce }}">
     import { initAll } from '/govuk/govuk-frontend.min.js'
     initAll()
         </script>

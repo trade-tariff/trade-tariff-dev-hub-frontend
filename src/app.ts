@@ -1,6 +1,5 @@
 import { type Express, type Request, type Response, type NextFunction } from 'express'
 import cookieSession from 'cookie-session'
-import helmet from 'helmet'
 
 import createError from 'http-errors'
 import express from 'express'
@@ -18,6 +17,7 @@ import validateCognitoConfig from './config/cognitoAuth'
 import { configureAuth } from './config/scpAuth'
 import { httpRequestLoggingMiddleware, logger } from './config/logging'
 import config from './config/config'
+import { configureSecurity } from './config/security'
 
 initEnvironment()
 
@@ -56,7 +56,7 @@ if (isDev) {
   nunjucksConfiguration.addGlobal('baseURL', scpConfiguration.baseURL)
 }
 
-app.use(helmet())
+configureSecurity(app)
 
 app.disable('x-powered-by')
 
