@@ -1,5 +1,5 @@
 {% extends "govuk/template.njk" %}
-<!DOCTYPE html>
+
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/cookie-banner/macro.njk" import govukCookieBanner %}
 {% from "govuk/components/skip-link/macro.njk" import govukSkipLink %}
@@ -7,87 +7,66 @@
 {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
 {% from "govuk/components/footer/macro.njk" import govukFooter %}
 {% from "govuk/components/table/macro.njk" import govukTable %}
-<html lang="en" class="govuk-template">
-    <head>
-        <meta charset="UTF-8">
-        <title>
-            {% block title %}{% endblock %}
-        </title>
-        <link rel="stylesheet" href="/stylesheets/style.css">
-        <link rel="stylesheet" href="/govuk/govuk-frontend.min.css">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        {% block head %}<link rel="stylesheet" href="/govuk/govuk-frontend.min.css">{% endblock %}
-    </head>
-    {% block header %}
-        {{ govukHeader({
-                homepageUrl: "#",
-                serviceName: "Commodity Code Identification Tool Developer Hub",
-                serviceUrl: "#",
-                navigation: mainNavigation
-                }) }}
-    {% endblock %}
-    {% block beforeContent %}
-        {% set phaseBannerHtml = ['This is a new service – your <a class="govuk-link" href="', feedbackURL, '">feedback</a> will help us to improve it.'] | join %}
-        {{ govukPhaseBanner({
-                tag: {
-                text: "Beta"
+{% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
+
+{% block head %}<link rel="stylesheet" href="/govuk/govuk-frontend.min.css">{% endblock %}
+
+{% block header %}
+    {{ govukHeader({
+        homepageUrl: "https://www.gov.uk",
+        serviceName: "Online Trade Tariff Developer Hub",
+        serviceUrl: "/",
+        navigation: mainNavigation
+    }) }}
+{% endblock %}
+
+{%- set phaseBannerHtml %}
+    This is a new service – your <a class="govuk-link" href="{{ feedbackURL }}">feedback</a> will help us to improve it.
+{% endset %}
+{% block beforeContent %}
+    {{ govukPhaseBanner({
+        tag: {
+            text: "Beta"
+        },
+        html: phaseBannerHtml
+    }) }}
+{% endblock %}
+
+{% block footer %}
+    {{ govukFooter({
+        meta: {
+            items: [
+                {
+                    href: config.urls.apiDocs,
+                    text: "API Documentation"
                 },
-                html: phaseBannerHtml
-                }) }}
-        {%- if backLinkHref %}
-        {{ govukBackLink({
-            href: backLinkHref,
-            text: "Back"
-        }) }}
-        {% endif %}
-    {% endblock %}
-    <body class="govuk-template_body govuk-frontend-supported">
-        <main id="main-content"
-              class="govuk-template__body uk-service js-enabled"
-              role="main">
-            <div class="govuk-width-container">
-                <div class="govuk-grid-row">
-                    <div class="govuk-grid-column-two-thirds">
-                        {% block content %}{% endblock %}
-                    </div>
-                </div>
-            </div>
-        </main>
-    </body>
-    {% block footer %}
-        {{ govukFooter({
-            meta: {
-                items: [
-                    {
-                        href: config.urls.apiDocs,
-                        text: "API Documentation"
-                    },
-                    {
-                        href: config.urls.feedback,
-                        text: "Feedback"
-                    },
-                    {
-                        href: "/privacyPolicy",
-                        text: "Privacy policy "
-                    },
-                    {
-                        href: "/cookies",
-                        text: "Cookies"
-                    },
-                    {
-                        href: config.urls.termsAndConditions,
-                        text: "Terms and conditions"
-                    }
-                ]
-            }
-        }) }}
-    {% endblock %}
-    {% block bodyEnd %}
-        <script type="module" src="/govuk/govuk-frontend.min.js"></script>
-        <script type="module" nonce="{{ cspNonce }}">
-    import { initAll } from '/govuk/govuk-frontend.min.js'
+                {
+                    href: config.urls.feedback,
+                    text: "Feedback"
+                },
+                {
+                    href: "/privacyPolicy",
+                    text: "Privacy policy "
+                },
+                {
+                    href: "/cookies",
+                    text: "Cookies"
+                },
+                {
+                    href: config.urls.termsAndConditions,
+                    text: "Terms and conditions"
+                }
+            ]
+        }
+    }) }}
+{% endblock %}
+
+{% block bodyEnd %}
+  {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
+  <script type="module" src="/javascripts/govuk-frontend.min.js"></script>
+  <script type="module">
+    import { initAll } from '/javascripts/govuk-frontend.min.js'
     initAll()
-        </script>
-    {% endblock %}
-</html>
+  </script>
+{% endblock %}
+No newline at end of file
