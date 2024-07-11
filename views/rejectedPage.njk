@@ -3,7 +3,7 @@
 
 {% block content %}
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds-from-desktop">
+        <div class="govuk-grid-column-two-thirds">
             <h1 class="govuk-heading-l">Your application has been rejected</h1>
             <p class="govuk-body">
                 Your application, with reference number <strong>{{ applicationReference }}</strong>, has been rejected.
@@ -30,7 +30,7 @@
     </div>
     <script>
         function copyToClipboard() {
-            navigator.clipboard.writeText('HDJ2123F').then(function() {
+            navigator.clipboard.writeText({{ applicationReference | dump }}).then(function() {
                 alert('Application reference copied to clipboard');
             }, function(err) {
                 alert('Failed to copy application reference: ', err);

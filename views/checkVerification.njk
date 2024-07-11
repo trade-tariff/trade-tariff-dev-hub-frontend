@@ -5,7 +5,7 @@
 
 {% block content %}
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds-from-desktop">
+        <div class="govuk-grid-column-two-thirds">
             <h1 class="govuk-heading-l">Check your answers</h1>
             {% if errorList.length > 0 %}
                 {{ govukErrorSummary({
@@ -87,52 +87,52 @@
                 }
                 ]
             }) }}
+
+            {% set termsAndConditionsHintHtml %}
+                Read the information below carefully. By ticking the boxes, you acknowledge that you have read, understood and agree to the <a href="{{ config.urls.termsAndConditions }}" class="govuk-link" target="_blank" rel="noreferrer noopener">terms and conditions of the Commodity Code Identification Tool (opens in new tab)</a>.
+            {% endset %}
+
+            <form method="POST" action="/completion">
+                    {{ govukCheckboxes({
+                    name: "terms",
+                    fieldset: {
+                        legend: {
+                        text: "Terms and conditions",
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                        }
+                    },
+                    id: "field-terms",
+                    hint: {
+                        html: termsAndConditionsHintHtml
+                    },
+                    errorMessage: errors.terms,
+                    items: [
+                        {
+                        value: "term1",
+                        text: "The Commodity Code Identification Tool is designated for backend operations only and must not be directly integrated into any customer-facing interfaces, applications, or websites"
+                        },
+                        {
+                        value: "term2",
+                        text: "Any access credentials are for the sole use of the UK Carrier Scheme (UKC) registered Fast Parcel Operator (FPO) to which they have been granted. They may be shared and used by third party suppliers but must only be used for the purposes of providing services to the FPO. It is the responsibility of the FPO to ensure that their suppliers adhere to these terms and that access credentials are kept confidential"
+                        },
+                        {
+                        value: "term3",
+                        text: "The API is only intended for generating commodity codes for parcels being transported from Great Britain to Northern Ireland that are classified as \"Not at Risk\" of onward movement out of Northern Ireland, where Northern Ireland is their final destination and place of use/consumption. This includes goods moved under the UK Carrier Scheme (UKC)"
+                        },
+                        {
+                        value: "term4",
+                        text: "I have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool"
+                        }
+                    ]
+                    }) }}
+                <p class="govuk-body">
+                    By submitting this application you are confirming that, to the best of your knowledge, the details you are providing are correct.
+                </p>
+                <div class="govuk-button-group">
+                    <button type="submit" class="govuk-button" data-module="govuk-button">Accept and send</button>
+                </div>
+            </form>
         </div>
     </div>
-
-    {% set termsAndConditionsHintHtml %}
-        Read the information below carefully. By ticking the boxes, you acknowledge that you have read, understood and agree to the <a href="{{ config.urls.termsAndConditions }}" class="govuk-link" target="_blank" rel="noreferrer noopener">terms and conditions of the Commodity Code Identification Tool (opens in new tab)</a>.
-    {% endset %}
-
-    <form method="POST" action="/completion">
-            {{ govukCheckboxes({
-            name: "terms",
-            fieldset: {
-                legend: {
-                text: "Terms and conditions",
-                isPageHeading: true,
-                classes: "govuk-fieldset__legend--l"
-                }
-            },
-            id: "field-terms",
-            hint: {
-                html: termsAndConditionsHintHtml
-            },
-            errorMessage: errors.terms,
-            items: [
-                {
-                value: "term1",
-                text: "The Commodity Code Identification Tool is designated for backend operations only and must not be directly integrated into any customer-facing interfaces, applications, or websites"
-                },
-                {
-                value: "term2",
-                text: "Any access credentials are for the sole use of the UK Carrier Scheme (UKC) registered Fast Parcel Operator (FPO) to which they have been granted. They may be shared and used by third party suppliers but must only be used for the purposes of providing services to the FPO. It is the responsibility of the FPO to ensure that their suppliers adhere to these terms and that access credentials are kept confidential"
-                },
-                {
-                value: "term3",
-                text: "The API is only intended for generating commodity codes for parcels being transported from Great Britain to Northern Ireland that are classified as \"Not at Risk\" of onward movement out of Northern Ireland, where Northern Ireland is their final destination and place of use/consumption. This includes goods moved under the UK Carrier Scheme (UKC)"
-                },
-                {
-                value: "term4",
-                text: "I have read, understood and agree to the terms and conditions of the Commodity Code Identification Tool"
-                }
-            ]
-            }) }}
-        <p class="govuk-body">
-            By submitting this application you are confirming that, to the best of your knowledge, the details you are providing are correct.
-        </p>
-        <div class="govuk-button-group">
-            <button type="submit" class="govuk-button" data-module="govuk-button">Accept and send</button>
-        </div>
-    </form>
 {% endblock %}

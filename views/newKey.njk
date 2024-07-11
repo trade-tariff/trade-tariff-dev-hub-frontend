@@ -3,54 +3,58 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Create new API key{% endblock %}
 {% block content %}
-    {% if error %}
-        {{ govukErrorSummary({
-            titleText: "There is a problem",
-            errorList: [
-                {
-                text: "Enter API Key Description",
-                href: "#description"
-                }
-            ]
-        }) }}
-    {% endif %}
-    <form action="/dashboard/create" method="post">
-        {% if error %}
-            {{ govukInput({
-                "label": {
-                    "text": "Enter API Key Description",
-                    "classes": "govuk-label--l",
-                    "isPageHeading": true
-                },
-                "hint": {
-                    "text": "Use a description you will recognise in the future. Do not reuse the same description across API keys."
-                },
-                "id": "description",
-                "name": "apiKeyDescription",
-                "errorMessage": {
-                    "text": "Enter API key description"
-                }
-            }) }}
-        {% else %}
-            {{ govukInput({
-                "label": {
-                    "text": "Enter API Key Description",
-                    "classes": "govuk-label--l",
-                    "isPageHeading": true
-                },
-                "hint": {
-                    "text": "Use a description you will recognise in the future. Do not reuse the same description across API keys."
-                },
-                "id": "description",
-                "name": "apiKeyDescription"
-            }) }}
-        {% endif %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {% if error %}
+                {{ govukErrorSummary({
+                    titleText: "There is a problem",
+                    errorList: [
+                        {
+                        text: "Enter API Key Description",
+                        href: "#description"
+                        }
+                    ]
+                }) }}
+            {% endif %}
+            <form action="/dashboard/create" method="post">
+                {% if error %}
+                    {{ govukInput({
+                        "label": {
+                            "text": "Enter API Key Description",
+                            "classes": "govuk-label--l",
+                            "isPageHeading": true
+                        },
+                        "hint": {
+                            "text": "Use a description you will recognise in the future. Do not reuse the same description across API keys."
+                        },
+                        "id": "description",
+                        "name": "apiKeyDescription",
+                        "errorMessage": {
+                            "text": "Enter API key description"
+                        }
+                    }) }}
+                {% else %}
+                    {{ govukInput({
+                        "label": {
+                            "text": "Enter API Key Description",
+                            "classes": "govuk-label--l",
+                            "isPageHeading": true
+                        },
+                        "hint": {
+                            "text": "Use a description you will recognise in the future. Do not reuse the same description across API keys."
+                        },
+                        "id": "description",
+                        "name": "apiKeyDescription"
+                    }) }}
+                {% endif %}
 
-        <div class="govuk-button-group">
-            {{ govukButton({"text": "Continue", "type": "submit", "preventDoubleClick": true}) }}
-            <a class="govuk-link" href="/dashboard">Cancel</a>
+                <div class="govuk-button-group">
+                    {{ govukButton({"text": "Continue", "type": "submit", "preventDoubleClick": true}) }}
+                    <a class="govuk-link" href="/dashboard">Cancel</a>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 {% endblock %}

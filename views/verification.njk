@@ -3,26 +3,30 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block content %}
-    {% if errorList.length > 0 %}
-        {{ govukErrorSummary({
-            titleText: "There is a problem",
-            errorList: errorList
-        }) }}
-    {% endif %}
-    <span class="govuk-caption-l">Commodity Code Identification Tool Developer Hub</span>
-    <h1 class="govuk-label govuk-label--l">Enter details about your organisation</h1>
-    <p class="govuk-body">Enter the following information about your organisation. This will be used to verify your account.</p>
-    <form method="POST" action="/check-verification">
-        {% include "verification-form.njk" %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {% if errorList.length > 0 %}
+                {{ govukErrorSummary({
+                    titleText: "There is a problem",
+                    errorList: errorList
+                }) }}
+            {% endif %}
+            <span class="govuk-caption-l">Commodity Code Identification Tool Developer Hub</span>
+            <h1 class="govuk-label govuk-label--l">Enter details about your organisation</h1>
+            <p class="govuk-body">Enter the following information about your organisation. This will be used to verify your account.</p>
+            <form method="POST" action="/check-verification">
+                {% include "verification-form.njk" %}
 
-        <div class="govuk-button-group">
-            <button type="submit" class="govuk-button" data-module="govuk-button">Continue</button>
-            <a href="/" class="govuk-link">Cancel</a>
+                <div class="govuk-button-group">
+                    <button type="submit" class="govuk-button" data-module="govuk-button">Continue</button>
+                    <a href="/" class="govuk-link">Cancel</a>
+                </div>
+            </form>
+            <h1 class="govuk-heading-m">If you need help</h1>
+            <p class="govuk-body">
+                If you have any further queries relating to the developer hub contact: <a href="mailto:hmrc-trade-tariff-support-g@digital.hmrc.gov.uk"
+            class="govuk-link">hmrc-trade-tariff-support-g@digital.hmrc.gov.uk</a>
+            </p>
         </div>
-    </form>
-    <h1 class="govuk-heading-m">If you need help</h1>
-    <p class="govuk-body">
-        If you have any further queries relating to the developer hub contact: <a href="mailto:hmrc-trade-tariff-support-g@digital.hmrc.gov.uk"
-    class="govuk-link">hmrc-trade-tariff-support-g@digital.hmrc.gov.uk</a>
-    </p>
+    </div>
 {% endblock %}
