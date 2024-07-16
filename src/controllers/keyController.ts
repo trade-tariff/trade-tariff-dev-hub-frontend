@@ -4,8 +4,9 @@ import { CommonService } from '../services/commonService'
 import { ApiKeyPresenter } from '../presenters/apiKeyPresenter'
 import { validationResult } from 'express-validator'
 
-export const newKey = (_req: Request, res: Response): void => {
-  res.render('newKey', { backLinkHref: '/dashboard' })
+export const newKey = (req: Request, res: Response): void => {
+  const csrfToken = req.csrfToken()
+  res.render('newKey', { csrfToken, backLinkHref: '/dashboard' })
 }
 
 export const create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -20,7 +21,8 @@ export const create = async (req: Request, res: Response, next: NextFunction): P
       const secretHtml = ApiKeyPresenter.secretHtml(apiKey.Secret)
       res.render('keySuccessPage', { secretHtml })
     } else {
-      res.render('newKey', { error: result })
+      const csrfToken = req.csrfToken()
+      res.render('newKey', { csrfToken, error: result })
     }
   } catch (error) {
     next(error)

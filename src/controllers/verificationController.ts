@@ -47,7 +47,8 @@ export const newVerificationPage = (req: Request, res: Response): void => {
   session.eoriNumber = session.eoriNumber ?? ''
   session.ukacsReference = session.ukacsReference ?? ''
   session.emailAddress = session.emailAddress ?? ''
-  res.render('verification', { session, backLinkHref: '/' })
+  const csrfToken = req.csrfToken()
+  res.render('verification', { session, backLinkHref: '/', csrfToken })
 }
 
 export const checkVerificationDetails = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -58,7 +59,7 @@ export const checkVerificationDetails = async (req: Request, res: Response, next
     session.eoriNumber = body.eoriNumber ?? ''
     session.ukacsReference = body.ukacsReference ?? ''
     session.emailAddress = body.emailAddress ?? ''
-
+    const csrfToken = req.csrfToken()
     const inputValidationResult: Result<ValidationError> = validationResult(req)
     const errors = inputValidationResult
       .array({ onlyFirstError: true })
@@ -76,9 +77,9 @@ export const checkVerificationDetails = async (req: Request, res: Response, next
       }
     }
     if (Object.keys(errors).length === 0) {
-      res.render('checkVerification', { body, session, backLinkHref: '/verification' })
+      res.render('checkVerification', { body, session, backLinkHref: '/verification', csrfToken })
     } else {
-      res.render('verification', { body, session, errors, errorList: Object.values(errors), backLinkHref: '/' })
+      res.render('verification', { body, session, errors, errorList: Object.values(errors), backLinkHref: '/', csrfToken })
     }
   } catch (error) {
     next(error)

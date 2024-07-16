@@ -8,6 +8,7 @@ import { showDashboard } from '../controllers/dashboardController'
 import { showDeleteKey, deleteKey } from '../controllers/deleteController'
 import { showRevoke, revoke } from '../controllers/revokeController'
 import { body } from 'express-validator'
+import csrf from 'csurf'
 
 const router: Router = express.Router()
 
@@ -20,9 +21,9 @@ if (isProduction) {
 }
 
 router.get('/', showDashboard)
-router.get('/new', newKey)
-router.post('/create', body('apiKeyDescription', 'Enter the description for your API key').notEmpty(), create)
-router.get('/:customerKeyId/revoke', showRevoke)
+router.get('/new', csrf(), newKey)
+router.post('/create', csrf(), body('apiKeyDescription', 'Enter the description for your API key').notEmpty(), create)
+router.get('/:customerKeyId/revoke', csrf(), showRevoke)
 router.post('/:customerKeyId/revoke', revoke)
 
 if (deletionEnabled) {
