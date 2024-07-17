@@ -54,6 +54,7 @@ if (isDev) {
   app.use(httpRequestLoggingMiddleware())
   app.use(scpConfiguration.middleware)
   nunjucksConfiguration.addGlobal('baseURL', scpConfiguration.baseURL)
+  app.set('baseURL', scpConfiguration.baseURL)
 }
 
 configureSecurity(app)
