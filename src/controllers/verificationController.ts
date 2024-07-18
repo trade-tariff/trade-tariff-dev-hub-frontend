@@ -7,6 +7,7 @@ import { type EmailData, sendCustomerEmail, sendSupportEmail } from '../services
 import { type Organisation, OrganisationService } from '../services/organisationService'
 import { CommonService } from '../services/commonService'
 import { UserService } from '../services/userService'
+import { generateToken } from '../config/csrf'
 
 interface EoriCheckResult {
   eori: string
@@ -47,7 +48,7 @@ export const newVerificationPage = (req: Request, res: Response): void => {
   session.eoriNumber = session.eoriNumber ?? ''
   session.ukacsReference = session.ukacsReference ?? ''
   session.emailAddress = session.emailAddress ?? ''
-  const csrfToken = req.csrfToken()
+  const csrfToken = generateToken(req, res)
   res.render('verification', { session, backLinkHref: '/', csrfToken })
 }
 
@@ -59,7 +60,7 @@ export const checkVerificationDetails = async (req: Request, res: Response, next
     session.eoriNumber = body.eoriNumber ?? ''
     session.ukacsReference = body.ukacsReference ?? ''
     session.emailAddress = body.emailAddress ?? ''
-    const csrfToken = req.csrfToken()
+    const csrfToken = generateToken(req, res)
     const inputValidationResult: Result<ValidationError> = validationResult(req)
     const errors = inputValidationResult
       .array({ onlyFirstError: true })

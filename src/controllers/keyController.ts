@@ -3,9 +3,10 @@ import { ApiService } from '../services/apiService'
 import { CommonService } from '../services/commonService'
 import { ApiKeyPresenter } from '../presenters/apiKeyPresenter'
 import { validationResult } from 'express-validator'
+import { generateToken } from '../config/csrf'
 
 export const newKey = (req: Request, res: Response): void => {
-  const csrfToken = req.csrfToken()
+  const csrfToken = generateToken(req, res)
   res.render('newKey', { csrfToken, backLinkHref: '/dashboard' })
 }
 
@@ -21,7 +22,7 @@ export const create = async (req: Request, res: Response, next: NextFunction): P
       const secretHtml = ApiKeyPresenter.secretHtml(apiKey.Secret)
       res.render('keySuccessPage', { secretHtml })
     } else {
-      const csrfToken = req.csrfToken()
+      const csrfToken = generateToken(req, res)
       res.render('newKey', { csrfToken, error: result })
     }
   } catch (error) {

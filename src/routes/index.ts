@@ -8,7 +8,6 @@ import { cookiesPage } from '../controllers/cookiesController'
 import { rejectedPage } from '../controllers/rejectedController'
 import { requiresAuth } from 'express-openid-connect'
 import { body } from 'express-validator'
-import csrf from 'csurf'
 
 const healthchecksController = new HealthchecksController()
 const router: Router = express.Router()
@@ -32,8 +31,8 @@ const userAnswersValidator = [
   body('emailAddress', 'Enter your work email address').notEmpty(),
   body('emailAddress', 'Enter an email address in the correct format, like name@example.com').isEmail()
 ]
-router.get('/verification', csrf(), newVerificationPage)
-router.post('/check-verification', csrf(), userAnswersValidator, checkVerificationDetails)
+router.get('/verification', newVerificationPage)
+router.post('/check-verification', userAnswersValidator, checkVerificationDetails)
 router.post('/completion', body('terms', 'You must agree to all the terms & conditions by ticking the boxes').isArray({ min: 4 }), applicationComplete)
 router.get('/rejectedPage', rejectedPage)
 
