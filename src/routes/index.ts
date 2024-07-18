@@ -8,6 +8,7 @@ import { cookiesPage } from '../controllers/cookiesController'
 import { rejectedPage } from '../controllers/rejectedController'
 import { requiresAuth } from 'express-openid-connect'
 import { body } from 'express-validator'
+import { returnURLPage } from '../controllers/returnURLController'
 
 const healthchecksController = new HealthchecksController()
 const router: Router = express.Router()
@@ -17,6 +18,8 @@ router.get('/healthcheck', (req, res) => { healthchecksController.show(req, res)
 router.get('/healthcheckz', (req, res) => { healthchecksController.showz(req, res) })
 router.get('/privacyPolicy', privacyPolicyPage)
 router.get('/cookies', cookiesPage)
+router.get('/auth/profile-redirect', returnURLPage)
+router.get('/auth/group-redirect', returnURLPage)
 
 const isProduction = (process.env.NODE_ENV ?? 'development') === 'production'
 
