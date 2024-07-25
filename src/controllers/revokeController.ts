@@ -2,6 +2,7 @@ import { type NextFunction, type Request, type Response } from 'express'
 import { ApiService } from '../services/apiService'
 import { CommonService } from '../services/commonService'
 import { DashboardPresenter } from '../presenters/dashboardPresenter'
+import { generateToken } from '../config/csrf'
 
 export const showRevoke = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -9,8 +10,8 @@ export const showRevoke = async (req: Request, res: Response, next: NextFunction
     const customerKeyId = req.params.customerKeyId
     const apiKey = await ApiService.getKey(user, customerKeyId)
     const createdAt = DashboardPresenter.formatDate(apiKey.CreatedAt, true)
-
-    res.render('revoke', { apiKey, createdAt, backLinkHref: '/dashboard' })
+    const csrfToken = generateToken(req, res)
+    res.render('revoke', { apiKey, createdAt, backLinkHref: '/dashboard', csrfToken })
   } catch (error) {
     next(error)
   }

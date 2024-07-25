@@ -49,7 +49,7 @@
                         "name": "apiKeyDescription"
                     }) }}
                 {% endif %}
-
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
                 <div class="govuk-button-group">
                     {{ govukButton({"text": "Continue", "type": "submit", "preventDoubleClick": true}) }}
                     <a class="govuk-link" href="/dashboard">Cancel</a>

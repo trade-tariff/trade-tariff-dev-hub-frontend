@@ -125,6 +125,10 @@ module "service" {
     {
       name      = "COOKIE_SIGNING_SECRET"
       valueFrom = data.aws_secretsmanager_secret.cookie_signing_secret.arn
+    },
+    {
+      name      = "CSRF_SIGNING_SECRET"
+      valueFrom = data.aws_secretsmanager_secret.csrf_signing_secret.arn
     }
   ]
 }
