@@ -1,6 +1,7 @@
 import { type Express, type Request, type Response, type NextFunction } from 'express'
 import cookieSession from 'cookie-session'
 
+import createError from 'http-errors'
 import express from 'express'
 import favicon from 'serve-favicon'
 import morgan from 'morgan'
@@ -83,7 +84,7 @@ app.use('/dashboard', dashboardRoutes)
 
 // catch 404 and forward to error handler
 app.use(function (_req: Request, _res: Response, next: NextFunction) {
-  _res.render('404')
+  next(createError(404))
 })
 
 // Error handler
@@ -91,11 +92,16 @@ app.use(function (err: any, req: Request, res: Response, _next: NextFunction) {
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}
 
-  const statusCode: number = err.statusCode ?? 500
-
+  const statusCode: number = err.statusCode
+  console.log(err.statusCode)
   res.status(statusCode)
-
-  res.render('500')
+  switch (statusCode) {
+    case 404:
+      res.render('404')
+      break
+    default:
+      res.render('500')
+  }
 })
 
 app.listen(port, () => {
