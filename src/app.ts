@@ -1,5 +1,6 @@
 import { type Express, type Request, type Response, type NextFunction } from 'express'
 import cookieSession from 'cookie-session'
+import cookieParser from 'cookie-parser'
 
 import createError from 'http-errors'
 import express from 'express'
@@ -18,6 +19,7 @@ import { configureAuth } from './config/scpAuth'
 import { httpRequestLoggingMiddleware, logger } from './config/logging'
 import config from './config/config'
 import { configureSecurity } from './config/security'
+import { configureCSRF } from './config/csrf'
 
 initEnvironment()
 
@@ -78,7 +80,8 @@ app.use(cookieSession({
   keys: [cookieSigningSecret],
   maxAge: 24 * 60 * 60 * 1000
 }))
-
+app.use(cookieParser(cookieSigningSecret))
+configureCSRF(app)
 app.use('/', indexRouter)
 app.use('/dashboard', dashboardRoutes)
 

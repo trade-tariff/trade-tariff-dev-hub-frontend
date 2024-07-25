@@ -60,3 +60,6 @@ data "aws_secretsmanager_secret" "application_support_email" {
 data "aws_secretsmanager_secret" "cookie_signing_secret" {
   name = "dev-hub-frontend-cookie-signing-secret"
 }
+data "aws_secretsmanager_secret" "csrf_signing_secret" {
+  name = "dev-hub-frontend-csrf-signing-secret"
+}
