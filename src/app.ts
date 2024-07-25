@@ -96,7 +96,6 @@ app.use(function (err: any, req: Request, res: Response, _next: NextFunction) {
   res.locals.error = req.app.get('env') === 'development' ? err : {}
 
   const statusCode: number = err.statusCode
-  console.log(err.statusCode)
   res.status(statusCode)
   switch (statusCode) {
     case 404:
