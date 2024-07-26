@@ -95,14 +95,15 @@ app.use(function (err: any, req: Request, res: Response, _next: NextFunction) {
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}
 
-  const statusCode: number = err.statusCode ?? 500
-
+  const statusCode: number = err.statusCode
   res.status(statusCode)
-
-  res.json({
-    message: err.message,
-    error: req.app.get('env') === 'development' ? err : {}
-  })
+  switch (statusCode) {
+    case 404:
+      res.render('404')
+      break
+    default:
+      res.render('500')
+  }
 })
 
 app.listen(port, () => {
