@@ -11,10 +11,12 @@
 
 {% block head %}<link rel="stylesheet" href="/govuk/govuk-frontend.min.css">{% endblock %}
 
+{% block pageTitle %}GOV.UK - FPO Commodity Code Identification Tool Developer Hub - {% block title %}{% endblock %}{% endblock %}
+
 {% block header %}
     {{ govukHeader({
         homepageUrl: "https://www.gov.uk",
-        serviceName: "Online Trade Tariff Developer Hub",
+        serviceName: "FPO Commodity Code Identification Tool Developer Hub",
         serviceUrl: "/",
         navigation: mainNavigation
     }) }}
