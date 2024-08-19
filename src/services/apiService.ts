@@ -27,7 +27,7 @@ export namespace ApiService {
     try {
       return await doRequest(
         {
-          path: `/api/keys/${user.groupId}/${customerKeyId}`,
+          path: `/api/keys/${encodeURIComponent(user.groupId)}/${encodeURIComponent(customerKeyId)}`,
           method: 'GET',
           userId: user.userId
         }
@@ -43,7 +43,7 @@ export namespace ApiService {
       logger.debug(`Listing API keys for user ${user.userId} group: ${user.groupId}`)
       return await doRequest(
         {
-          path: `/api/keys/${user.groupId}`,
+          path: `/api/keys/${encodeURIComponent(user.groupId)}`,
           method: 'GET',
           userId: user.userId
         }
@@ -59,7 +59,7 @@ export namespace ApiService {
       logger.debug(`Revoking API key for user ${user.userId} group: ${user.groupId} key: ${customerKeyId} enabled: ${enabled}`)
       return await doRequest(
         {
-          path: `/api/keys/${user.groupId}/${customerKeyId}`,
+          path: `/api/keys/${encodeURIComponent(user.groupId)}/${encodeURIComponent(customerKeyId)}`,
           method: 'PATCH',
           body: JSON.stringify({ enabled }),
           userId: user.userId
@@ -76,7 +76,7 @@ export namespace ApiService {
       logger.debug(`Deleting API key for user ${user.userId} group: ${user.groupId} key: ${customerKeyId}`)
       return await doRequest(
         {
-          path: `/api/keys/${user.groupId}/${customerKeyId}`,
+          path: `/api/keys/${encodeURIComponent(user.groupId)}/${encodeURIComponent(customerKeyId)}`,
           method: 'DELETE',
           userId: user.userId
         }
@@ -92,7 +92,7 @@ export namespace ApiService {
       logger.debug('Fetching API key for user:', user.userId, 'group:', user.groupId, 'description:', description)
       return await doRequest(
         {
-          path: `/api/keys/${user.groupId}`,
+          path: `/api/keys/${encodeURIComponent(user.groupId)}`,
           method: 'POST',
           body: JSON.stringify({ description }),
           userId: user.userId
