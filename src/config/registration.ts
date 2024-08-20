@@ -42,6 +42,6 @@ export default async function (req: Request, res: Response, next: NextFunction):
     }
   } catch (error) {
     logger.error('Error in the registration flow:', error)
+    next(error)
   }
-  next()
 }
