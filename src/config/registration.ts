@@ -37,7 +37,7 @@ export default async function (req: Request, res: Response, next: NextFunction):
       case 'Unregistered':
       default:
         logger.debug('User is unregistered')
-        res.render('verification')
+        res.redirect('/verification')
         break
     }
   } catch (error) {
