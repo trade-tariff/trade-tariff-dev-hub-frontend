@@ -129,7 +129,7 @@ export const applicationComplete = async (req: Request, res: Response, next: Nex
       req.session = null
       res.render('completion', { applicationReference })
     } else {
-      res.render('checkVerification', { body, session, errors, errorList: Object.values(errors), backLinkHref: '/verification' })
+      res.render('checkVerification', { body, session, errors, errorList: Object.values(errors), backLinkHref: '/verification', csrfToken: generateToken(req, res) })
     }
   } catch (error) {
     next(error)
