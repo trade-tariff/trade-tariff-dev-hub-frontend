@@ -23,7 +23,7 @@
 {% endblock %}
 
 {%- set phaseBannerHtml %}
-    This is a new service – your <a class="govuk-link" href="{{ feedbackURL }}">feedback</a> will help us to improve it.
+    This is a new service – your <a class="govuk-link" href="{{ config.urls.feedback }}">feedback (opens in new tab)</a> will help us to improve it.
 {% endset %}
 {% block beforeContent %}
     {{ govukPhaseBanner({
