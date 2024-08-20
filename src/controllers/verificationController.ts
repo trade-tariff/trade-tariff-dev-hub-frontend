@@ -127,7 +127,7 @@ export const applicationComplete = async (req: Request, res: Response, next: Nex
         await sendSupportEmail(emailData)
       }
       req.session = null
-      res.render('completion', { applicationReference })
+      res.redirect('/dashboard')
     } else {
       res.render('checkVerification', { body, session, errors, errorList: Object.values(errors), backLinkHref: '/verification', csrfToken: generateToken(req, res) })
     }
