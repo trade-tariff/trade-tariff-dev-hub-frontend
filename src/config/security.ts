@@ -6,7 +6,8 @@ export const configureSecurity = (app: Application): void => {
   app.use((req, res, next) => {
     crypto.randomBytes(32, (err, buffer) => {
       if (err !== null) {
-        next(err); return
+        next(err)
+        return
       }
 
       res.locals.cspNonce = buffer.toString('hex')
