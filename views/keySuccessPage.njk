@@ -37,7 +37,7 @@
     </div>
 
     <script nonce="{{ cspNonce }}">
-        function copyToClipboard() {
+        (() => {
             const copyButton = document.getElementById('copy-to-clipboard-button');
             const apiKey = document.getElementById('api-key').innerText;
 
@@ -48,6 +48,6 @@
                     alert('Failed to copy API key: ' + err.message, err);
                 });
             });
-        }
+        })();
     </script>
 {% endblock %}
