@@ -29,7 +29,7 @@
             </p>
         </div>
     </div>
-    <script>
+    <script nonce="{{ cspNonce }}">
         function copyToClipboard() {
             navigator.clipboard.writeText({{ applicationReference | dump }}).then(function() {
                 alert('Application reference copied to clipboard');

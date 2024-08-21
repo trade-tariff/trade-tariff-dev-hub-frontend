@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <script>
+    <script nonce="{{ cspNonce }}">
       function copyToClipboard() {
           const apiKey = document.querySelector('.govuk-code').innerText;
           navigator.clipboard.writeText(apiKey).then(function() {
