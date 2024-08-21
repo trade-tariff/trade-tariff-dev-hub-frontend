@@ -6,7 +6,7 @@
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Your API Key has been created successfully{% endblock %}
 {% block content %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -20,14 +20,15 @@
               iconFallbackText: "Warning"
             }) }}
 
-            <p class="govuk-body">
-            {{ govukInsetText({ text: secretHtml|safe }) }}
+            {{ govukInsetText({
+                html: secretHtml
+            }) }}
+
             {{ govukButton({
               text: "Copy to clipboard",
               classes: "govuk-button--secondary",
-              attributes: {"onclick": "copyToClipboard()"}
+              id: "copy-to-clipboard-button"
             }) }}
-            </p>
 
             <p class="govuk-body">
                 <a class="govuk-link" href="/dashboard">Back to dashboard</a>
@@ -35,14 +36,18 @@
         </div>
     </div>
 
-    <script>
-      function copyToClipboard() {
-          const apiKey = document.querySelector('.govuk-code').innerText;
-          navigator.clipboard.writeText(apiKey).then(function() {
-              alert('API Key copied to clipboard');
-          }, function(err) {
-              alert('Failed to copy API Key: ', err);
-          });
-        }
+    <script nonce="{{ cspNonce }}">
+        (() => {
+            const copyButton = document.getElementById('copy-to-clipboard-button');
+            const apiKey = document.getElementById('api-key').innerText;
+
+            copyButton.addEventListener('click', () => {
+                navigator.clipboard.writeText(apiKey).then(function() {
+                    alert('API key copied to clipboard');
+                }, function(err) {
+                    alert('Failed to copy API key: ' + err.message, err);
+                });
+            });
+        })();
     </script>
 {% endblock %}

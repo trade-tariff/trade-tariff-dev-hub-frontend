@@ -3,7 +3,7 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
-{% block title %}Create new API key{% endblock %}
+{% block title %}Enter a description for this API key{% endblock %}
 {% block content %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -12,7 +12,7 @@
                     titleText: "There is a problem",
                     errorList: [
                         {
-                        text: "Enter API Key Description",
+                        text: "Enter a description for this API key",
                         href: "#description"
                         }
                     ]
@@ -22,28 +22,28 @@
                 {% if error %}
                     {{ govukInput({
                         "label": {
-                            "text": "Enter API Key Description",
+                            "text": "Enter a description for this API key",
                             "classes": "govuk-label--l",
                             "isPageHeading": true
                         },
                         "hint": {
-                            "text": "Use a description you will recognise in the future. Do not reuse the same description across API keys."
+                            "text": "Use a description you will recognise in the future so that you know which system or developer is using this API key. Do not reuse the same description across API keys."
                         },
                         "id": "description",
                         "name": "apiKeyDescription",
                         "errorMessage": {
-                            "text": "Enter API key description"
+                            "text": "Enter a description for this API key"
                         }
                     }) }}
                 {% else %}
                     {{ govukInput({
                         "label": {
-                            "text": "Enter API Key Description",
+                            "text": "Enter a description for this API key",
                             "classes": "govuk-label--l",
                             "isPageHeading": true
                         },
                         "hint": {
-                            "text": "Use a description you will recognise in the future. Do not reuse the same description across API keys."
+                            "text": "Use a description you will recognise in the future so that you know which system or developer is using this API key. Do not reuse the same description across API keys."
                         },
                         "id": "description",
                         "name": "apiKeyDescription"

@@ -1,10 +1,10 @@
 {% extends "layout.njk" %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
-{% block title %}Dashboard{% endblock %}
+{% block title %}Delete an API key{% endblock %}
 {% block content %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-l">Delete an API Key</h1>
+            <h1 class="govuk-heading-l">Delete an API key</h1>
             {{ govukWarningText({
                 "text": "Your API Key will be deleted with immediate effect and cannot be reactivated once deleted.",
                 "iconFallbackText": "Warning"

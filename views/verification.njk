@@ -1,6 +1,7 @@
 {% extends "layout.njk" %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% block title %}Register for the FPO Commodity Code Identification Tool API{% endblock %}
 
 {% block content %}
     <div class="govuk-grid-row">
@@ -11,8 +12,8 @@
                     errorList: errorList
                 }) }}
             {% endif %}
-            <span class="govuk-caption-l">Commodity Code Identification Tool Developer Hub</span>
-            <h1 class="govuk-label govuk-label--l">Enter details about your organisation</h1>
+            <h1 class="govuk-label govuk-label--l">Register for the FPO Commodity Code Identification Tool API</h1>
+            <p class="govuk-body">To allow you to use the FPO Commodity Code Identification Tool API we need to check that your organisation is UK Carrier Scheme (UKC) registered.</p>
             <p class="govuk-body">Enter the following information about your organisation. This will be used to verify your account.</p>
             <form method="POST" action="/check-verification">
                 {% include "verification-form.njk" %}

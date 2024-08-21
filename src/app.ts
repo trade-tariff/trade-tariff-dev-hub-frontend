@@ -95,6 +95,8 @@ app.use(function (err: any, req: Request, res: Response, _next: NextFunction) {
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}
 
+  logger.error(err)
+
   const statusCode: number = err.statusCode
   res.status(statusCode)
   switch (statusCode) {
