@@ -18,21 +18,26 @@ export default function (req: any, res: Response, next: NextFunction): void {
 
     if (profileUrl != null) {
       profileUrl = profileUrl + '?redirect_uri=' + encodeURIComponent(baseUrl + '/auth/profile-redirect')
+
+      mainNavigation.push({
+        href: profileUrl,
+        text: 'Update Profile'
+      })
     }
 
     if (groupUrl != null) {
       groupUrl = groupUrl + '?redirect_uri=' + encodeURIComponent(baseUrl + '/auth/group-redirect')
-    }
-    logger.debug(`scpConfigBaseURL: ${baseUrl} for userProfile: ${profileUrl} and groupUrl: ${groupUrl}`)
 
-    mainNavigation.push({
-      href: profileUrl,
-      text: 'Update Profile'
-    })
-    mainNavigation.push({
-      href: groupUrl,
-      text: 'Manage Team'
-    })
+      mainNavigation.push({
+        href: groupUrl,
+        text: 'Manage Team'
+      })
+
+      res.locals.isOrgAccount = true
+    } else {
+      res.locals.isOrgAccount = false
+    }
+
     mainNavigation.push({
       href: '/logout',
       text: 'Sign Out'

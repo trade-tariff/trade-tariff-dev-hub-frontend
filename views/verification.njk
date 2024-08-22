@@ -1,17 +1,33 @@
 {% extends "layout.njk" %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
 
 {% block content %}
+
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
+            {% if not isOrgAccount %}
+                {% set bannerHtml %}
+                    <h3 class="govuk-notification-banner__heading">
+                        It looks like you're using a personal Government Gateway account
+                    </h3>
+                    <p class="govuk-body">If you register using this account you won't be able to invite other users to manage the API keys for this organisation.</p>
+                    <p class="govuk-body">You can <a class="govuk-notification-banner__link" href="#">sign out</a> and create a new Government Gateway account, or use an existing one, for your organisation.</p>
+                {% endset %}
+
+                {{ govukNotificationBanner({
+                    html: bannerHtml
+                }) }}
+            {% endif %}
             {% if errorList.length > 0 %}
                 {{ govukErrorSummary({
                     titleText: "There is a problem",
                     errorList: errorList
                 }) }}
             {% endif %}
-            <span class="govuk-caption-l">Commodity Code Identification Tool Developer Hub</span>
+            <span class="govuk-caption-l">Register for the Commodity Code Identification Tool Developer Hub</span>
             <h1 class="govuk-label govuk-label--l">Enter details about your organisation</h1>
             <p class="govuk-body">Enter the following information about your organisation. This will be used to verify your account.</p>
             <form method="POST" action="/check-verification">
