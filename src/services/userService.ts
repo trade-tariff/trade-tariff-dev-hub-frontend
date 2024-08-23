@@ -22,7 +22,7 @@ export namespace UserService {
       logger.debug(`Fetching user ${user.userId} with group ${user.groupId}`)
       return await doRequest(
         {
-          path: `/api/users/${user.userId}`,
+          path: `/api/users/${encodeURIComponent(user.userId)}`,
           method: 'GET',
           userId: user.userId
         }
@@ -39,7 +39,7 @@ export namespace UserService {
       logger.debug(`Creating user ${user.userId} with organisation ${organisationId}`)
       return await doRequest(
         {
-          path: `/api/users/${user.userId}`,
+          path: `/api/users/${encodeURIComponent(user.userId)}`,
           method: 'POST',
           body: JSON.stringify({ organisationId }),
           userId: user.userId
@@ -55,7 +55,7 @@ export namespace UserService {
       logger.debug(`Updating user ${user.userId}`)
       return await doRequest(
         {
-          path: `/api/users/${user.userId}`,
+          path: `/api/users/${encodeURIComponent(user.userId)}`,
           method: 'PATCH',
           body: JSON.stringify({ emailAddress }),
           userId: user.userId

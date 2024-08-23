@@ -35,11 +35,13 @@ export default async function (req: Request, res: Response, next: NextFunction):
         res.render('rejectedPage', { applicationReference })
         break
       case 'Unregistered':
+      default:
         logger.debug('User is unregistered')
-        res.render('verification')
+        res.redirect('/verification')
         break
     }
   } catch (error) {
     logger.error('Error in the registration flow:', error)
+    next(error)
   }
 }

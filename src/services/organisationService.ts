@@ -24,7 +24,7 @@ export namespace OrganisationService {
       logger.debug(`Fetching organisation with id ${organisationId}`)
       return await doRequest(
         {
-          path: `/api/organisations/${organisationId}`,
+          path: `/api/organisations/${encodeURIComponent(organisationId)}`,
           method: 'GET',
           organisationId
         }
@@ -46,7 +46,7 @@ export namespace OrganisationService {
       logger.debug(`Updating organisation ${organisation.OrganisationId}`)
       return await doRequest(
         {
-          path: `/api/organisations/${organisation.OrganisationId}`,
+          path: `/api/organisations/${encodeURIComponent(organisation.OrganisationId)}`,
           method: 'PATCH',
           body: JSON.stringify({ applicationReference, status, organisationName, eoriNumber, ukAcsReference }),
           organisationId
