@@ -30,6 +30,7 @@
             </table>
             <form method="POST"
                 action="/dashboard/{{ apiKey.CustomerApiKeyId }}/delete">
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
                 <div class="govuk-button-group">
                     <button class="govuk-button govuk-button--warning" data-module="govuk-button">Delete</button>
                     <a href="/dashboard" class="govuk-link">Cancel</a>
